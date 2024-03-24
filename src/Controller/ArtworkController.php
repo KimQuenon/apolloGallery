@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Artwork;
 use App\Entity\Movement;
+use App\Form\ArtworkType;
 use App\Repository\ArtworkRepository;
 use App\Repository\MovementRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,6 +26,19 @@ class ArtworkController extends AbstractController
         ]);
     }
 
+    
+    #[Route("/artworks/new", name:"artworks_create")]
+    public function create(): Response
+    {
+        $artwork = new Artwork();
+        $form = $this->createform(ArtworkType::class, $artwork);
+
+        return $this->render("artworks/new.html.twig",[
+            'myForm' => $form->createView()
+        ]);
+
+    }
+    
     #[Route("artworks/movements/{slug}", name: "movements_show")]
     public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo): Response
     {
