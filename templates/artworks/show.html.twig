@@ -6,8 +6,8 @@
     <h1>{{artwork.title}}</h1>
     <p>{{artwork.content}}</p>
     <p>{{artwork.medium}}</p>
-    {# {% for movement in movements %}
-        <p>{{movement.name}}</p>
-    {% endfor %} #}
+    {% for movement in movements %}
+        <p>{{movement.movementName}}</p>
+    {% endfor %}
 
 {% endblock %}
