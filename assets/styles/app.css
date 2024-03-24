@@ -1,3 +1,11 @@
-body {
-    background-color: skyblue;
+.container{
+    margin-top: 20px;
+}
+
+
+.starsimg{
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+    display: block;
 }

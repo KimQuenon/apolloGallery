@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Artwork : {{artwork.title}}{% endblock %}
+
+{% block body %}
+    <h1>{{artwork.title}}</h1>
+    <p>{{artwork.content}}</p>
+    <p>{{artwork.medium}}</p>
+    {# {% for movement in movements %}
+        <p>{{movement.name}}</p>
+    {% endfor %} #}
+
+{% endblock %}

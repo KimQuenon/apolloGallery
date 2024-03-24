@@ -15,19 +15,19 @@
         </div>
         <div class="row mt-4">
             {% for artwork in artworks %}
-                {# {% set url = path('artworks_show', {'slug':artwork.slug}) %} #}
+                {% set url = path('artworks_show', {'slug':artwork.slug}) %}
                 <div class="col-md-4">
                     <div class="card bg-light mb-3">
                         <div class="card-header text-center">
                            <strong>{{artwork.priceInit}}€</strong>
                         </div>
-                        <a href="#">
+                        <a href="{{url}}">
                             <img src="{{artwork.coverImage}}" alt="{{artwork.title}}" class="starsimg">
                         </a>
                         <div class="card-body">
                             <h4 class="card-title">{{artwork.title}}</h4>
                             {# <p class="card-text">{{artwork.content}}</p> #}
-                            <a href="#" class="btn btn-secondary">En savoir plus</a>
+                            <a href="{{url}}" class="btn btn-secondary">En savoir plus</a>
                         </div>
                     </div>
                 </div>
@@ -35,4 +35,3 @@
         </div>
     </div>
 {% endblock %}
-
