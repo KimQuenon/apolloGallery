@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArtworkRepository;
@@ -54,6 +56,14 @@ class Artwork
 
     #[ORM\Column(length: 255)]
     private ?string $coverImage = null;
+
+    #[ORM\ManyToMany(targetEntity: Movement::class, mappedBy: 'artwork')]
+    private Collection $movements;
+
+    public function __construct()
+    {
+        $this->movements = new ArrayCollection();
+    }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
@@ -228,6 +238,33 @@ class Artwork
     public function setCoverImage(string $coverImage): static
     {
         $this->coverImage = $coverImage;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Movement>
+     */
+    public function getMovements(): Collection
+    {
+        return $this->movements;
+    }
+
+    public function addMovement(Movement $movement): static
+    {
+        if (!$this->movements->contains($movement)) {
+            $this->movements->add($movement);
+            $movement->addArtwork($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMovement(Movement $movement): static
+    {
+        if ($this->movements->removeElement($movement)) {
+            $movement->removeArtwork($this);
+        }
 
         return $this;
     }
