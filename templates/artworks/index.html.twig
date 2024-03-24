@@ -5,13 +5,13 @@
 {% block body %}
     <div class="container">
         <div>
-            {# {% for movement in movements %}
+            {% for movement in movements %}
                 <button type="button" class="btn btn-secondary">
                     <a href="{{ path('movements_show', {'slug': movement.slug}) }}">
-                        {{ movement.name }}
+                        {{ movement.movementName }}
                     </a>
                 </button>
-            {% endfor %} #}
+            {% endfor %}
         </div>
         <div class="row mt-4">
             {% for artwork in artworks %}

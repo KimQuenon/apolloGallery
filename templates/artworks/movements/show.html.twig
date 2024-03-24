@@ -1,0 +1,25 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ movement.movementName }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ movement.movementName }}</h1>
+
+    {% if artworks %}
+        <h2>Oeuvres liées à ce mouvement:</h2>
+        <ul>
+            {% for artwork in artworks %}
+                <li>
+                    <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}">
+                        {{ artwork.title }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Aucune oeuvre n'est liée à ce mouvement.</p>
+    {% endif %}
+{% endblock %}
