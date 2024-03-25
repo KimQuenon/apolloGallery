@@ -83,10 +83,11 @@ class ArtworkController extends AbstractController
     #[Route("/artworks/{slug}", name: "artworks_show")]
     public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork): Response
     {
+
         $movements = $artwork->getMovements();
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
-            'movements' => $movements
+            'movements' => $movements,
         ]);
     }
 

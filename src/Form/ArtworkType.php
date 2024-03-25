@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -38,11 +39,14 @@ class ArtworkType extends ApplicationType
             ->add('submissionDate', null, [
                 'label' => 'Submission Date:',
                 'widget' => 'single_text',
+                //date du jour
+                'data' => new \DateTime(),
+                // rend le champ non modifiable
+                'disabled' => true,
             ])
-            ->add('endDate', null, [
-                'label' => 'End Date:',
+            ->add('endDate', DateType::class, $this->getConfiguration("End date:","date fin",[
                 'widget' => 'single_text',
-            ])
+            ]))
             ->add('coverImage', FileType::class,[
                 'label'=>'Artwork (jpg or webp)'])
             ->add('medium', ChoiceType::class, [

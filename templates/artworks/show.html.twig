@@ -3,11 +3,63 @@
 {% block title %}Artwork : {{artwork.title}}{% endblock %}
 
 {% block body %}
-    <h1>{{artwork.title}}</h1>
-    <p>{{artwork.content}}</p>
-    <p>{{artwork.medium}}</p>
+    <h1>{{ artwork.title }}</h1>
+    <p>{{ artwork.content }}</p>
+    <p>{{ artwork.medium }}</p>
+    <p>{{ artwork.submissionDate|date('Y-m-d H:i:s') }}</p>
+    <p>{{ artwork.endDate|date('Y-m-d H:i:s') }}</p>
     {% for movement in movements %}
-        <p>{{movement.movementName}}</p>
+        <p>{{ movement.movementName }}</p>
     {% endfor %}
 
+    <div>
+        <div id="days"></div>
+        <div class="d-flex">
+            <div id="hour"></div>
+            <div id="min"></div>
+            <div id="sec"></div>
+        </div>
+    </div>
+    <div class="countdown"></div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        // update chrono
+        function chrono() {
+            const divDays = document.querySelector('#days');
+            const divHours = document.querySelector('#hour');
+            const divMin = document.querySelector('#min');
+            const divSec = document.querySelector('#sec');
+
+            // count endDate
+            function compte() {
+                var actualDatetime = new Date();
+                var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
+                var totalSecondes = (endDate - actualDatetime) / 1000;
+
+                // if timer ends
+                if (totalSecondes < 0) {
+                    divCount.innerHTML = "fin";
+                    return;
+                }
+
+                // values
+                var days = Math.floor(totalSecondes / (60 * 60 * 24));
+                var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
+                var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
+                var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
+
+                // display
+                divDays.innerHTML = days + " days";
+                divHours.innerHTML = hours + ":";
+                divMin.innerHTML = minutes + ":";
+                divSec.innerHTML = secondes;
+
+                var actualisation = setTimeout(compte, 1000);
+            }
+            compte();
+        }
+        chrono();
+    </script>
 {% endblock %}
