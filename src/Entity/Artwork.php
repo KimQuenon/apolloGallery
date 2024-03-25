@@ -8,9 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArtworkRepository;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArtworkRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields:['slug'], message:"This url is already taken, try to modify the title of your artwork")]
 class Artwork
 {
     #[ORM\Id]
@@ -19,33 +22,42 @@ class Artwork
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 5, max:100, minMessage:"The title must be at least 5 characters long.", maxMessage: "The title can't be longer than 100 characters.")]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max:50, minMessage:"The name of the artist must be at least 2 characters long.", maxMessage: "The name of the artist can't be longer than 50 characters.")]
     private ?string $artistName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max:50, minMessage:"The surname of the artist must at least 2 characters long.", maxMessage: "The surname of the artist can't be longer than 50 characters.")]
     private ?string $artistSurname = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?int $year = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?float $canvaWidth = null;
 
     #[ORM\Column]
+    #[Assert\Positive]
     private ?float $canvaHeight = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min: 20, minMessage:"The description must be at least 20 characters long.")]
     private ?string $content = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Select a type of medium.")]
     private ?string $medium = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Type in your price.")]
     private ?float $priceInit = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -55,9 +67,11 @@ class Artwork
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Url(message:"Invalid URL")]
     private ?string $coverImage = null;
 
     #[ORM\ManyToMany(targetEntity: Movement::class, mappedBy: 'artwork')]
+    #[Assert\NotBlank(message: "Select at least one movement.")]
     private Collection $movements;
 
     public function __construct()

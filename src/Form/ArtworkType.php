@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -47,8 +48,7 @@ class ArtworkType extends ApplicationType
             ->add('endDate', DateType::class, $this->getConfiguration("End date:","date fin",[
                 'widget' => 'single_text',
             ]))
-            ->add('coverImage', FileType::class,[
-                'label'=>'Artwork (jpg or webp)'])
+            ->add('coverImage', UrlType::class, $this->getConfiguration('Painting:', 'Insert a valid URL'))
             ->add('medium', ChoiceType::class, [
                 'choices'=>[
                     //options = visuel, valeur = dans la bdd
