@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArtworkRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(fields:['slug'], message:"This url is already taken, try to modify the title of your artwork")]
+// #[UniqueEntity(fields:['slug'], message:"This url is already taken, try to modify the title of your artwork")]
 class Artwork
 {
     #[ORM\Id]
@@ -22,7 +22,7 @@ class Artwork
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 5, max:100, minMessage:"The title must be at least 5 characters long.", maxMessage: "The title can't be longer than 100 characters.")]
+    #[Length(min: 5, max:100, minMessage:"The title must be at least 5 characters long.", maxMessage: "The title can't be longer than 100 characters.")]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
@@ -60,7 +60,7 @@ class Artwork
     #[Assert\NotBlank(message: "Type in your price.")]
     private ?float $priceInit = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $submissionDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
