@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArtworkRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-// #[UniqueEntity(fields:['slug'], message:"This url is already taken, try to modify the title of your artwork")]
+#[UniqueEntity(fields:['slug'], message:"This url is already taken, try to modify the title of your artwork")]
 class Artwork
 {
     #[ORM\Id]
