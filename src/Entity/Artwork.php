@@ -57,7 +57,7 @@ class Artwork
     private ?string $medium = null;
 
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Type in your price.")]
+    // #[Assert\NotBlank(message: "Type in your price.")]
     private ?float $priceInit = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

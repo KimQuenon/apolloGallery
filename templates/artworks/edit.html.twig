@@ -24,7 +24,11 @@
                 {{form_label(form)}}
             </div>
             <div class="col-6">
-                {{form_widget(form)}}
+               {% if form.vars.name == 'endDate' or form.vars.name =='priceInit' %}
+                    {{form_widget(form, { 'attr': {'readonly': 'readonly' } })}}
+                {% else %}
+                    {{form_widget(form)}}
+                {% endif %}
                 {{form_errors(form)}}
             </div>
         </div>
