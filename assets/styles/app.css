@@ -9,3 +9,7 @@
     object-fit: cover;
     display: block;
 }
+
+.full{
+    min-height:70vh;
+}
