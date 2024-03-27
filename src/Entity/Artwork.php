@@ -57,7 +57,7 @@ class Artwork
     private ?string $medium = null;
 
     #[ORM\Column]
-    // #[Assert\NotBlank(message: "Type in your price.")]
+    #[Assert\NotBlank(message: "Type in your price.")]
     private ?float $priceInit = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
@@ -80,6 +80,10 @@ class Artwork
         minMessage: 'Select at least one movement.'
     )]
     private Collection $movements;
+
+    #[ORM\ManyToOne(inversedBy: 'artworks')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     public function __construct()
     {
@@ -286,6 +290,18 @@ class Artwork
         if ($this->movements->removeElement($movement)) {
             $movement->removeArtwork($this);
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }
