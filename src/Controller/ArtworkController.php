@@ -63,7 +63,8 @@ class ArtworkController extends AbstractController
         }
 
         return $this->render("artworks/new.html.twig",[
-            'myForm' => $form->createView()
+            'myForm' => $form->createView(),
+            
         ]);
 
     }
@@ -85,9 +86,12 @@ class ArtworkController extends AbstractController
     {
 
         $movements = $artwork->getMovements();
+        $currentDate = new \DateTime();
+
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
             'movements' => $movements,
+            'currentDate' => $currentDate
         ]);
     }
 
