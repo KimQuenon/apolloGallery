@@ -58,7 +58,8 @@ class AppFixtures extends Fixture
                 ->setCreatedAt(new \DateTimeImmutable($createdAt->format('Y-m-d H:i:s')))
                 ->setEmail($faker->email())
                 ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(3)).'</p>')
-                ->setPassword($hash);
+                ->setPassword($hash)
+                ->setPicture('https://picsum.photos/seed/picsum/500/500');
 
                 $manager->persist($user);
 

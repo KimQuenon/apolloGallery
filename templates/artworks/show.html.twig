@@ -29,6 +29,15 @@
 	{% endif %}
 
     <p>{{author.fullName}}</p>
+    {% if author.picture %}
+        <div>
+            <img src="{{author.picture}}" alt="avatar de {{author.fullName}}">
+        </div>
+    {% else %}
+    <div>
+        <img src="https://no5.co.nz/cdn/shop/t/4/assets/placeholder_600x.png?v=113555733946226816651632776942" alt="avatar de {{author.fullName}}">
+    </div>
+    {% endif %}
 
 {% endblock %}
 
