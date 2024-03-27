@@ -41,6 +41,8 @@ class ArtworkController extends AbstractController
         //form complet et valid -> envoi bdd + message et redirection
         if($form->isSubmitted() && $form->IsValid())
         {
+            $artwork->setAuthor($this->getUser());
+
             $manager->persist($artwork);
             
             foreach ($artwork->getMovements() as $movement)
@@ -48,8 +50,7 @@ class ArtworkController extends AbstractController
                 $movement->addArtwork($artwork);
                 $manager->persist($artwork);
             }
-
-
+            
             $manager->flush();
 
             $this->addFlash(
@@ -86,11 +87,13 @@ class ArtworkController extends AbstractController
     {
 
         $movements = $artwork->getMovements();
+        $author = $artwork->getAuthor();
         $currentDate = new \DateTime();
 
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
             'movements' => $movements,
+            'author' => $author,
             'currentDate' => $currentDate
         ]);
     }

@@ -69,6 +69,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             $this->slug = $slugify->slugify($this->firstName.' '.$this->lastName.' '.uniqid());
         }
     }
+
+    public function getFullName(): string
+    {
+        return $this->firstName." ".$this->lastName;
+    }
     
     public function getId(): ?int
     {

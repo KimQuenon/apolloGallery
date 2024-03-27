@@ -106,6 +106,11 @@ class Artwork
         }
     }
 
+    public function getFullName(): string
+    {
+        return $this->artistSurname." ".$this->artistName;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
