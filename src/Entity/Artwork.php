@@ -64,6 +64,10 @@ class Artwork
     private ?\DateTimeInterface $submissionDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\GreaterThanOrEqual(
+        value: 'now',
+        message: 'The end date must be later than the current date.'
+    )]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 255)]
@@ -71,7 +75,10 @@ class Artwork
     private ?string $coverImage = null;
 
     #[ORM\ManyToMany(targetEntity: Movement::class, mappedBy: 'artwork')]
-    #[Assert\NotBlank(message: "Select at least one movement.")]
+    #[Assert\Count(
+        min: 1,
+        minMessage: 'Select at least one movement.'
+    )]
     private Collection $movements;
 
     public function __construct()
