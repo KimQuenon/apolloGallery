@@ -95,4 +95,41 @@ class ArtworkController extends AbstractController
         ]);
     }
 
+    #[Route("artworks/{slug}/edit", name:"artworks_edit")]
+    public function edit(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(ArtworkType::class, $artwork);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($artwork);
+            
+            foreach ($artwork->getMovements() as $movement)
+            {
+                $movement->addArtwork($artwork);
+                $manager->persist($artwork);
+            }
+
+              $manager->flush();
+
+              $this->addFlash(
+                'success',
+                "L'oeuvre <strong>".$artwork->getTitle()."</strong> a bien été modifiée!"
+              );
+
+              return $this->redirectToRoute('artworks_show',[
+                'slug' => $artwork->getSlug()
+              ]);
+
+        }
+
+
+
+        return $this->render("artworks/edit.html.twig",[
+            "artwork"=> $artwork,
+            "myForm"=> $form->createView()
+        ]);
+    }
+
 }
