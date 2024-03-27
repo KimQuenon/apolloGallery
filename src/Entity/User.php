@@ -10,9 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[UniqueEntity(fields:['email'], message:"Un compte est déjà associé à cette adresse e-mail, merci de la modifier")]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -22,6 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Email(message: "Veuillez renseigner une adresse e-mail valide")]
     private ?string $email = null;
 
     /**
@@ -34,18 +38,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: "Veuillez renseigner un mot de passe")]
     private ?string $password = null;
 
+    #[Assert\EqualTo(propertyPath:"password", message:"Mot de passe non confirmé")]
+    //pas d'orm pour ne pas l'enregistrer dans la bdd
+    //pas privé sinon on doit faire un getter et un setter
+    public ?string $passwordConfirm = null;
+
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max:50, minMessage:"The name must be at least 2 characters long.", maxMessage: "The name can't be longer than 50 characters.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Length(min: 2, max:50, minMessage:"The name of the artist must be at least 2 characters long.", maxMessage: "The name of the artist can't be longer than 50 characters.")]
     private ?string $lastName = null;
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min: 5, minMessage:"The description must be at least 5 characters long.")]
     private ?string $description = null;
 
     #[ORM\OneToMany(targetEntity: Artwork::class, mappedBy: 'author', orphanRemoval: true)]
@@ -55,6 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/gif'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou gif")]
+    #[Assert\File(maxSize:"1024k", maxSizeMessage: "La taille du fichier est trop grande")]
     private ?string $picture = null;
 
     public function __construct()
