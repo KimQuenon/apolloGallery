@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Faq;
 use App\Entity\Artwork;
 use App\Entity\Movement;
 use Doctrine\Persistence\ObjectManager;
@@ -20,6 +21,13 @@ class AppFixtures extends Fixture
             $movement->setMovementName($faker->word());
             $manager->persist($movement);
             $movements[] = $movement;
+        }
+
+        for ($f =1; $f <= 5; $f++){
+            $faq = new Faq();
+            $faq->setQuestion($faker->sentence())
+                ->setContent($faker->paragraph());
+            $manager->persist($faq);
         }
 
         
