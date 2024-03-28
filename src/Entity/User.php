@@ -61,7 +61,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(min: 5, minMessage:"The description must be at least 5 characters long.")]
     private ?string $description = null;
 
-    #[ORM\OneToMany(targetEntity: Artwork::class, mappedBy: 'author', orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: Artwork::class, mappedBy: 'author', orphanRemoval: true, cascade:["remove"])]
     private Collection $artworks;
 
     #[ORM\Column(length: 255)]

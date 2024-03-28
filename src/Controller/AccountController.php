@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\DeleteType;
 use App\Form\RegistrationType;
 use App\Form\AccountModifyType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,6 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthenticationException;
 
 class AccountController extends AbstractController
@@ -98,6 +100,61 @@ class AccountController extends AbstractController
         $user = $this->getUser();
         return $this->render("account/profile.html.twig",[
             'user'=>$user
+        ]);
+    }
+
+    #[Route("/account/delete", name: "account_delete")]
+    public function deleteAccount(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager, TokenStorageInterface $tokenStorage): Response
+    {
+        $user = $this->getUser();
+        $form = $this->createForm(DeleteType::class);
+
+        //si l'user n'est pas connecté, renvoi vers connexion
+        if (!$user) {
+
+            $this->addFlash(
+                'danger',
+                'Connectez-vous à votre compte avant de le supprimer.'
+            );
+            return $this->redirectToRoute('account_login');
+        }
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            $submittedEmail = $data['email'];
+            $submittedPassword = $data['password'];
+
+            //verif si email est dans bdd
+            if ($user->getEmail() === $submittedEmail) {
+                $isPasswordValid = $hasher->isPasswordValid($user, $submittedPassword);
+
+                //verif mdp
+                if ($isPasswordValid) {
+                    //forcer la déconnexion
+                    $tokenStorage->setToken(null);
+                    //remove si tout est ok
+                    $manager->remove($user);
+                    $manager->flush();
+
+                    $this->addFlash(
+                        'success',
+                        'Votre compte a été supprimé avec succès.'
+                    );
+
+                    return $this->redirectToRoute('homepage');
+                }
+            }
+
+            $this->addFlash(
+                'danger',
+                'L\'adresse e-mail ou le mot de passe est incorrect.'
+            );
+        }
+
+        return $this->render('account/delete.html.twig', [
+            'myForm' => $form->createView()
         ]);
     }
 
