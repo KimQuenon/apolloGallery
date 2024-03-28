@@ -59,7 +59,7 @@ class AppFixtures extends Fixture
                 ->setEmail($faker->email())
                 ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(3)).'</p>')
                 ->setPassword($hash)
-                ->setPicture('https://picsum.photos/seed/picsum/500/500');
+                ->setPicture('');
 
                 $manager->persist($user);
 

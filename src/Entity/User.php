@@ -68,9 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    // #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/gif'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou gif")]
-    // #[Assert\File(maxSize:"1024k", maxSizeMessage: "La taille du fichier est trop grande")]
-    #[Assert\Url(message: "Veuillez fournir une URL valide")]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/gif'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou gif")]
+    #[Assert\File(maxSize:"1024k", maxSizeMessage: "La taille du fichier est trop grande")]
     private ?string $picture = null;
 
     public function __construct()
