@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\DeleteType;
+use App\Entity\PasswordModify;
 use App\Form\RegistrationType;
 use App\Form\AccountModifyType;
+use App\Form\PasswordModifyType;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -154,6 +157,46 @@ class AccountController extends AbstractController
         }
 
         return $this->render('account/delete.html.twig', [
+            'myForm' => $form->createView()
+        ]);
+    }
+
+    #[Route("/account/password-modify", name:"account_password")]
+    public function modifyPassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher):Response
+    {
+        $passwordModify = new PasswordModify();
+        $user = $this->getUser();
+        $form = $this->createForm(PasswordModifyType::class, $passwordModify);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //verif mdp bdd & mdp du form
+            if (!password_verify($passwordModify->getOldPassword(), $user->getPassword())) {
+                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez renseigné n'est pas votre mot de passe actuel"));
+            }else{
+                $newPassword = $passwordModify->getNewPassword();
+
+                // verif si new mdp == old mdp
+                if ($newPassword === $passwordModify->getOldPassword()) {
+                    $form->get('newPassword')->addError(new FormError("Le nouveau mot de passe ne peut être identique à l'ancien mot de passe"));
+                } else {
+                    $hash = $hasher->hashPassword($user, $newPassword);
+
+                    $user->setPassword($hash);
+                    $manager->persist($user);
+                    $manager->flush();
+
+                    $this->addFlash(
+                        'success',
+                        'Le nouveau mot de passe a été modifié avec succès'
+                    );
+
+                    return $this->redirectToRoute('homepage');
+                }
+            }
+        }
+
+        return $this->render("account/password.html.twig",[
             'myForm' => $form->createView()
         ]);
     }

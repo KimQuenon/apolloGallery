@@ -38,7 +38,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: "Veuillez renseigner un mot de passe")]
+    #[Assert\Length(min:6, max:255, minMessage: "Votre mot de passe doit faire plus de 6 caractères", maxMessage:"Votre mot de passe ne doit pas dépasser les 255 caractères")]
     private ?string $password = null;
 
     #[Assert\EqualTo(propertyPath:"password", message:"Mot de passe non confirmé")]
