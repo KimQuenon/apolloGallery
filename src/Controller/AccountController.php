@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
+use App\Form\AccountModifyType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -58,6 +59,29 @@ class AccountController extends AbstractController
         }
 
         return $this->render("account/registration.html.twig",[
+            'myForm'=>$form->createView()
+        ]);
+    }
+
+    #[Route("/account/edit", name:"account_edit")]
+    public function profile(Request $request, EntityManagerInterface $manager): Response
+    {
+        $user = $this->getUser(); //récupère l'user connecté
+        $form = $this->createForm(AccountModifyType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash(
+            'success',
+            'Les données ont été enregistrées avec succès'    
+            );
+        }
+
+        return $this->render("account/edit.html.twig",[
             'myForm'=>$form->createView()
         ]);
     }
