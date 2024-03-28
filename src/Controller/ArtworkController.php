@@ -70,6 +70,20 @@ class ArtworkController extends AbstractController
 
     }
 
+    #[Route("artworks/{slug}/delete", name:"artworks_delete")]
+    public function deleteArtworks(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, EntityManagerInterface $manager): Response
+    {
+            $manager->remove($artwork);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "L'annonce <strong>".$artwork->getTitle()."</strong> a bien été supprimée!"
+            );
+
+        return $this->redirectToRoute('account_artworks');
+    }
+
     
     #[Route("artworks/movements/{slug}", name: "movements_show")]
     public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo): Response

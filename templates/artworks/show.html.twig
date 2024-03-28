@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+	<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-secondary">Supprimer</a>
 	<h1>{{ artwork.title }}</h1>
     <p>{{ artwork.fullName }}</p>
 	<p>{{ artwork.content }}</p>
