@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your gallery{% endblock %}
+
+{% block body %}
+    <div class="container full">
+    {% if artworks|length > 0 %}
+        {% if artworks|length == 1 %}
+            <h1>Vos avez posté {{ artworks|length }} annonce:</h1>
+        {% else %}
+            <h1>Vos avez posté {{ artworks|length }} annonces:</h1>
+        {% endif %}
+        <p>Désireux d'étoffer vos ventes ?</p>
+        {# <a href="{{ path('artworks_create') }}" class="btn btn-primary mb-3">Ajouter une annonce</a> #}
+        <div class="row">
+            {% for artwork in artworks %}
+                {% set url = path('artworks_show', {'slug':artwork.slug}) %}
+                <div class="col-md-4">
+                    <div class="card bg-light mb-3">
+                        <a href="{{url}}">
+                            <img src="{{artworks.coverImage}}" alt="image de l'oeuvre {{artworks.title}}" class="starsimg">
+                        </a>
+                        <div class="card-body">
+                            <h4 class="card-title">{{artworks.title}}</h4>
+                            <a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="btn btn-primary">Modifier</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <h1>Vous n'avez pas encore posté d'annonce</h1>
+        <p>Il n'est jamais trop tard pour vendre...</p>
+        <a href="{{ path('artworks_create') }}" class="btn btn-primary">Ajouter une annonce</a>
+    {% endif %}
+    </div>
+{% endblock %}

@@ -64,7 +64,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("/account/edit", name:"account_edit")]
-    public function profile(Request $request, EntityManagerInterface $manager): Response
+    public function edit(Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser(); //récupère l'user connecté
         $form = $this->createForm(AccountModifyType::class, $user);
@@ -90,5 +90,25 @@ class AccountController extends AbstractController
     public function logout(): Void
     {
 
+    }
+
+    #[Route("/account/profile/", name:"account_profile")]
+    public function profile(): Response
+    {
+        $user = $this->getUser();
+        return $this->render("account/profile.html.twig",[
+            'user'=>$user
+        ]);
+    }
+
+    #[Route("/account/artworks", name:"account_artworks")]
+    public function displayArtworks()
+    {
+        $user = $this->getUser(); // Récupérer l'utilisateur connecté
+        $artworks = $user->getArtworks(); // Récupérer les oeuvres liées à l'utilisateur
+
+        return $this->render('account/artworks.html.twig', [
+            'artworks' => $artworks,
+        ]);
     }
 }
