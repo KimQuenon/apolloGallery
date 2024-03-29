@@ -50,12 +50,11 @@ class AppFixtures extends Fixture
         for($u = 1; $u <= 10; $u++)
         {
             $user = new User();
-            $createdAt = $faker->dateTimeBetween('-1 year', '-1 month');
             $hash = $this->passwordHasher->hashPassword($user, 'password');
 
             $user->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
-                ->setCreatedAt(new \DateTimeImmutable($createdAt->format('Y-m-d H:i:s')))
+                ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setEmail($faker->email())
                 ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(3)).'</p>')
                 ->setPassword($hash)

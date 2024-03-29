@@ -21,6 +21,7 @@ final class Version20240327184220 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user ADD picture VARCHAR(255) DEFAULT NULL');
+        $this->addSql('ALTER TABLE `user` CHANGE `created_at` `created_at` DATETIME NULL DEFAULT NULL'); 
     }
 
     public function down(Schema $schema): void

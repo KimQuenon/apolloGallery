@@ -32,7 +32,7 @@ class RegistrationType extends ApplicationType
                 'label' => 'Created At:',
                 'widget' => 'single_text',
                 //date du jour
-                'data' => new \DateTimeImmutable(),
+                'data' => new \DateTime(),
                 // rend le champ non modifiable
                 'disabled' => true,
             ])

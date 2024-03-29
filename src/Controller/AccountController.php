@@ -54,6 +54,9 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $createdAt = new \DateTime();
+            $user->setCreatedAt($createdAt);
+
             //gestion de l'image
             $file = $form['picture']->getData(); //recup données dans le form
 
@@ -175,7 +178,7 @@ class AccountController extends AbstractController
                             unlink($avatarFilePath);
                         }
                     }
-                    
+
                     //forcer la déconnexion
                     $tokenStorage->setToken(null);
                     //remove si tout est ok

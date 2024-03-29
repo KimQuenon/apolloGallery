@@ -43,6 +43,9 @@ class ArtworkController extends AbstractController
         {
             $artwork->setAuthor($this->getUser());
 
+            $submissionDate = new \DateTime();
+            $artwork->setSubmissionDate($submissionDate);
+
             $manager->persist($artwork);
             
             foreach ($artwork->getMovements() as $movement)
