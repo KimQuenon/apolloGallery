@@ -167,6 +167,15 @@ class AccountController extends AbstractController
 
                 //verif mdp
                 if ($isPasswordValid) {
+
+                    $avatarFilename = $user->getPicture();
+                    if ($avatarFilename) {
+                        $avatarFilePath = $this->getParameter('uploads_directory') . '/' . $avatarFilename;
+                        if (file_exists($avatarFilePath)) {
+                            unlink($avatarFilePath);
+                        }
+                    }
+                    
                     //forcer la déconnexion
                     $tokenStorage->setToken(null);
                     //remove si tout est ok
