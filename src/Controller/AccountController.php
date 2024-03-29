@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\DeleteType;
+use App\Entity\AvatarModify;
 use App\Entity\PasswordModify;
+use App\Form\AvatarModifyType;
 use App\Form\RegistrationType;
 use App\Form\AccountModifyType;
 use App\Form\PasswordModifyType;
@@ -244,6 +246,59 @@ class AccountController extends AbstractController
             'myForm' => $form->createView()
         ]);
     }
+
+    #[Route("account/avatar-modify", name:"account_avatar")]
+    public function avatarModify(Request $request, EntityManagerInterface $manager):Response
+    {
+        $avatarModify = new AvatarModify();
+        $user = $this->getUser();
+        $form = $this->createForm(AvatarModifyType::class, $avatarModify);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+
+            if(!empty($user->getPicture()))
+            {
+                unlink($this->getParameter('uploads_directory').'/'.$user->getPicture());
+            }
+
+            //gestion de l'image
+            $file = $form['newPicture']->getData();
+            if(!empty($file))
+            {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename); //enlève les caractères spéciaux
+                $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension();
+                try{
+                    $file->move(
+                        $this->getParameter('uploads_directory'),
+                        $newFilename
+                    );
+                }catch(FileException $e){
+                    return $e->getMessage();
+                }
+                $user->setPicture($newFilename);
+            }
+            $manager->persist($user);
+            $manager->flush();
+
+
+            $this->addFlash(
+                'success',
+                'Votre avatar a été modifié avec succès'    
+            );
+
+            return $this->redirectToRoute('account_profile');
+
+
+        }
+
+        return $this->render("account/avatar.html.twig",[
+            'myForm'=>$form->createView()
+        ]);
+    }
+
     #[Route("account/avatar-delete", name:"account_avatar_delete")]
     public function deleteAvatar(EntityManagerInterface $manager):Response
     {

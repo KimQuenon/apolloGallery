@@ -18,10 +18,10 @@
                 <div class="col-md-4">
                     <div class="card bg-light mb-3">
                         <a href="{{url}}">
-                            <img src="{{artworks.coverImage}}" alt="image de l'oeuvre {{artworks.title}}" class="starsimg">
+                            <img src="{{artwork.coverImage}}" alt="{{artwork.title}}" class="starsimg">
                         </a>
                         <div class="card-body">
-                            <h4 class="card-title">{{artworks.title}}</h4>
+                            <h4 class="card-title">{{artwork.title}}</h4>
                             <a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="btn btn-primary">Modifier</a>
                         </div>
                     </div>
