@@ -135,17 +135,6 @@ class AccountController extends AbstractController
         ]);
     }
 
-
-    #[Route("/account/profile/", name:"account_profile")]
-    #[IsGranted('ROLE_USER')]
-    public function profile(): Response
-    {
-        $user = $this->getUser();
-        return $this->render("account/profile.html.twig",[
-            'user'=>$user
-        ]);
-    }
-
     #[Route("/account/delete", name: "account_delete")]
     #[IsGranted('ROLE_USER')]
     public function deleteAccount(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager, TokenStorageInterface $tokenStorage): Response

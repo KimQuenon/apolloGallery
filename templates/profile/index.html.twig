@@ -1,0 +1,18 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+   <div class="container full">
+    <h1>Bienvenue {{user.firstName}} {{user.lastName}} !</h1>
+    {% if user.picture %}
+        <div>
+            <img src="/uploads/{{user.picture}}" alt="avatar">
+        </div>
+    {% else %}
+        <div>
+            <img src="https://no5.co.nz/cdn/shop/t/4/assets/placeholder_600x.png?v=113555733946226816651632776942" alt="échec">
+        </div>
+    {% endif %}
+   </div>
+{% endblock %}
