@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\Faq;
 use App\Entity\User;
 use App\Entity\Artwork;
+use App\Entity\Contact;
 use App\Entity\Movement;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -91,6 +92,16 @@ class AppFixtures extends Fixture
             }
 
             $manager->persist($artwork);
+        }
+
+        for ($c=1; $c <=10 ; $c++){
+            $contact = new Contact();
+            $contact->setFirstName($faker->firstName())
+                    ->setLastName($faker->lastName())
+                    ->setEmail($faker->email())
+                    ->setMessage('<p>'.join('<p></p>',$faker->paragraphs(2)).'</p>');
+
+            $manager->persist($contact);
         }
 
 
