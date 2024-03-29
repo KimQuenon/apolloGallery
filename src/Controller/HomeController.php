@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\FaqRepository;
+use App\Repository\ArtworkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,8 +15,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'homepage')]
-    public function index(FaqRepository $faqRepo, Request $request, EntityManagerInterface $manager): Response
+    public function index(ArtworkRepository $artworkRepo, FaqRepository $faqRepo, Request $request, EntityManagerInterface $manager): Response
     {
+        //latest frames
+        $recentArtworks = $artworkRepo->findBy([], ['id' => 'DESC'], 3);
+
         //faq
         $faqs = $faqRepo->findAll();
 
@@ -37,6 +41,7 @@ class HomeController extends AbstractController
             );
         }
         return $this->render('home.html.twig', [
+            'recentArtworks' => $recentArtworks,
             'faqs' => $faqs,
             'myForm' => $form->createView()
         ]);
