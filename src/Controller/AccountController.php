@@ -244,6 +244,23 @@ class AccountController extends AbstractController
             'myForm' => $form->createView()
         ]);
     }
+    #[Route("account/avatar-delete", name:"account_avatar_delete")]
+    public function deleteAvatar(EntityManagerInterface $manager):Response
+    {
+        $user = $this->getUser(); //recup user
+        if(!empty($user->getPicture())) //si champs rempli
+        {
+            unlink($this->getParameter('uploads_directory').'/'.$user->getPicture()); //supp du dossier
+            $user->setPicture(''); //img vide
+            $manager->persist($user); //save bdd
+            $manager->flush();
+            $this->addFlash(
+                'success',
+                'Votre avatar a bien été supprimé'
+            );
+        }
+        return $this->redirectToRoute('account_profile');
+    }
 
     #[Route("/account/artworks", name:"account_artworks")]
     public function displayArtworks()
