@@ -46,6 +46,19 @@ class AppFixtures extends Fixture
             $movements[] = $movement;
         }
 
+        // création d'un admin
+        $admin = new User();
+        $admin->setFirstName('Kim')
+            ->setLastName('Possible')
+            ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
+            ->setEmail('admin@epse.be')
+            ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
+            ->setDescription('<p>'.join('</p><p>',$faker->paragraphs(3)).'</p>')
+            ->setRoles(['ROLE_ADMIN'])
+            ->setPicture('');
+
+        $manager->persist($admin);
+
         $users = []; //init d'un tab pour recup des users pour les annonces
 
         for($u = 1; $u <= 10; $u++)
@@ -57,8 +70,8 @@ class AppFixtures extends Fixture
                 ->setLastName($faker->lastName())
                 ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setEmail($faker->email())
-                ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(3)).'</p>')
                 ->setPassword($hash)
+                ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(3)).'</p>')
                 ->setPicture('');
 
                 $manager->persist($user);
@@ -66,7 +79,7 @@ class AppFixtures extends Fixture
                 $users[] = $user; //ajouter un user au tableau pour les annonces
         }
 
-        for($i=1; $i<=30; $i++)
+        for($a=1; $a<=30; $a++)
         {
             $artwork = new Artwork();
             $media = ['Oil on canvas','Acrylic','Watercolor', 'Sketch', 'Gouache', 'Encaustic', 'Tempera', 'Pastel', 'Spray', 'Ink', 'Other'];

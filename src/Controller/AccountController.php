@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -44,6 +45,11 @@ class AccountController extends AbstractController
             'username'=> $username,
             'loginError'=> $loginError
         ]);
+    }
+    
+    #[Route('/logout', name: 'account_logout')]
+    public function logout(): Void
+    {
     }
 
     #[Route("/register", name:"account_register")]
@@ -88,13 +94,14 @@ class AccountController extends AbstractController
 
             return $this->redirectToRoute('account_login');
         }
-
+        
         return $this->render("account/registration.html.twig",[
             'myForm'=>$form->createView()
         ]);
     }
-
+    
     #[Route("/account/edit", name:"account_edit")]
+    #[IsGranted('ROLE_USER')]
     public function edit(Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser(); //récupère l'user connecté
@@ -128,13 +135,9 @@ class AccountController extends AbstractController
         ]);
     }
 
-    #[Route('/logout', name: 'account_logout')]
-    public function logout(): Void
-    {
-
-    }
 
     #[Route("/account/profile/", name:"account_profile")]
+    #[IsGranted('ROLE_USER')]
     public function profile(): Response
     {
         $user = $this->getUser();
@@ -144,6 +147,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("/account/delete", name: "account_delete")]
+    #[IsGranted('ROLE_USER')]
     public function deleteAccount(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager, TokenStorageInterface $tokenStorage): Response
     {
         $user = $this->getUser();
@@ -208,6 +212,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("/account/password-modify", name:"account_password")]
+    #[IsGranted('ROLE_USER')]
     public function modifyPassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher):Response
     {
         $passwordModify = new PasswordModify();
@@ -248,6 +253,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("account/avatar-modify", name:"account_avatar")]
+    #[IsGranted('ROLE_USER')]
     public function avatarModify(Request $request, EntityManagerInterface $manager):Response
     {
         $avatarModify = new AvatarModify();
@@ -300,6 +306,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("account/avatar-delete", name:"account_avatar_delete")]
+    #[IsGranted('ROLE_USER')]
     public function deleteAvatar(EntityManagerInterface $manager):Response
     {
         $user = $this->getUser(); //recup user
@@ -318,6 +325,7 @@ class AccountController extends AbstractController
     }
 
     #[Route("/account/artworks", name:"account_artworks")]
+    #[IsGranted('ROLE_USER')]
     public function displayArtworks()
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté

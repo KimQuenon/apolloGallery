@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArtworkController extends AbstractController
@@ -30,6 +32,7 @@ class ArtworkController extends AbstractController
 
     
     #[Route("/artworks/new", name:"artworks_create")]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
         $artwork = new Artwork();
@@ -70,10 +73,26 @@ class ArtworkController extends AbstractController
             'myForm' => $form->createView(),
             
         ]);
+        
+    }
+
+    #[Route("artworks/movements/{slug}", name: "movements_show")]
+    public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo): Response
+    {
+        $artworks = $movement->getArtwork();
+        return $this->render('artworks/movements/show.html.twig', [
+            'movement' => $movement,
+            'artworks' => $artworks
+        ]);
 
     }
 
     #[Route("artworks/{slug}/delete", name:"artworks_delete")]
+    #[IsGranted(
+        attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
+        subject: new Expression('args["artwork"].getAuthor()'),
+        message: "Cette annonce ne vous appartient pas, vous ne pouvez pas la supprimer"
+    )]
     public function deleteArtworks(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, EntityManagerInterface $manager): Response
     {
             $manager->remove($artwork);
@@ -88,16 +107,6 @@ class ArtworkController extends AbstractController
     }
 
     
-    #[Route("artworks/movements/{slug}", name: "movements_show")]
-    public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo): Response
-    {
-        $artworks = $movement->getArtwork();
-        return $this->render('artworks/movements/show.html.twig', [
-            'movement' => $movement,
-            'artworks' => $artworks
-        ]);
-
-    }
 
     #[Route("/artworks/{slug}", name: "artworks_show")]
     public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork): Response
@@ -116,6 +125,11 @@ class ArtworkController extends AbstractController
     }
 
     #[Route("artworks/{slug}/edit", name:"artworks_edit")]
+    #[IsGranted(
+        attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
+        subject: new Expression('args["artwork"].getAuthor()'),
+        message: "Cette annonce ne vous appartient pas, vous ne pouvez pas l'éditer"
+    )]
     public function edit(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(ArtworkType::class, $artwork);

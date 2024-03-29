@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block body %}
-	<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-secondary">Supprimer</a>
+	{% if (app.user and app.user == artwork.author) or is_granted('ROLE_ADMIN') %}
+		<a href="{{path('artworks_edit', {'slug':artwork.slug})}}" class="btn btn-warning m-2">Modification de l'annonce</a>
+		<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-secondary">Supprimer</a>
+	{% endif %}
 	<h1>{{ artwork.title }}</h1>
     <p>{{ artwork.fullName }}</p>
 	<p>{{ artwork.content }}</p>
