@@ -312,16 +312,4 @@ class AccountController extends AbstractController
         }
         return $this->redirectToRoute('account_profile');
     }
-
-    #[Route("/account/artworks", name:"account_artworks")]
-    #[IsGranted('ROLE_USER')]
-    public function displayArtworks()
-    {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
-        $artworks = $user->getArtworks(); // Récupérer les oeuvres liées à l'utilisateur
-
-        return $this->render('account/artworks.html.twig', [
-            'artworks' => $artworks,
-        ]);
-    }
 }
