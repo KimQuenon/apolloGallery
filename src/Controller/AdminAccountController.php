@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\UserRepository;
+use App\Repository\ArtworkRepository;
+use App\Repository\ContactRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +22,7 @@ class AdminAccountController extends AbstractController
 
         $loginError = null;
 
-        if($error instanceof TooManyLoginAttemptsAuthenticationException)
+        if($error instanceof TooManyLoginAttemptsAuthenticationException) 
         {
             $loginError = "Trop de tentatives de connexion. Réessayez plus tard";
         }
@@ -40,5 +43,16 @@ class AdminAccountController extends AbstractController
     public function logout(): void
     {
 
+    }
+    
+    #[Route('/admin/dashboard', name: 'admin_dashboard')]
+    public function dashboard(ArtworkRepository $artworkRepo, UserRepository $userRepo, ContactRepository $contactRepo): Response
+    {
+        
+        return $this->render('admin/dashboard.html.twig', [
+            'artworks' => $artworkRepo->findAll(),
+            'users' => $userRepo->findAll(),
+            'contacts' => $contactRepo->findAll()
+        ]);
     }
 }

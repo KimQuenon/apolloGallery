@@ -1,0 +1,11 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    <div class="container full">
+        <h1>{{artworks | length}} artworks</h1>
+        <h1>{{users | length}} users</h1>
+        <h1>{{contacts | length}} messages</h1>
+    </div>
+{% endblock %}
