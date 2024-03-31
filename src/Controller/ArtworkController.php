@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Artwork;
 use App\Entity\Movement;
 use App\Form\ArtworkType;
+use App\Service\PaginationService;
 use App\Repository\ArtworkRepository;
 use App\Repository\MovementRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,14 +19,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArtworkController extends AbstractController
 {
-    #[Route('/artworks', name: 'artworks_index')]
-    public function index(ArtworkRepository $repo, MovementRepository $movementRepo): Response
+    #[Route('/artworks/{page<\d+>?1}', name: 'artworks_index')]
+    public function index(PaginationService $pagination, int $page, MovementRepository $movementRepo): Response
     {
-        $artworks = $repo->findAll();
+
+        $pagination->setEntityClass(Artwork::class)
+        ->setPage($page)
+        ->setLimit(9);
+
         $movements = $movementRepo->findAll();
 
         return $this->render('artworks/index.html.twig', [
-            'artworks' => $artworks,
+            // 'artworks' => $artworks,
+            'pagination' => $pagination,
             'movements' => $movements,
         ]);
     }
@@ -80,9 +86,10 @@ class ArtworkController extends AbstractController
     public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo): Response
     {
         $artworks = $movement->getArtwork();
+        
         return $this->render('artworks/movements/show.html.twig', [
             'movement' => $movement,
-            'artworks' => $artworks
+            'artworks' => $artworks,
         ]);
 
     }

@@ -14,7 +14,7 @@
             {% endfor %}
         </div>
         <div class="row mt-4">
-            {% for artwork in artworks %}
+            {% for artwork in pagination.data %}
                 {% set url = path('artworks_show', {'slug':artwork.slug}) %}
                 <div class="col-md-4">
                     <div class="card bg-light mb-3">
@@ -32,6 +32,7 @@
                     </div>
                 </div>
             {% endfor %}
+            {{pagination.display()}}
         </div>
     </div>
 {% endblock %}
