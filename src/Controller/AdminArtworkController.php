@@ -16,14 +16,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AdminArtworkController extends AbstractController
 {
     #[Route('/admin/artworks/{page<\d+>?1}', name: 'admin_artworks_index')]
-    public function index(ArtworkRepository $repo, PaginationService $pagination, int $page): Response
+    public function index(PaginationService $pagination, int $page): Response
     {
         $pagination->setEntityClass(Artwork::class)
         ->setPage($page)
         ->setLimit(10);
 
         return $this->render('admin/artworks/index.html.twig', [
-            // 'artworks' => $repo->findAll(),
             'pagination' => $pagination
         ]);
     }

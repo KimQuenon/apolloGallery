@@ -15,7 +15,7 @@
                         <th class="text-center">Message</th>
                         <th class="text-center">Actions</th>
                     </tr>
-                {% for contact in contacts %}
+                {% for contact in pagination.data %}
                     <tr>
                         <td class="align-middle">{{contact.firstName}}</td>
                         <td class="align-middle">{{contact.lastName}}</td>
@@ -29,6 +29,7 @@
                 {% endfor %}
                 </thead>
             </table>
+            {{pagination.display()}}
         </div>
     </div>
 {% endblock %}

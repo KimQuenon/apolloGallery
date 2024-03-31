@@ -183,6 +183,11 @@ class PaginationService{
 
         // // renvoyer les données
         // return $data;
+            // Définir l'ordre par défaut si aucun n'a été spécifié
+        if ($this->order === null) {
+            $this->order = ['id' => 'DESC'];
+        }
+
 
         return $this->manager
                         ->getRepository($this->entityClass)
