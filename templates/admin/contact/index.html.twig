@@ -1,0 +1,34 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+    <div class="container mt-4 ">
+        <div class="row">
+            <h1 class="mb-3">Messagerie</h1>
+            <table class="table table-striped">
+                <thead>
+                    <tr class="table-active">
+                        <th class="text-center">Nom</th>
+                        <th class="text-center">Prénom</th>
+                        <th class="text-center">Mail</th>
+                        <th class="text-center">Message</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                {% for contact in contacts %}
+                    <tr>
+                        <td class="align-middle">{{contact.firstName}}</td>
+                        <td class="align-middle">{{contact.lastName}}</td>
+                        <td class="align-middle">{{contact.email}}</td>
+                        <td class="align-middle">{{contact.message | raw | striptags | slice(0, 50)}}...</td>
+                        <td class="align-middle text-center">
+                            <a href="{{path('admin_contact_show', {'id':contact.id})}}" type="button" class="btn btn-primary">Voir plus...</a>
+                            <a href="{{path('admin_contact_delete', {'id':contact.id})}}" type="button" class="btn btn-danger">Supprimer</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </thead>
+            </table>
+        </div>
+    </div>
+{% endblock %}
