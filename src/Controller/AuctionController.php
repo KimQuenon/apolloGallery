@@ -51,6 +51,8 @@ class AuctionController extends AbstractController
         $artworkOwner = $artwork->getAuthor();
         $currentDate = new \DateTime();
 
+        $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
+
         // verif si user connecté = user artwork
         if ($user === $artworkOwner) {
             // recup les enchères liées à l'artwork
@@ -60,6 +62,7 @@ class AuctionController extends AbstractController
                 'artwork' => $artwork,
                 'auctions' => $auctions,
                 'currentDate' => $currentDate,
+                'auctionAccepted' => $auctionAccepted
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');
@@ -74,8 +77,24 @@ class AuctionController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function accept(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
     {
+        $artwork = $auction->getArtwork();
+    
+        // verif si une enchère a déjà été acceptée pour l'œuvre
+        $existingSoldAuction = $auctionRepo->findSAcceptedAuction($artwork);
+    
+        if ($existingSoldAuction !== null) {
+            $this->addFlash(
+                'warning',
+                "Une enchère pour cette œuvre a déjà été acceptée."
+            );
+    
+            return $this->redirectToRoute('account_sales_show', [
+                'slug'=> $artwork->getSlug()
+            ]);
+        }
         
-        // Marque l'enchère comme vendue
+        
+        //enchère acceptée
         $auction->setSold('yes');
         $manager->persist($auction);
         $manager->flush();

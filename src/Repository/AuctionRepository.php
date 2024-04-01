@@ -72,6 +72,18 @@ class AuctionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAcceptedAuction(Artwork $artwork): ?Auction
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.artwork = :artwork')
+            ->andWhere('a.sold = :sold')
+            ->setParameter('artwork', $artwork)
+            ->setParameter('sold', 'yes')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Auction[] Returns an array of Auction objects
     //     */
