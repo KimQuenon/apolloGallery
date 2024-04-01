@@ -6,6 +6,7 @@ use Faker\Factory;
 use App\Entity\Faq;
 use App\Entity\User;
 use App\Entity\Artwork;
+use App\Entity\Auction;
 use App\Entity\Contact;
 use App\Entity\Movement;
 use Doctrine\Persistence\ObjectManager;
@@ -79,6 +80,8 @@ class AppFixtures extends Fixture
                 $users[] = $user; //ajouter un user au tableau pour les annonces
         }
 
+        $artworks = []; //init d'un tab pour recup des artworks pour les enchères
+
         for($a=1; $a<=30; $a++)
         {
             $artwork = new Artwork();
@@ -104,8 +107,23 @@ class AppFixtures extends Fixture
                 $artwork->addMovement($movement);
             }
 
+            $artworks[] = $artwork;
+
             $manager->persist($artwork);
         }
+        
+        //auctions
+        for ($b =1; $b <= 30; $b++){
+
+            $auction = new Auction();
+
+            $auction->setUser($users[rand(0, count($users)-1)])
+                    ->setArtwork($artworks[rand(0, count($artworks)-1)])
+                    ->setAmount($faker->randomFloat(2, 10000, 100000))
+                    ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'));
+            $manager->persist($auction);
+        }
+
 
         for ($c=1; $c <=10 ; $c++){
             $contact = new Contact();

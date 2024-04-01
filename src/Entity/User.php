@@ -72,9 +72,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\File(maxSize:"1024k", maxSizeMessage: "La taille du fichier est trop grande")]
     private ?string $picture = null;
 
+    #[ORM\OneToMany(targetEntity: Auction::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $auctions;
+
     public function __construct()
     {
         $this->artworks = new ArrayCollection();
+        $this->auctions = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -266,6 +270,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPicture(?string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Auction>
+     */
+    public function getAuctions(): Collection
+    {
+        return $this->auctions;
+    }
+
+    public function addAuction(Auction $auction): static
+    {
+        if (!$this->auctions->contains($auction)) {
+            $this->auctions->add($auction);
+            $auction->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuction(Auction $auction): static
+    {
+        if ($this->auctions->removeElement($auction)) {
+            // set the owning side to null (unless already changed)
+            if ($auction->getUser() === $this) {
+                $auction->setUser(null);
+            }
+        }
 
         return $this;
     }

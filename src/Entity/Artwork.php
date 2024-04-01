@@ -85,9 +85,13 @@ class Artwork
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\OneToMany(targetEntity: Auction::class, mappedBy: 'artwork', orphanRemoval: true)]
+    private Collection $auctions;
+
     public function __construct()
     {
         $this->movements = new ArrayCollection();
+        $this->auctions = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -307,6 +311,36 @@ class Artwork
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Auction>
+     */
+    public function getAuctions(): Collection
+    {
+        return $this->auctions;
+    }
+
+    public function addAuction(Auction $auction): static
+    {
+        if (!$this->auctions->contains($auction)) {
+            $this->auctions->add($auction);
+            $auction->setArtwork($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAuction(Auction $auction): static
+    {
+        if ($this->auctions->removeElement($auction)) {
+            // set the owning side to null (unless already changed)
+            if ($auction->getArtwork() === $this) {
+                $auction->setArtwork(null);
+            }
+        }
 
         return $this;
     }
