@@ -115,18 +115,29 @@ class ArtworkController extends AbstractController
     
 
     #[Route("/artworks/{slug}", name: "artworks_show")]
-    public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork): Response
+    public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, ArtworkRepository $artworkRepo): Response
     {
 
         $movements = $artwork->getMovements();
         $author = $artwork->getAuthor();
         $currentDate = new \DateTime();
 
+        //recup l'auteur de l'annonce
+        $seller = $artwork->getAuthor();
+        //recup les autres voitures de ce même auteur et les mettre dans un tab
+        $otherArtworks = $seller->getArtworks()->toArray(); 
+        //évite que la voiture de l'annonce apparaisse dans les suggestions
+        $otherArtworks = array_filter($otherArtworks, function ($otherArtwork) use ($artwork) {
+            return $otherArtwork !== $artwork;
+        });
+
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
             'movements' => $movements,
             'author' => $author,
-            'currentDate' => $currentDate
+            'currentDate' => $currentDate,
+            'seller' => $seller,
+            'otherArtworks' => $otherArtworks,
         ]);
     }
 

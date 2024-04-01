@@ -31,6 +31,11 @@ class Contact
     #[Assert\Length(min: 10, minMessage:"Ce champs doit contenir plus de 10 caractères.")]
     private ?string $message = null;
 
+    public function getFullName(): string
+    {
+        return $this->firstName." ".$this->lastName;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
