@@ -64,10 +64,6 @@ class Artwork
     private ?\DateTimeInterface $submissionDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    // #[Assert\GreaterThanOrEqual(
-    //     value: 'now',
-    //     message: 'The end date must be later than the current date.'
-    // )]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 255)]
