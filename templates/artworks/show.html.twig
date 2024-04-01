@@ -5,12 +5,15 @@
 {% endblock %}
 
 {% block body %}
+
+	{# display edit btn #}
 	{% if (app.user and app.user == artwork.author) or is_granted('ROLE_ADMIN') %}
 		<a href="{{path('artworks_edit', {'slug':artwork.slug})}}" class="btn btn-warning m-2">Modification de l'annonce</a>
 		<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-secondary">Supprimer</a>
 	{% endif %}
 	
-	{% if app.user %}
+	{# display share link #}
+	{% if app.user and artwork.endDate > currentDate and artwork.author != app.user %}
         {% set userHasBid = false %}
         {% for auction in artwork.auctions %}
             {% if auction.user == app.user %}
@@ -23,7 +26,7 @@
 			<button id="shareLinkButton" class="flex gap-1 border placeholder:border px-2 py-1 my-3 rounded text-slate-500 text-sm hover:bg-black hover:text-white">
 				Share link
 			</button>
-			<div id="copyMessage" style="display: none; color: green;">Lien copié avec succès !</div>
+			<div id="copyMessage" style="display: none; color: green;">Copied link !</div>
         {% else %}
             <a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn btn-dark">Make a bid</a>
         {% endif %}
@@ -36,13 +39,18 @@
 	<p>{{ artwork.medium }}</p>
 	<p>{{ artwork.submissionDate|date('Y-m-d H:i:s') }}</p>
 	<p>{{ artwork.endDate|date('Y-m-d H:i:s') }}</p>
+	
+	{# display movements #}
 	{% for movement in movements %}
 		<p>{{ movement.movementName }}</p>
 	{% endfor %}
 
-	{% if artwork.endDate|date('Y-m-d') == currentDate|date('Y-m-d') %}
-		<p>Vendu</p>
+	{# in case artwork is sold #}
+	{% if artwork.endDate < currentDate %}
+		<h3>Vendu</h3>
+		<p>Cette oeuvre sera bientôt retirée du site</p>
 	{% else %}
+	{# display time left #}
 		<div>
 			<div id="days"></div>
 			<div class="d-flex">
@@ -142,7 +150,7 @@ function copyLinkToClipboard(url) {
 		copyMessage.style.display = 'block';
 		setTimeout(() => {
 			copyMessage.style.display = 'none';
-		}, 1500); // Masquer le message après 1.5 secondes
+		}, 1500);
 	}
 }
 
