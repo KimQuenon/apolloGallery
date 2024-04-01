@@ -70,13 +70,23 @@ class AuctionController extends AbstractController
         }
     }
 
-    #[Route("/account/sales/{slug}/accept", name:"account_sales_accept")]
+    #[Route("/account/sales/{id}/accept", name:"account_sales_accept")]
     #[IsGranted('ROLE_USER')]
-    public function accept(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)
+    public function accept(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
     {
-
-        return $this->redirectToRoute('artworks_show', [
-   
+        
+        // Marque l'enchère comme vendue
+        $auction->setSold('yes');
+        $manager->persist($auction);
+        $manager->flush();
+        
+        $this->addFlash(
+            'success',
+            "L'offre de <strong>".$auction->getUser()->getFullName()."</strong> a bien été acceptée."
+        );
+        
+        return $this->redirectToRoute('account_sales_show', [
+            'slug'=> $auction->getArtwork()->getSlug()
         ]);
     }
 
