@@ -23,7 +23,13 @@ class AuctionRepository extends ServiceEntityRepository
         parent::__construct($registry, Auction::class);
     }
 
-    public function findAuctionsOfUserArtworks(User $user): array
+    /**
+     * afficher les ventes d'un utilisateur
+     *
+     * @param User $user
+     * @return array
+     */
+    public function findSales(User $user): array
     {
         return $this->createQueryBuilder('a')
             ->join('a.artwork', 'aw')
@@ -34,11 +40,33 @@ class AuctionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * afficher les enchères de chaque oeuvre
+     *
+     * @param Artwork $artwork
+     * @return void
+     */
     public function findAuctionsByArtwork(Artwork $artwork)
     {
         return $this->createQueryBuilder('a')
             ->andWhere('a.artwork = :artwork')
             ->setParameter('artwork', $artwork)
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Afficher les enchères d'un user
+     *
+     * @param User $user
+     * @return array
+     */
+    public function findAuctionsByUser(User $user): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.user = :userId')
+            ->setParameter('userId', $user)
             ->orderBy('a.id', 'DESC')
             ->getQuery()
             ->getResult();
