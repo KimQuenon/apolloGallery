@@ -30,7 +30,6 @@ class ArtworkController extends AbstractController
         $movements = $movementRepo->findAll();
 
         return $this->render('artworks/index.html.twig', [
-            // 'artworks' => $artworks,
             'pagination' => $pagination,
             'movements' => $movements,
         ]);

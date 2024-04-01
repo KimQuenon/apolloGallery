@@ -14,18 +14,7 @@
         {# <a href="{{ path('artworks_create') }}" class="btn btn-primary mb-3">Ajouter une annonce</a> #}
         <div class="row">
             {% for artwork in artworks %}
-                {% set url = path('artworks_show', {'slug':artwork.slug}) %}
-                <div class="col-md-4">
-                    <div class="card bg-light mb-3">
-                        <a href="{{url}}">
-                            <img src="{{artwork.coverImage}}" alt="{{artwork.title}}" class="starsimg">
-                        </a>
-                        <div class="card-body">
-                            <h4 class="card-title">{{artwork.title}}</h4>
-                            <a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="btn btn-primary">Modifier</a>
-                        </div>
-                    </div>
-                </div>
+                {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
             {% endfor %}
         </div>
     {% else %}
