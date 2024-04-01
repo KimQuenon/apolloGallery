@@ -6,6 +6,7 @@ use App\Entity\Artwork;
 use App\Entity\Auction;
 use App\Form\AuctionType;
 use App\Repository\AuctionRepository;
+use Symfony\Component\Form\FormError;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,8 +68,39 @@ class AuctionController extends AbstractController
 
     #[Route("/artworks/{slug}/make-a-bid", name: "auctions_create")]
     #[IsGranted('ROLE_USER')]
-    public function create(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
+    public function create(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager, AuctionRepository $auctionRepo): Response
     {
+        $user = $this->getUser();
+        $artworkOwner = $artwork->getAuthor();
+
+        if ($user === $artworkOwner) {
+            $this->addFlash('danger', 'Vous ne pouvez pas faire d\'enchère sur votre propre œuvre.');
+            
+            return $this->redirectToRoute('artworks_show', [
+                'slug'=> $artwork->getSlug()
+            ]);
+        }
+
+        $endDate = $artwork->getEndDate();
+
+        if ($endDate <= new \DateTime()) {
+            $this->addFlash('danger', "L'enchère pour cette œuvre est terminée.");
+            
+            return $this->redirectToRoute('artworks_show', [
+                'slug'=> $artwork->getSlug()
+            ]);
+        }
+
+        // Vérifier si l'utilisateur a déjà fait une enchère sur cet artwork
+        $existingAuction = $auctionRepo->findOneBy(['user' => $user, 'artwork' => $artwork]);
+        if ($existingAuction !== null) {
+            $this->addFlash('danger', "Vous avez déjà fait une enchère sur cette œuvre.");
+            
+            return $this->redirectToRoute('artworks_show', [
+                'slug'=> $artwork->getSlug()
+            ]);
+        }
+
         $auction = new Auction();
         $form = $this->createform(AuctionType::class, $auction);
 
@@ -78,27 +110,33 @@ class AuctionController extends AbstractController
         //form complet et valid -> envoi bdd + message et redirection
         if($form->isSubmitted() && $form->IsValid())
         {
-            $auction->setUser($this->getUser());
-            $auction->setArtwork($artwork);
-            $auction->setSubmissionDate(new \DateTime());
+            $amount = $form->get('amount')->getData();
+            $priceInit = $artwork->getPriceInit();
 
-            $manager->persist($auction);    
-            $manager->flush();
-
-            $this->addFlash(
-                'success',
-                "Votre enchère pour <strong>".$artwork->getTitle()."</strong> a bien été enregistrée."
-            );
-        
-            return $this->redirectToRoute('artworks_show', [
-                'slug'=> $artwork->getSlug()
-            ]);
+            //verif si montant proposé >= prix initial
+            if ($amount < $priceInit) {
+                $form->addError(new FormError("Le montant proposé ne peut pas être inférieur au prix initial de l'œuvre."));
+            } else {
+                $auction->setUser($user);
+                $auction->setArtwork($artwork);
+                $auction->setSubmissionDate(new \DateTime());
+    
+                $manager->persist($auction);    
+                $manager->flush();
+    
+                $this->addFlash(
+                    'success',
+                    "Votre enchère pour <strong>".$artwork->getTitle()."</strong> a bien été enregistrée."
+                );
+            
+                return $this->redirectToRoute('artworks_show', [
+                    'slug'=> $artwork->getSlug()
+                ]);
+            }
         }
-
         return $this->render("artworks/auction.html.twig",[
             'myForm' => $form->createView(),  
         ]);
     }
-
 
 }
