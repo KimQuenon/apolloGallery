@@ -7,6 +7,7 @@ use App\Repository\AuctionRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AuctionController extends AbstractController
@@ -39,12 +40,24 @@ class AuctionController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function showSales(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)
     {
-        // $user = $this->getUser(); // recup l'utilisateur connecté
-        $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
+        $user = $this->getUser();
+        $artworkOwner = $artwork->getAuthor();
 
-        return $this->render('profile/sales/show.html.twig', [
-            'artwork' => $artwork,
-            'auctions' => $auctions,
-        ]);
+        // verif si user connecté = user artwork
+        if ($user === $artworkOwner) {
+            // recup les enchères liées à l'artwork
+            $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
+
+            return $this->render('profile/sales/show.html.twig', [
+                'artwork' => $artwork,
+                'auctions' => $auctions,
+            ]);
+        } else {
+            $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');
+
+            return $this->redirectToRoute('artworks_show', [
+                'slug'=> $artwork->getSlug()
+            ]);     
+        }
     }
 }
