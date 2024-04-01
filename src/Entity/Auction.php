@@ -29,6 +29,9 @@ class Auction
     #[ORM\JoinColumn(nullable: false)]
     private ?Artwork $artwork = null;
 
+    #[ORM\Column(length: 8)]
+    private ?string $sold = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -78,6 +81,18 @@ class Auction
     public function setArtwork(?Artwork $artwork): static
     {
         $this->artwork = $artwork;
+
+        return $this;
+    }
+
+    public function getSold(): ?string
+    {
+        return $this->sold;
+    }
+
+    public function setSold(string $sold): static
+    {
+        $this->sold = $sold;
 
         return $this;
     }

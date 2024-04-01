@@ -97,7 +97,7 @@ class AppFixtures extends Fixture
                 ->setMedium($media[array_rand($media)])
                 ->setPriceInit($faker->randomFloat(2, 1000, 100000))
                 ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
-                ->setEndDate($faker->dateTimeBetween('-1 month', '+1 year'))
+                ->setEndDate($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setCoverImage('https://picsum.photos/seed/picsum/1000/350')
                 ->setAuthor($users[rand(0, count($users)-1)]);
 
@@ -111,16 +111,17 @@ class AppFixtures extends Fixture
 
             $manager->persist($artwork);
         }
-        
+
         //auctions
-        for ($b =1; $b <= 30; $b++){
+        for ($b =1; $b <= 100; $b++){
 
             $auction = new Auction();
 
             $auction->setUser($users[rand(0, count($users)-1)])
                     ->setArtwork($artworks[rand(0, count($artworks)-1)])
                     ->setAmount($faker->randomFloat(2, 10000, 100000))
-                    ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'));
+                    ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
+                    ->setSold('no');
             $manager->persist($auction);
         }
 

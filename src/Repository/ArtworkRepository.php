@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Artwork;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Artwork>
@@ -19,6 +20,16 @@ class ArtworkRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Artwork::class);
+    }
+
+    public function findArtworkUserDesc(User $user): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.author = :user')
+            ->setParameter('user', $user)
+            ->orderBy('a.endDate', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

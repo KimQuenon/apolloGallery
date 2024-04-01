@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ArtworkRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -23,13 +24,15 @@ class ProfileController extends AbstractController
     //oeuvres de l'utilisateur
     #[Route("/account/artworks", name:"account_artworks")]
     #[IsGranted('ROLE_USER')]
-    public function displayArtworks()
+    public function displayArtworks(ArtworkRepository $artworkRepo)
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
-        $artworks = $user->getArtworks(); // Récupérer les oeuvres liées à l'utilisateur
+        $artworks = $artworkRepo->findArtworkUserDesc($user);
+        $currentDate = new \DateTime();
 
         return $this->render('profile/artworks.html.twig', [
             'artworks' => $artworks,
+            'currentDate' => $currentDate
         ]);
     }
 }

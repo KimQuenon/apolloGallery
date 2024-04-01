@@ -21,6 +21,10 @@
                         <img class="img-fluid" src={{sale.artwork.coverImage}} alt={{sale.artwork.title}}>
                     </div>
                     <a href="{{ path('account_sales_show', {'slug': sale.artwork.slug}) }}" class="btn btn-primary">Voir plus</a>
+                    {# {% if sale.artwork.endDate < currentDate %}
+                        <a href="#" class="btn btn-success">Accepter</a>
+                        <a href="#" class="btn btn-danger">Refuser</a>
+                    {% endif %} #}
                 </div>
             </div>
         </div>

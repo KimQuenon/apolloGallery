@@ -35,9 +35,11 @@ class AuctionController extends AbstractController
     {
         $user = $this->getUser(); // recup l'utilisateur connecté
         $sales = $auctionRepo->findSales($user);
+        // $currentDate = new \DateTime();
 
         return $this->render('profile/sales/index.html.twig', [
             'sales' => $sales,
+            // 'currentDate' => $currentDate,
         ]);
     }
 
@@ -47,6 +49,7 @@ class AuctionController extends AbstractController
     {
         $user = $this->getUser();
         $artworkOwner = $artwork->getAuthor();
+        $currentDate = new \DateTime();
 
         // verif si user connecté = user artwork
         if ($user === $artworkOwner) {
@@ -56,15 +59,27 @@ class AuctionController extends AbstractController
             return $this->render('profile/sales/show.html.twig', [
                 'artwork' => $artwork,
                 'auctions' => $auctions,
+                'currentDate' => $currentDate,
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');
 
             return $this->redirectToRoute('artworks_show', [
-                'slug'=> $artwork->getSlug()
+                'slug'=> $artwork->getSlug(),
             ]);     
         }
     }
+
+    #[Route("/account/sales/{slug}/accept", name:"account_sales_accept")]
+    #[IsGranted('ROLE_USER')]
+    public function accept(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)
+    {
+
+        return $this->redirectToRoute('artworks_show', [
+   
+        ]);
+    }
+
 
     #[Route("/artworks/{slug}/make-a-bid", name: "auctions_create")]
     #[IsGranted('ROLE_USER')]
