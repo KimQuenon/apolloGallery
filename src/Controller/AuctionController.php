@@ -25,7 +25,7 @@ class AuctionController extends AbstractController
 
     #[Route("/account/sales", name:"account_sales_index")]
     #[IsGranted('ROLE_USER')]
-    public function displaySales(AuctionRepository $auctionRepo)
+    public function indexSales(AuctionRepository $auctionRepo)
     {
         $user = $this->getUser(); // recup l'utilisateur connecté
         $sales = $auctionRepo->findAuctionsOfUserArtworks($user);
@@ -37,10 +37,10 @@ class AuctionController extends AbstractController
 
     #[Route("/account/sales/{slug}", name:"account_sales_show")]
     #[IsGranted('ROLE_USER')]
-    public function displaySalesByArtwork(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)
+    public function showSales(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)
     {
-        $user = $this->getUser(); // recup l'utilisateur connecté
-        $auctions = $artwork->getAuctions();
+        // $user = $this->getUser(); // recup l'utilisateur connecté
+        $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
 
         return $this->render('profile/sales/show.html.twig', [
             'artwork' => $artwork,

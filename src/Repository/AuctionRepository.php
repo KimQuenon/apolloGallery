@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use App\Entity\Artwork;
 use App\Entity\Auction;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -28,6 +29,17 @@ class AuctionRepository extends ServiceEntityRepository
             ->join('a.artwork', 'aw')
             ->where('aw.author = :user')
             ->setParameter('user', $user)
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAuctionsByArtwork(Artwork $artwork)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.artwork = :artwork')
+            ->setParameter('artwork', $artwork)
+            ->orderBy('a.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
