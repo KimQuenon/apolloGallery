@@ -109,6 +109,35 @@ class AuctionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * si enchère perdue par l'utilisateur (vérif sur l'achive)
+     *
+     * @param Artwork $artwork
+     * @param User $user
+     * @return boolean
+     */
+    public function findRefusedAuctionsByUser(Artwork $artwork, User $user): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.artwork', 'aw') // Jointure avec la table Artwork
+            ->andWhere('aw = :artwork') // l'œuvre donnée
+            ->andWhere('a.user = :user') // l'utilisateur donné
+            ->andWhere('a.sold = :sold') // enchères non acceptée
+            ->andWhere('aw.archived = :archived') // sur une oeuvre archivée
+            ->setParameter('artwork', $artwork)
+            ->setParameter('user', $user)
+            ->setParameter('sold', 'no')
+            ->setParameter('archived', true) // Définir le paramètre pour vérifier si l'œuvre est archivée
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Nombre d'enchères d'une oeuvre
+     *
+     * @param Artwork $artwork
+     * @return integer
+     */
     public function countAuctionsByArtwork(Artwork $artwork): int
     {
         return $this->createQueryBuilder('a')
