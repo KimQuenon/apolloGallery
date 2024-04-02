@@ -7,9 +7,13 @@
     <div class="container">
         <h1>Archived Artworks</h1>
         <div class="row">
+        {% if archivedArtworks | length == 0 %}
+            <p>Vous n'avez pas encore d'oeuvres archivées.</p>
+        {% else %}
             {% for artwork in archivedArtworks %}
                 {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
             {% endfor %}
+        {% endif %}
         </div>
     </div>
 {% endblock %}
