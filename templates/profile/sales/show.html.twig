@@ -17,7 +17,8 @@
                                 <div>
                                     <h5 class="card-title">{{ auction.user.fullName }}</h5>
                                     <p class="card-text">{{ auction.amount }}</p>
-                                    <a href="{{ path('account_sales_accept', {'id': auction.id}) }}" class="btn btn-primary">Accepter</a>
+                                    <a href="{{ path('account_sales_accept', {'id': auction.id}) }}" class="btn btn-success">Accepter</a>
+                                    <a href="{{ path('account_sales_refuse', {'id': auction.id}) }}" class="btn btn-danger">Refuser</a>
                                 </div>
                             </div>
                         </div>

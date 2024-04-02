@@ -80,7 +80,7 @@ class AuctionController extends AbstractController
         $artwork = $auction->getArtwork();
     
         // verif si une enchère a déjà été acceptée pour l'œuvre
-        $existingSoldAuction = $auctionRepo->findSAcceptedAuction($artwork);
+        $existingSoldAuction = $auctionRepo->findAcceptedAuction($artwork);
     
         if ($existingSoldAuction !== null) {
             $this->addFlash(
@@ -104,6 +104,24 @@ class AuctionController extends AbstractController
             "L'offre de <strong>".$auction->getUser()->getFullName()."</strong> a bien été acceptée."
         );
         
+        return $this->redirectToRoute('account_sales_show', [
+            'slug'=> $auction->getArtwork()->getSlug()
+        ]);
+    }
+
+    #[Route("/account/sales/{id}/refuse", name:"account_sales_refuse")]
+    #[IsGranted('ROLE_USER')]
+    public function refuse(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
+    {
+
+        $manager->remove($auction);
+        $manager->flush();
+
+        $this->addFlash(
+            'danger',
+            "L'enchère de <strong>".$auction->getUser()->getFullName()."</strong> a été refusée."
+        );
+
         return $this->redirectToRoute('account_sales_show', [
             'slug'=> $auction->getArtwork()->getSlug()
         ]);
