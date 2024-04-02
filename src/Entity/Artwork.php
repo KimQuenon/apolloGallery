@@ -84,6 +84,9 @@ class Artwork
     #[ORM\OneToMany(targetEntity: Auction::class, mappedBy: 'artwork', orphanRemoval: true)]
     private Collection $auctions;
 
+    #[ORM\Column]
+    private ?bool $archived = null;
+
     public function __construct()
     {
         $this->movements = new ArrayCollection();
@@ -337,6 +340,18 @@ class Artwork
                 $auction->setArtwork(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(bool $archived): static
+    {
+        $this->archived = $archived;
 
         return $this;
     }

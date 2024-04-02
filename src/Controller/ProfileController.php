@@ -35,4 +35,16 @@ class ProfileController extends AbstractController
             'currentDate' => $currentDate
         ]);
     }
+
+    #[Route("/account/archives", name:"account_archives")]
+    #[IsGranted('ROLE_USER')]
+    public function displayArchivedArtworks(ArtworkRepository $artworkRepo)
+    {
+        $user = $this->getUser();
+        $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($user);
+
+        return $this->render('profile/archives.html.twig', [
+            'archivedArtworks' => $archivedArtworks,
+        ]);
+    }
 }

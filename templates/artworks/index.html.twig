@@ -15,7 +15,9 @@
         </div>
         <div class="row mt-4">
             {% for artwork in pagination.data %}
-                {% include "partials/_cards.html.twig" with { 'artwork': artwork } %}
+                {% if not artwork.archived %}
+                    {% include "partials/_cards.html.twig" with { 'artwork': artwork } %}
+                {% endif %}
             {% endfor %}
             {{pagination.display()}}
         </div>

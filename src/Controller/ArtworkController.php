@@ -149,6 +149,11 @@ class ArtworkController extends AbstractController
     )]
     public function edit(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
     {
+        if ($artwork->getArchived()) {
+            $this->addFlash('danger', 'Impossible de modifier une oeuvre archivée.');
+            return $this->redirectToRoute('artworks_show', ['id' => $artwork->getSlug()]);
+        }
+
         $form = $this->createForm(ArtworkType::class, $artwork);
         $form->handleRequest($request);
 

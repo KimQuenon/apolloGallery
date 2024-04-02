@@ -14,7 +14,9 @@
         {# <a href="{{ path('artworks_create') }}" class="btn btn-primary mb-3">Ajouter une annonce</a> #}
         <div class="row">
             {% for artwork in artworks %}
-                {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+                {% if not artwork.archived %}
+                    {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+                {% endif %}
             {% endfor %}
         </div>
     {% else %}

@@ -97,8 +97,9 @@ class AuctionController extends AbstractController
         }
         
         
-        //enchère acceptée
+        //enchère acceptée + archivage
         $auction->setSold('yes');
+        $artwork->setArchived(true);
         $manager->persist($auction);
         $manager->flush();
         

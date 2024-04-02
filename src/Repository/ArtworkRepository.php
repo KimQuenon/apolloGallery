@@ -26,6 +26,18 @@ class ArtworkRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('a')
             ->where('a.author = :user')
+            ->andWhere('a.archived = false')
+            ->setParameter('user', $user)
+            ->orderBy('a.endDate', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findArchivedArtworksByUser(User $user)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.author = :user')
+            ->andWhere('a.archived = true')
             ->setParameter('user', $user)
             ->orderBy('a.endDate', 'DESC')
             ->getQuery()

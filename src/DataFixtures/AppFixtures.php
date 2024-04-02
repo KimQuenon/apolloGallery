@@ -99,7 +99,8 @@ class AppFixtures extends Fixture
                 ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setEndDate($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setCoverImage('https://picsum.photos/seed/picsum/1000/350')
-                ->setAuthor($users[rand(0, count($users)-1)]);
+                ->setAuthor($users[rand(0, count($users)-1)])
+                ->setArchived(FALSE);
 
             $movementsAssociated = $faker->randomElements($movements, $faker->numberBetween(1, 3));
 
