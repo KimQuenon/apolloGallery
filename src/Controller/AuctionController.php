@@ -60,8 +60,12 @@ class AuctionController extends AbstractController
         $artworkOwner = $artwork->getAuthor();
         $currentDate = new \DateTime();
 
+        //recup l'enchère acceptée
         $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
-        $auctionCount = $auctionRepo->countAuctionsByArtwork($artwork);
+
+        //3 plus grandes enchères
+        $topThree = $auctionRepo->topThree($artwork);
+
 
         // verif si user connecté = user artwork
         if ($user === $artworkOwner) {
@@ -73,7 +77,7 @@ class AuctionController extends AbstractController
                 'auctions' => $auctions,
                 'currentDate' => $currentDate,
                 'auctionAccepted' => $auctionAccepted,
-                'auctionCount' => $auctionCount,
+                'topThree' => $topThree
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');

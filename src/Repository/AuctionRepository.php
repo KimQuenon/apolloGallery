@@ -148,6 +148,17 @@ class AuctionRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
+    public function topThree(Artwork $artwork): array
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.artwork = :artwork')
+            ->setParameter('artwork', $artwork)
+            ->orderBy('a.amount', 'DESC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Auction[] Returns an array of Auction objects
     //     */
