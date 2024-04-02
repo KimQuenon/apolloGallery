@@ -7,8 +7,10 @@
         <div class="card-body">
             <h4 class="card-title">{{artwork.title}}</h4>
             <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="btn btn-primary">Voir plus</a>
-            <a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
-            {% if not artwork.archived %}
+            {% if app.user == artwork.author %}
+                <a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
+            {% endif %}
+            {% if not artwork.archived and app.user == artwork.author %}
                 <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="btn btn-warning">Choose a seller</a>
             {% endif %}
         </div>
