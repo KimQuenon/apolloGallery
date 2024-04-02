@@ -72,6 +72,12 @@ class AuctionRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * vérif si une enchère a été acceptée
+     *
+     * @param Artwork $artwork
+     * @return Auction|null
+     */
     public function findAcceptedAuction(Artwork $artwork): ?Auction
     {
         return $this->createQueryBuilder('a')
@@ -82,6 +88,25 @@ class AuctionRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * si enchère remportée par l'utilisateur
+     *
+     * @param User $user
+     * @return array
+     */
+    public function findAcceptedAuctionsByUser(User $user): array
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.artwork', 'aw')
+            ->andWhere('aw.author = :user')
+            ->andWhere('a.sold = :sold')
+            ->setParameter('user', $user)
+            ->setParameter('sold', 'yes')
+            ->orderBy('a.id', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     public function countAuctionsByArtwork(Artwork $artwork): int
