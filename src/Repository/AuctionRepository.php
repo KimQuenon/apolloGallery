@@ -84,6 +84,16 @@ class AuctionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
+    public function countAuctionsByArtwork(Artwork $artwork): int
+    {
+        return $this->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->where('a.artwork = :artwork')
+            ->setParameter('artwork', $artwork)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
     //    /**
     //     * @return Auction[] Returns an array of Auction objects
     //     */

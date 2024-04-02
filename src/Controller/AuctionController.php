@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -52,6 +53,7 @@ class AuctionController extends AbstractController
         $currentDate = new \DateTime();
 
         $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
+        $auctionCount = $auctionRepo->countAuctionsByArtwork($artwork);
 
         // verif si user connecté = user artwork
         if ($user === $artworkOwner) {
@@ -62,7 +64,8 @@ class AuctionController extends AbstractController
                 'artwork' => $artwork,
                 'auctions' => $auctions,
                 'currentDate' => $currentDate,
-                'auctionAccepted' => $auctionAccepted
+                'auctionAccepted' => $auctionAccepted,
+                'auctionCount' => $auctionCount,
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');
@@ -75,7 +78,7 @@ class AuctionController extends AbstractController
 
     #[Route("/account/sales/{id}/accept", name:"account_sales_accept")]
     #[IsGranted('ROLE_USER')]
-    public function accept(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
+    public function acceptAuction(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
     {
         $artwork = $auction->getArtwork();
     
@@ -111,7 +114,7 @@ class AuctionController extends AbstractController
 
     #[Route("/account/sales/{id}/refuse", name:"account_sales_refuse")]
     #[IsGranted('ROLE_USER')]
-    public function refuse(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
+    public function refuseAuction(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
     {
 
         $manager->remove($auction);
@@ -125,6 +128,35 @@ class AuctionController extends AbstractController
         return $this->redirectToRoute('account_sales_show', [
             'slug'=> $auction->getArtwork()->getSlug()
         ]);
+    }
+
+    #[Route("/account/sales/{slug}/relaunch", name:"account_sales_relaunch")]
+    #[IsGranted('ROLE_USER')]
+    public function relaunchAuction(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo, EntityManagerInterface $manager): RedirectResponse
+    {
+        $currentDate = new \DateTime();
+        $endDate = $artwork->getEndDate();
+
+        // si pas d'offres au temps écoulé => relancer une semaine
+        if ($endDate <= $currentDate && $auctionRepo->countAuctionsByArtwork($artwork) === 0) {
+            $newEndDate = $currentDate->modify('+1 week');
+            $artwork->setEndDate($newEndDate);
+
+            $manager->persist($artwork);
+            $manager->flush();
+
+            $this->addFlash('success', 'La date de fin de l\'enchère a été prolongée d\'une semaine.');
+
+            return $this->redirectToRoute('account_sales_show', [
+                'slug'=> $artwork->getSlug(),
+            ]);
+        } else {
+            $this->addFlash('danger', 'Cette enchère ne peut pas être prolongée.');
+
+            return $this->redirectToRoute('account_sales_show', [
+                'slug'=> $artwork->getSlug(),
+            ]);
+        }
     }
 
 
