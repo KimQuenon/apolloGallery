@@ -37,14 +37,6 @@ class ArtworkType extends ApplicationType
             ->add('canvaHeight', NumberType::class, $this->getConfiguration("Canva Height (cm):", 'Exemple : 200'))
             ->add('content', TextareaType::class, $this->getConfiguration("Description:", 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'))
             ->add('priceInit', MoneyType::class, $this->getConfiguration("Initial price:", 'Exemple : 100'))
-            ->add('submissionDate', null, [
-                'label' => 'Submission Date:',
-                'widget' => 'single_text',
-                //date du jour
-                'data' => new \DateTime(),
-                // rend le champ non modifiable
-                'disabled' => true,
-            ])
             ->add('endDate', DateType::class, $this->getConfiguration("End date:","date fin",[
                 'widget' => 'single_text',
             ]))

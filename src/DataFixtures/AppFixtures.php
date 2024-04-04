@@ -154,7 +154,8 @@ class AppFixtures extends Fixture
             $contact->setFirstName($faker->firstName())
                     ->setLastName($faker->lastName())
                     ->setEmail($faker->email())
-                    ->setMessage('<p>'.join('<p></p>',$faker->paragraphs(2)).'</p>');
+                    ->setMessage('<p>'.join('<p></p>',$faker->paragraphs(2)).'</p>')
+                    ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'));
 
             $manager->persist($contact);
         }

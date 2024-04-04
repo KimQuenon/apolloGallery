@@ -96,6 +96,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        if(empty($this->createdAt))
+        {
+            $this->createdAt = new \DateTime();
+        }
+    }
+
     public function getFullName(): string
     {
         return $this->firstName." ".$this->lastName;

@@ -28,14 +28,6 @@ class RegistrationType extends ApplicationType
                 'required'=>false
             ])
             ->add('description', TextareaType::class, $this->getConfiguration("Description détaillée", "Il est temps de raconter votre vie..."))
-            ->add('createdAt', null, [
-                'label' => 'Created At:',
-                'widget' => 'single_text',
-                //date du jour
-                'data' => new \DateTime(),
-                // rend le champ non modifiable
-                'disabled' => true,
-            ])
         ;
     }
 

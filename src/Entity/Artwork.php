@@ -112,6 +112,16 @@ class Artwork
         }
     }
 
+
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        if(empty($this->submissionDate))
+        {
+            $this->submissionDate = new \DateTime();
+        }
+    }
+
     public function getFullName(): string
     {
         return $this->artistSurname." ".$this->artistName;

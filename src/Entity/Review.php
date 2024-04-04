@@ -31,6 +31,20 @@ class Review
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    /**
+     * datetime
+     *
+     * @return void
+     */
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        if(empty($this->createdAt))
+        {
+            $this->createdAt = new \DateTime();
+        }
+    }
+
     public function getId(): ?int
     {
         return $this->id;

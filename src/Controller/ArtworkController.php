@@ -50,9 +50,7 @@ class ArtworkController extends AbstractController
         if($form->isSubmitted() && $form->IsValid())
         {
             $artwork->setAuthor($this->getUser());
-
-            $submissionDate = new \DateTime();
-            $artwork->setSubmissionDate($submissionDate);
+            $artwork->setArchived('no');
 
             $manager->persist($artwork);
             
