@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use Faker\Factory;
 use App\Entity\Faq;
 use App\Entity\User;
+use App\Entity\Review;
 use App\Entity\Artwork;
 use App\Entity\Auction;
 use App\Entity\Contact;
@@ -108,10 +109,31 @@ class AppFixtures extends Fixture
                 $artwork->addMovement($movement);
             }
 
+            //init tableau pour flush dans la table review
+            $reviews = [];
+
+            $review = new Review();
+            $review->setAuthor($users[rand(0, count($users)-1)])
+                    ->setArtwork($artwork)
+                    ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month')) 
+                    ->setContent($faker->paragraph())
+                    ->setRating(rand(1,5));
+            $manager->persist($review);
+            $reviews[] = $review;
+            
             $artworks[] = $artwork;
 
             $manager->persist($artwork);
         }
+
+        $manager->flush();
+
+        // stocke dans table reviews
+        foreach ($reviews as $review) {
+            $manager->persist($review);
+        }
+        $manager->flush();
+
 
         //auctions
         for ($b =1; $b <= 100; $b++){

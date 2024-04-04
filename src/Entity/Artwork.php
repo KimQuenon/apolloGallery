@@ -87,6 +87,9 @@ class Artwork
     #[ORM\Column]
     private ?bool $archived = null;
 
+    #[ORM\OneToOne(mappedBy: 'artwork', cascade: ['persist', 'remove'])]
+    private ?Review $review = null;
+
     public function __construct()
     {
         $this->movements = new ArrayCollection();
@@ -352,6 +355,23 @@ class Artwork
     public function setArchived(bool $archived): static
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function getReview(): ?Review
+    {
+        return $this->review;
+    }
+
+    public function setReview(Review $review): static
+    {
+        // set the owning side of the relation if necessary
+        if ($review->getArtwork() !== $this) {
+            $review->setArtwork($this);
+        }
+
+        $this->review = $review;
 
         return $this;
     }
