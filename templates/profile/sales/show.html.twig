@@ -41,6 +41,7 @@
                 <div>
                     <p>Aucune enchère n'a été faite pour cette oeuvre.</p>
                     <a href="{{ path('account_sales_relaunch', {'slug': artwork.slug}) }}" class="btn btn-warning">Relancer</a>
+                    <a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
                 </div>
             {% endif %}
         {% else %}
