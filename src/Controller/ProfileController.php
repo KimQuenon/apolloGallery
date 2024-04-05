@@ -16,8 +16,20 @@ class ProfileController extends AbstractController
     public function index(): Response
     {
         $user = $this->getUser();
+
+        $artworks = $user->getArtworks();
+
+        $reviews = [];
+        foreach ($artworks as $artwork) {
+            $review = $artwork->getReview();
+            if ($review !== null) {
+                $reviews[] = $review;
+            }
+        }
+
         return $this->render("profile/index.html.twig",[
-            'user'=>$user
+            'user'=>$user,
+            'reviews' => $reviews,
         ]);
     }
 
