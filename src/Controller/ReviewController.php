@@ -21,6 +21,39 @@ class ReviewController extends AbstractController
     {
         $user = $this->getUser();
 
+        // recup les enchères de l'artwork
+        $auctions = $artwork->getAuctions();
+
+        // user connecté = auteur de l'enchère ?
+        $isAuthorOfAuction = false;
+        foreach ($auctions as $auction) {
+            if ($auction->getUser() === $user) {
+                $isAuthorOfAuction = true;
+                break;
+            }
+        }
+
+        // user = auteur de l'annonce?
+        $isAuthorOfArtwork = ($user === $artwork->getAuthor());
+
+        // si user = auteur de l'annonce ou n'a pas d'enchère = refus
+        if (!$isAuthorOfAuction || !$isAuthorOfArtwork) {
+            $this->addFlash(
+                'danger',
+                "Vous n'êtes pas autorisé à voter pour cette oeuvre."
+            );
+            return $this->redirectToRoute('artworks_index');
+        }
+
+        $existingReview = $artwork->getReview();
+        if ($existingReview !== null) {
+            $this->addFlash(
+                'danger',
+                "Cette oeuvre a déjà une review associée."
+            );
+            return $this->redirectToRoute('artworks_index');
+        }
+
         $review = new Review();
         $form = $this->createform(ReviewType::class, $review);
 
@@ -48,6 +81,7 @@ class ReviewController extends AbstractController
     }
 
     #[Route('/account/reviews', name: 'account_reviews')]
+    #[IsGranted('ROLE_USER')]
     public function index(): Response
     {
         $user = $this->getUser();
