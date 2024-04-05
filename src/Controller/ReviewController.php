@@ -42,8 +42,28 @@ class ReviewController extends AbstractController
             return $this->redirectToRoute('artworks_index', []);
         }
 
-        return $this->render('profile/review/index.html.twig', [
+        return $this->render('artworks/review.html.twig', [
             'myForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/account/reviews', name: 'account_reviews')]
+    public function index(): Response
+    {
+        $user = $this->getUser();
+        $artworks = $user->getArtworks();
+
+        $reviews = [];
+        foreach ($artworks as $artwork) {
+            $review = $artwork->getReview();
+            if ($review !== null) {
+                $reviews[] = $review;
+            }
+        }
+
+        return $this->render('profile/reviews.html.twig', [
+            'user' => $user,
+            'reviews' => $reviews,
         ]);
     }
 }
