@@ -15,6 +15,25 @@
                 <div>
                     {% for bid in topThree %}
                         <p>{{ bid.user.fullName }}: {{ bid.amount }}</p>
+                        <span class='rating'>
+                            {% set filledStars = bid.user.avgRatings | round(0, 'floor') %}
+                            {% set halfStar = (bid.user.avgRatings - filledStars) >= 0.5 %}
+                            
+                            {% for i in 1..5 %}
+                                {% if i <= filledStars %}
+                                    <i class='fas fa-star'></i>
+                                {% elseif halfStar %}
+                                    {% if loop.index == filledStars + 1 %}
+                                        <i class='fas fa-star-half-alt'></i>
+                                    {% else %}
+                                        <i class='far fa-star'></i>
+                                    {% endif %}
+                                {% else %}
+                                    <i class='far fa-star'></i>
+                                {% endif %}
+                            {% endfor %}
+                        </span>
+                        <p>{{ bid.user.reviews | length}} avis</p>
                     {% endfor %}
                 </div>
             {% endif %}
