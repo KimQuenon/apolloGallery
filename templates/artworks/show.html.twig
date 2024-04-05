@@ -78,6 +78,8 @@
                 <div class="col-md-10">
                     <h3>{{seller.lastName}}</h3>
                     <h4 class="text-body-secondary">{{seller.firstName}}</h4>
+					<p>{{seller.reviews | length}} avis</p>
+					{% include "partials/rating.html.twig" with {'rating': seller.avgRatings} %}
                     <hr>
                     <div class="text-end mb-3"><p>{{seller.description | raw}}</p>
                         <figcaption class="blockquote-footer">

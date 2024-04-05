@@ -105,6 +105,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
+    public function getAvgRatings(): float
+    {
+        $sum = array_reduce($this->reviews->toArray(), function ($total, $review) {
+            return $total + $review->getRating();
+        }, 0);
+    
+        $count = count($this->reviews);
+    
+        if ($count > 0) {
+            return round($sum / $count, 1); // Retourne la moyenne avec une décimale
+        }
+    
+        return 0.0;
+    }
+
     public function getFullName(): string
     {
         return $this->firstName." ".$this->lastName;

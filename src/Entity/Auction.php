@@ -32,6 +32,21 @@ class Auction
     #[ORM\Column(length: 8)]
     private ?string $sold = null;
 
+    public function getAvgRatings(): float
+
+    {
+
+        $ratings = $this->getUser()->getRatings();
+
+        $sum = array_sum($ratings);
+
+        $count = array_sum(array_keys($ratings));
+
+
+        return $count > 0 ? $sum / $count : 0;
+
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

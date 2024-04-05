@@ -59,25 +59,43 @@ class AuctionController extends AbstractController
         $user = $this->getUser();
         $artworkOwner = $artwork->getAuthor();
         $currentDate = new \DateTime();
-
+        
         //recup l'enchère acceptée
         $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
-
+        
         //3 plus grandes enchères
         $topThree = $auctionRepo->topThree($artwork);
 
+        // Recup les enchères liées à l'artwork
 
+        $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
+
+
+        // Calcul de la moyenne des notes pour chaque utilisateur qui a soumis une enchère
+
+        foreach ($auctions as $auction) {
+
+            $avgRating = $auction->getUser()->getAvgRatings();
+
+        }
+        
+        
         // verif si user connecté = user artwork
         if ($user === $artworkOwner) {
             // recup les enchères liées à l'artwork
             $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
+            
+            // foreach ($auctions as $auction) {
+            //     $avgRating = $auction->getUser()->getAvgRatings();
+            // }
 
             return $this->render('profile/sales/show.html.twig', [
                 'artwork' => $artwork,
                 'auctions' => $auctions,
                 'currentDate' => $currentDate,
                 'auctionAccepted' => $auctionAccepted,
-                'topThree' => $topThree
+                'topThree' => $topThree,
+                'avgRating' => $avgRating,
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');

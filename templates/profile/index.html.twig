@@ -17,17 +17,20 @@
    </div>
     <div class="container">
         <h1>Reviews de {{ user.fullName }}</h1>
-        {% if reviews is empty %}
-            <p>Aucune review disponible.</p>
-        {% else %}
-            <ul>
-                {% for review in reviews %}
-                    <li>
-                        <p>Note : {{ review.rating }}</p>
-                        <p>{{ review.content }}</p>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% if reviews | length > 0 %}
+                {{user.avgRatings}}
+                {% include "partials/rating.html.twig" with {'rating': user.avgRatings} %}
+                ({{ reviews | length}} avis)
+                <ul>
+                    {% for review in reviews %}
+                        <li>
+                            <p>Note : {{ review.rating }}</p>
+                            <p>{{ review.content }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <small>Pas encore noté</small>
         {% endif %}
     </div>
 {% endblock %}

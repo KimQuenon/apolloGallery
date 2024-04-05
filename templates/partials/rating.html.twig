@@ -1,0 +1,19 @@
+<span class='rating'>
+    {% set filledStars = rating | round(0, 'floor') %}
+    {% set halfStar = (rating - filledStars) >= 0.5 %}
+    
+    {% for i in 1..5 %}
+        {% if i <= filledStars %}
+            <i class='fas fa-star'></i>
+        {% elseif halfStar %}
+            <!-- Demi-étoile -->
+            {% if loop.index == filledStars + 1 %}
+                <i class='fas fa-star-half-alt'></i>
+            {% else %}
+                <i class='far fa-star'></i>
+            {% endif %}
+        {% else %}
+            <i class='far fa-star'>
+        {% endif %}
+    {% endfor %}
+</span>
