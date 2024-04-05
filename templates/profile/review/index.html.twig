@@ -1,0 +1,30 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Rate this user{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Rate this user</h1>
+        <p>Que rajouter de plus ?</p>
+        {{ form_start(myForm) }}
+             {{form_widget(myForm)}}
+            <button type="submit" class="btn btn-primary mt-3">Terminer</button>
+        {{ form_end(myForm) }}
+    </div>
+{% endblock %}
+
+{% block form_row %}
+    <div class="form-group mt-2">
+        <div class="row">
+            <div class="col-6">
+                {{form_label(form)}}
+            </div>
+            <div class="col-6">
+                {{form_widget(form)}}
+                {{form_errors(form)}}
+            </div>
+        </div>
+    </div>
+{% endblock %}
