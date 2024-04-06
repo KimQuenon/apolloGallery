@@ -4,39 +4,60 @@
 
 {% block body %}
     <div class="container">
-        <h1>Conversation</h1>
-        <div class="card">
-            <div class="card-header">
-                Détails de la conversation
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ conversation.expert.fullName }}</h5>
-            </div>
-        </div>
-        
-        <div class="messages">
+        <div class="w-auto d-flex justify-content-between">
             <h2>Messages</h2>
-            <ul class="list-group w-100">
-                {% for message in messages %}
-                    <li class="w-100 list-group-item{% if message.sendBy == app.user %} float-right{% else %} float-left{% endif %}">
-                        {% if message.sendBy == app.user %}
-                            <div class="bg-primary text-white p-2 rounded">
-                                <span class="badge badge-primary">{{ message.sendBy.fullName }}</span>
-                                <div class="mt-1">{{ message.content }}</div>
-                                <small class="text-muted d-block mt-1">Date : {{ message.timestamp|date('d/m/Y H:i') }}</small>
-                            </div>
-                        {% else %}
-                            <div class="bg-light text-dark p-2 rounded">
-                                <span class="badge badge-secondary">{{ message.sendBy.fullName }}</span>
-                                <div class="mt-1">{{ message.content }}</div>
-                                <small class="text-muted d-block mt-1">Date : {{ message.timestamp|date('d/m/Y H:i') }}</small>
-                            </div>
-                        {% endif %}
-                    </li>
-                {% endfor %}
-            </ul>
+            <div>
+                <a href="{{ path('account_conversations') }}" class="btn btn-dark">Retour aux conversations</a>
+            </div>
         </div>
-
-        <a href="{{ path('account_conversations') }}" class="btn btn-primary">Retour aux conversations</a>
+        <div class="container d-flex justify-content-between">
+            <div class="conversations-container w-25">
+                <h1 class="mb-4">Conversations</h1>
+                <div class="list-group">
+                    {% for conversation in conversations %}
+                        <a href="{{ path('conversation_show', {'id': conversation.id}) }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ conversation.expert.fullName }}</h5>
+                                <small class="text-muted">{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>
+                            </div>
+                            <p class="mb-1">
+                                {% if app.user == conversation.lastMessage.sendBy %}
+                                    You: {{ conversation.lastMessage.content | slice(0, 50) }}...
+                                {% else %}
+                                    said: {{ conversation.lastMessage.content | slice(0, 50) }}...
+                                {% endif %}
+                            </p>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="messages-container  w-75 p-4" style="height: 400px; overflow-y: auto;">
+                <div class="w-100 container d-flex gap-20 flex-column">
+                    {% for message in messages %}
+                        <div class="w-100 d-flex flex-column p-2">
+                            {% if message.sendBy == app.user %}
+                                <div class="w-75 user-message bg-primary p-3 text-white rounded align-self-end position-relative">
+                                    <div class="mt-1">{{ message.content }}</div>
+                                    <small class="text-muted d-block mt-1">{{ message.timestamp|date('d/m/Y H:i') }}</small>
+                                </div>
+                            {% else %}
+                                <div class="w-75 not-user-message bg-light p-3 rounded align-self-start position-relative">
+                                    <div class="mt-1">{{ message.content }}</div>
+                                    <small class="text-muted d-block mt-1">{{ message.timestamp|date('d/m/Y H:i') }}</small>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // Scroll to bottom after DOM is fully loaded
+        document.addEventListener("DOMContentLoaded", function(event) {
+            var messagesContainer = document.querySelector('.messages-container');
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        });
+    </script>
 {% endblock %}
