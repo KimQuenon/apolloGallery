@@ -43,6 +43,15 @@ class Conversation
         return count($messages) > 0 ? $messages[0] : null;
     }
 
+    public function getMessagesSorted(): array
+    {
+        $messages = $this->getMessages()->toArray();
+        usort($messages, function($a, $b) {
+            return $a->getTimestamp() <=> $b->getTimestamp();
+        });
+        return $messages;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

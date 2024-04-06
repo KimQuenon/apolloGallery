@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Conversation{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Conversation</h1>
+        <div class="card">
+            <div class="card-header">
+                Détails de la conversation
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ conversation.expert.fullName }}</h5>
+            </div>
+        </div>
+        
+        <div class="messages">
+            <h2>Messages</h2>
+            <ul class="list-group w-100">
+                {% for message in messages %}
+                    <li class="w-100 list-group-item{% if message.sendBy == app.user %} float-right{% else %} float-left{% endif %}">
+                        {% if message.sendBy == app.user %}
+                            <div class="bg-primary text-white p-2 rounded">
+                                <span class="badge badge-primary">{{ message.sendBy.fullName }}</span>
+                                <div class="mt-1">{{ message.content }}</div>
+                                <small class="text-muted d-block mt-1">Date : {{ message.timestamp|date('d/m/Y H:i') }}</small>
+                            </div>
+                        {% else %}
+                            <div class="bg-light text-dark p-2 rounded">
+                                <span class="badge badge-secondary">{{ message.sendBy.fullName }}</span>
+                                <div class="mt-1">{{ message.content }}</div>
+                                <small class="text-muted d-block mt-1">Date : {{ message.timestamp|date('d/m/Y H:i') }}</small>
+                            </div>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <a href="{{ path('account_conversations') }}" class="btn btn-primary">Retour aux conversations</a>
+    </div>
+{% endblock %}

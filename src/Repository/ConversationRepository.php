@@ -27,16 +27,15 @@ class ConversationRepository extends ServiceEntityRepository
      *
      * @return array
      */
-    public function sortConvByRecentMsg(User $user): array
+    public function sortConvByRecentMsg($user)
     {
-        $qb = $this->createQueryBuilder('c')
+        return $this->createQueryBuilder('c')
             ->leftJoin('c.messages', 'm')
-            ->addSelect('m')
-            ->where('c.user = :user')
+            ->andWhere('c.user = :user')
             ->setParameter('user', $user)
-            ->orderBy('m.timestamp', 'DESC');
-
-        return $qb->getQuery()->getResult();
+            ->orderBy('m.timestamp', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**
