@@ -9,7 +9,9 @@ use App\Entity\Review;
 use App\Entity\Artwork;
 use App\Entity\Auction;
 use App\Entity\Contact;
+use App\Entity\Message;
 use App\Entity\Movement;
+use App\Entity\Conversation;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -33,6 +35,7 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
+        //faq
         for ($f =1; $f <= 5; $f++){
             $faq = new Faq();
             $faq->setQuestion($faker->sentence())
@@ -40,6 +43,7 @@ class AppFixtures extends Fixture
             $manager->persist($faq);
         }
 
+        //mouvements artistiques
         $movements = [];
         for ($m = 1; $m <= 10; $m++) {
             $movement = new Movement();
@@ -81,8 +85,57 @@ class AppFixtures extends Fixture
                 $users[] = $user; //ajouter un user au tableau pour les annonces
         }
 
-        $artworks = []; //init d'un tab pour recup des artworks pour les enchères
+        // Ajout des utilisateurs experts
+        $experts = [];
+        for ($e = 1; $e <= 4; $e++) {
+            $expert = new User();
+            $hash = $this->passwordHasher->hashPassword($expert, 'password');
 
+            $expert->setFirstName($faker->firstName())
+                ->setLastName($faker->lastName())
+                ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
+                ->setEmail($faker->email())
+                ->setPassword($hash)
+                ->setDescription('<p>' . join('<p></p>', $faker->paragraphs(3)) . '</p>')
+                ->setRoles(['ROLE_EXPERT'])
+                ->setPicture('');
+
+            $manager->persist($expert);
+
+            $experts[] = $expert;
+        }
+
+        for ($cv = 1; $cv <= 4; $cv++) {
+            $conversation = new Conversation();
+        
+            $user = $users[rand(0, count($users) - 1)];
+            $expert = $experts[rand(0, count($experts) - 1)];
+        
+            $conversation->setUser($user)
+                         ->setExpert($expert);
+        
+            $manager->persist($conversation);
+        
+        
+            for ($m = 1; $m <= 10; $m++) {
+                //alterne entre l'user et l'expert 
+                $sendBy = rand(0, 1) ? $user : $expert;
+                
+                $message = new Message();
+                $message->setContent($faker->paragraph())
+                        ->setSendBy($sendBy)
+                        ->setTimestamp($faker->dateTimeBetween('-1 year', '-1 month'))
+                        ->setConversation($conversation);
+        
+                $manager->persist($message);
+            }
+        }
+        
+
+
+
+        $artworks = []; //init d'un tab pour recup des artworks pour les enchères
+        //artworks
         for($a=1; $a<=30; $a++)
         {
             $artwork = new Artwork();
@@ -148,7 +201,7 @@ class AppFixtures extends Fixture
             $manager->persist($auction);
         }
 
-
+        //contact
         for ($c=1; $c <=10 ; $c++){
             $contact = new Contact();
             $contact->setFirstName($faker->firstName())

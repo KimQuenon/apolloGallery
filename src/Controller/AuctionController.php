@@ -67,16 +67,11 @@ class AuctionController extends AbstractController
         $topThree = $auctionRepo->topThree($artwork);
 
         // Recup les enchères liées à l'artwork
-
         $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
 
 
-        // Calcul de la moyenne des notes pour chaque utilisateur qui a soumis une enchère
-
         foreach ($auctions as $auction) {
-
             $avgRating = $auction->getUser()->getAvgRatings();
-
         }
         
         
@@ -84,10 +79,6 @@ class AuctionController extends AbstractController
         if ($user === $artworkOwner) {
             // recup les enchères liées à l'artwork
             $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
-            
-            // foreach ($auctions as $auction) {
-            //     $avgRating = $auction->getUser()->getAvgRatings();
-            // }
 
             return $this->render('profile/sales/show.html.twig', [
                 'artwork' => $artwork,
