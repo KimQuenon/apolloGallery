@@ -105,7 +105,8 @@ class AppFixtures extends Fixture
             $experts[] = $expert;
         }
 
-        for ($cv = 1; $cv <= 4; $cv++) {
+        //conversation & messages
+        for ($dm = 1; $dm <= 20; $dm++) {
             $conversation = new Conversation();
         
             $user = $users[rand(0, count($users) - 1)];
@@ -120,7 +121,7 @@ class AppFixtures extends Fixture
             for ($m = 1; $m <= 10; $m++) {
                 //alterne entre l'user et l'expert 
                 $sendBy = rand(0, 1) ? $user : $expert;
-                
+
                 $message = new Message();
                 $message->setContent($faker->paragraph())
                         ->setSendBy($sendBy)

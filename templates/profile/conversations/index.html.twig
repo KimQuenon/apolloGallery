@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mb-4">Messagerie</h1>
+        {% if conversations|length > 0 %}
+            <div class="list-group">
+                {% for conversation in conversations %}
+                    <a href="#" class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{ conversation.expert.fullName }}</h5>
+                            <div>
+                                {% if app.user == conversation.lastMessage.sendBy %}
+                                    <p>You said:</p>
+                                {% else %}
+                                    <p>{{conversation.lastMessage.sendBy.fullName}} said:</p>
+                                {% endif %}
+                                <p>{{ conversation.lastMessage.content }}</p>
+                                <small>{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>
+                            </div>
+                        </div>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Pas de conversation pour le moment.</p>
+        {% endif %}
+    </div>
+{% endblock %}

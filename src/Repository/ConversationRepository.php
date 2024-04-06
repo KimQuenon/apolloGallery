@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Conversation;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Conversation>
@@ -19,6 +20,23 @@ class ConversationRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Conversation::class);
+    }
+
+    /**
+     * afficher les conversations par ordre de date du message le plus récent
+     *
+     * @return array
+     */
+    public function sortConvByRecentMsg(User $user): array
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->leftJoin('c.messages', 'm')
+            ->addSelect('m')
+            ->where('c.user = :user')
+            ->setParameter('user', $user)
+            ->orderBy('m.timestamp', 'DESC');
+
+        return $qb->getQuery()->getResult();
     }
 
     //    /**
