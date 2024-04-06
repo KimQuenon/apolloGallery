@@ -35,3 +35,13 @@
 	border-style: solid;
 	border-color: #2196F3 transparent;
 }
+
+.input-group{
+    width: 90%;
+}
+
+ #message_content{
+    resize:none;
+    height:70px;
+    border-radius: 15px;
+}

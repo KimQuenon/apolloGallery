@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Message
 {
     #[ORM\Id]
@@ -27,6 +28,20 @@ class Message
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $timestamp = null;
+
+        /**
+     * datetime
+     *
+     * @return void
+     */
+    #[ORM\PrePersist]
+    public function prePersist(): void
+    {
+        if(empty($this->timestamp))
+        {
+            $this->timestamp = new \DateTime();
+        }
+    }
 
     public function getId(): ?int
     {
