@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Entity\Conversation;
@@ -11,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ConversationController extends AbstractController
@@ -81,4 +83,38 @@ class ConversationController extends AbstractController
             'messages' => $messages,
         ]);
     }
+
+    #[Route('/account/conversations/create/{expertSlug}', name: 'create_conversation_with_expert')]
+    public function createConversationWithExpert(string $expertSlug, EntityManagerInterface $entityManager): RedirectResponse
+    {
+        $user = $this->getUser();
+
+        // Trouver l'expert par son slug
+        $expert = $entityManager->getRepository(User::class)->findOneBy(['slug' => $expertSlug]);
+
+        if (!$expert) {
+            throw $this->createNotFoundException('Expert non trouvé.');
+        }
+
+        // Vérifier si l'utilisateur est déjà en conversation avec cet expert
+        $existingConversation = $entityManager->getRepository(Conversation::class)->findOneBy(['user' => $user, 'expert' => $expert]);
+
+        if ($existingConversation) {
+            $this->addFlash('warning', 'Vous êtes déjà en conversation avec cet expert.');
+            return $this->redirectToRoute('conversation_show', ['slug' => $expertSlug]);
+        }
+
+        // Créer une nouvelle conversation
+        $conversation = new Conversation();
+        $conversation->setUser($user);
+        $conversation->setExpert($expert);
+
+        $entityManager->persist($conversation);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Nouvelle conversation créée avec succès.');
+
+        return $this->redirectToRoute('conversation_show', ['slug' => $expertSlug]);
+    }
+
 }    

@@ -20,13 +20,19 @@
                     <a href="{{ path('conversation_show', {'slug': otherUser.slug}) }}" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">{{ otherUser.fullName }}</h5>
-                                <small class="text-muted">{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>
+                                {% if conversation.lastMessage %}
+                                    <small class="text-muted">{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>
+                                {% endif %}
                             </div>
                             <p class="mb-1">
-                                {% if app.user == conversation.lastMessage.sendBy %}
-                                    You: {{ conversation.lastMessage.content | slice(0, 50) }}...
+                                {% if conversation.lastMessage %}
+                                    {% if app.user == conversation.lastMessage.sendBy %}
+                                        You: {{ conversation.lastMessage.content | slice(0, 50) }}...
+                                    {% else %}
+                                        said: {{ conversation.lastMessage.content | slice(0, 50) }}...
+                                    {% endif %}
                                 {% else %}
-                                    said: {{ conversation.lastMessage.content | slice(0, 50) }}...
+                                    Pas de message
                                 {% endif %}
                             </p>
                         </a>
