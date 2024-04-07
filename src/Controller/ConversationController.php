@@ -14,11 +14,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ConversationController extends AbstractController
 {
     #[Route('/account/conversations', name: 'account_conversations')]
+    #[IsGranted('ROLE_USER')]
     public function index(ConversationRepository $convRepo): Response
     {
         $user = $this->getUser();
@@ -35,6 +37,7 @@ class ConversationController extends AbstractController
     }
 
     #[Route('/account/conversations/{slug}', name: 'conversation_show')]
+    #[IsGranted('ROLE_USER')]
     public function show(string $slug, ConversationRepository $convRepo, Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser();
@@ -85,7 +88,8 @@ class ConversationController extends AbstractController
         ]);
     }
 
-    #[Route('/account/conversations/create/{expertSlug}', name: 'create_conversation_with_expert')]
+    #[Route('/account/conversations/create/{expertSlug}', name: 'create_conversation')]
+    #[IsGranted('ROLE_USER')]
     public function createConversationWithExpert(string $expertSlug, UserRepository $userRepo, ConversationRepository $convRepo, EntityManagerInterface $entityManager): RedirectResponse
     {
         $user = $this->getUser();

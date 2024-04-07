@@ -9,13 +9,11 @@
             {% for expert in experts %}
                 {% if 'ROLE_EXPERT' in expert.roles %}
                     <li>{{ expert.fullName }}</li>
-                    {% if app.user is not null and 'ROLE_USER' in app.user.roles %}
-                        <form action="{{ path('create_conversation_with_expert', {'expertSlug': expert.slug}) }}" method="post">
-                            <button type="submit" class="btn btn-primary rounded-pill">
-                                <i class="fa fa-envelope"></i> Envoyer un message
-                            </button>
-                        </form>
-                    {% endif %}
+                    <form action="{{ path('create_conversation', {'expertSlug': expert.slug}) }}" method="post">
+                        <button type="submit" class="btn btn-primary rounded-pill">
+                            <i class="fa fa-envelope"></i> Envoyer un message
+                        </button>
+                    </form>
                 {% endif %}
             {% endfor %}
         </ul>
