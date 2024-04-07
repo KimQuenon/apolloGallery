@@ -31,49 +31,49 @@ class ConversationController extends AbstractController
         ]);
     }
 
-    #[Route('/account/conversations/{id}', name: 'conversation_show')]
-    public function show(#[MapEntity(mapping: ['id' => 'id'])] Conversation $conversation, ConversationRepository $convRepo, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/account/conversations/{slug}', name: 'conversation_show')]
+    public function show(string $slug, ConversationRepository $convRepo, Request $request, EntityManagerInterface $manager): Response
     {
         $user = $this->getUser();
+        $conversation = $convRepo->findConversationBySlugAndUser($slug, $user);
+        
+        if (!$conversation) {
+            throw $this->createNotFoundException('La conversation n\'existe pas');
+        }
+        
         $conversations = $convRepo->sortConvByRecentMsg($user);
-        $conversation = $convRepo->findOneById($conversation);
         $messages = $conversation->getMessagesSorted();
-
+    
         $isExpert = $this->isGranted('ROLE_EXPERT');
-
+    
         if ($isExpert) {
             $conversations = $convRepo->findConversationsByExpert($user);
         } else {
             $conversations = $convRepo->sortConvByRecentMsg($user);
         }
-
-        if (!$conversation) {
-            throw $this->createNotFoundException('La conversation n\'existe pas');
-        }
-
+    
         $newMessage = new Message();
-        $form = $this->createform(MessageType::class, $newMessage);
-
+        $form = $this->createForm(MessageType::class, $newMessage);
+    
         $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->IsValid())
-        {
+    
+        if ($form->isSubmitted() && $form->isValid()) {
             $newMessage->setConversation($conversation);
             $newMessage->setSendBy($user);
-
-            $manager->persist($newMessage);    
+    
+            $manager->persist($newMessage);
             $manager->flush();
-
+    
             $this->addFlash(
                 'success',
                 "Message envoyé !"
             );
-
+    
             return $this->redirectToRoute('conversation_show', [
-                'id' => $conversation->getId()
+                'slug' => $slug
             ]);
         }
-
+    
         return $this->render('profile/conversations/show.html.twig', [
             'myForm' => $form->createView(),
             'conversation' => $conversation,
@@ -81,4 +81,4 @@ class ConversationController extends AbstractController
             'messages' => $messages,
         ]);
     }
-}
+}    

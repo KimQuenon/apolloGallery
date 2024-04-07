@@ -8,14 +8,17 @@
         {% if conversations|length > 0 %}
             <div class="list-group">
                 {% for conversation in conversations %}
-                    <a href="{{ path('conversation_show', {'id': conversation.id}) }}" class="list-group-item list-group-item-action">
+                    
+                    {# var pour récup les infos de l'autre utilisateur #}
+                    {% set otherUser = conversation.user.id == app.user.id ? conversation.expert : conversation.user %}
+                    <a href="{{ path('conversation_show', {'slug': otherUser.slug}) }}" class="list-group-item list-group-item-action">
                         <div class="d-flex w-100 justify-content-between">
-                            {# <h5 class="mb-1">{{ conversation.expert.fullName }}</h5> #}
+                            <h5 class="mb-1">{{ otherUser.fullName }}</h5>
                             <div>
                                 {% if app.user == conversation.lastMessage.sendBy %}
                                     <p>You said:</p>
                                 {% else %}
-                                    <p>{{conversation.lastMessage.sendBy.fullName}} said:</p>
+                                    <p>{{ conversation.lastMessage.sendBy.fullName }} said:</p>
                                 {% endif %}
                                 <p>{{ conversation.lastMessage.content }}</p>
                                 <small>{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>

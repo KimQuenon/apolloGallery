@@ -49,6 +49,19 @@ class ConversationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findConversationBySlugAndUser($slug, User $user)
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.user', 'u')
+            ->leftJoin('c.expert', 'e')
+            ->andWhere('u.slug = :slug OR e.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->andWhere('u = :user OR e = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Conversation[] Returns an array of Conversation objects
     //     */
