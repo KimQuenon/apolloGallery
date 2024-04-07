@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\Message;
 use App\Form\MessageType;
 use App\Entity\Conversation;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ConversationRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -85,19 +86,26 @@ class ConversationController extends AbstractController
     }
 
     #[Route('/account/conversations/create/{expertSlug}', name: 'create_conversation_with_expert')]
-    public function createConversationWithExpert(string $expertSlug, EntityManagerInterface $entityManager): RedirectResponse
+    public function createConversationWithExpert(string $expertSlug, UserRepository $userRepo, ConversationRepository $convRepo, EntityManagerInterface $entityManager): RedirectResponse
     {
         $user = $this->getUser();
+        //trouver l'expert par son slug
+        $expert = $userRepo->findOneBy(['slug' => $expertSlug]);
 
-        // Trouver l'expert par son slug
-        $expert = $entityManager->getRepository(User::class)->findOneBy(['slug' => $expertSlug]);
-
+        //si l'expert n'existe pas 
         if (!$expert) {
-            throw $this->createNotFoundException('Expert non trouvé.');
+            $this->addFlash('danger', 'Cet utilisateur n\'existe pas.');
+            return $this->redirectToRoute('about');
         }
 
-        // Vérifier si l'utilisateur est déjà en conversation avec cet expert
-        $existingConversation = $entityManager->getRepository(Conversation::class)->findOneBy(['user' => $user, 'expert' => $expert]);
+        // verif que l'user est expert
+        if (!in_array('ROLE_EXPERT', $expert->getRoles())) {
+            $this->addFlash('warning', "Vous n'êtes pas autorisé à parler à cet utilisateur.");
+            return $this->redirectToRoute('about');
+        }
+    
+        //si conv existante => renvoi vers celle-ci
+        $existingConversation = $convRepo->findOneBy(['user' => $user, 'expert' => $expert]);
 
         if ($existingConversation) {
             $this->addFlash('warning', 'Vous êtes déjà en conversation avec cet expert.');
@@ -112,7 +120,7 @@ class ConversationController extends AbstractController
         $entityManager->persist($conversation);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Nouvelle conversation créée avec succès.');
+        $this->addFlash('success', 'Nouvelle conversation créée avec succès, dites bonjour !');
 
         return $this->redirectToRoute('conversation_show', ['slug' => $expertSlug]);
     }
