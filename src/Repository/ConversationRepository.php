@@ -38,6 +38,17 @@ class ConversationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findConversationsByExpert(User $expert): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.messages', 'm')
+            ->andWhere('c.expert = :expert')
+            ->setParameter('expert', $expert)
+            ->orderBy('m.timestamp', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
     //    /**
     //     * @return Conversation[] Returns an array of Conversation objects
     //     */

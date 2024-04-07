@@ -22,8 +22,7 @@ security:
                 check_path: admin_account_login
             logout:
                 path: admin_account_logout
-                target: homepage 
-            # configure the maximum login attempts
+                target: homepage
             login_throttling:
                 max_attempts: 3          # per minute ...
                 interval: '15 minutes' # ... or in a custom period  

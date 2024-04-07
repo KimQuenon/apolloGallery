@@ -19,7 +19,12 @@ class ConversationController extends AbstractController
     public function index(ConversationRepository $convRepo): Response
     {
         $user = $this->getUser();
-        $conversations = $convRepo->sortConvByRecentMsg($user);
+
+        if ($this->isGranted('ROLE_EXPERT')) {
+            $conversations = $convRepo->findConversationsByExpert($user);
+        } else {
+            $conversations = $convRepo->sortConvByRecentMsg($user);
+        }
 
         return $this->render('profile/conversations/index.html.twig', [
             'conversations' => $conversations,
@@ -33,6 +38,14 @@ class ConversationController extends AbstractController
         $conversations = $convRepo->sortConvByRecentMsg($user);
         $conversation = $convRepo->findOneById($conversation);
         $messages = $conversation->getMessagesSorted();
+
+        $isExpert = $this->isGranted('ROLE_EXPERT');
+
+        if ($isExpert) {
+            $conversations = $convRepo->findConversationsByExpert($user);
+        } else {
+            $conversations = $convRepo->sortConvByRecentMsg($user);
+        }
 
         if (!$conversation) {
             throw $this->createNotFoundException('La conversation n\'existe pas');
