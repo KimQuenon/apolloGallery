@@ -14,38 +14,25 @@ $gasoek : "Gasoek One", sans-serif;
 	font-family: 'Poppins', sans-serif;
 }
 
-
-html{
-    overscroll-behavior: none;
-}
-
-::-webkit-scrollbar{
-    display: none;
-}
-
 html, body{
-    font-family: "Neue Montreal";
     height:100%;
 }
 
 h1{
-    font-size: 80px;
-    font-weight: 400;
+    font-size: 130px;
     text-transform: uppercase;
     letter-spacing: -0.02em;
-}
-
-p{
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.5;
-    width:50%;
 }
 
 img{
     width: 100%;
     height:100%;
     object-fit: cover;
+}
+
+nav{
+	z-index: 9999;
+	position: fixed;
 }
 
 .logo{
@@ -55,33 +42,35 @@ img{
     margin:2em;
     width:18px;
     height:18px;
-    background: red;
+    background: $white;
     border-radius: 100%;
     z-index:10000;
 }
 
 .header{
     position: fixed;
-    top:50%;
+    top:65%;
     left:50%;
     transform: translate(-50%,-50%);
     display: flex;
-    width: 100%;
+    width: 95%;
     z-index: 2;
 }
 
 .letters{
     flex:1;
     display: flex;
-    text-transform: uppercase;
-}
-
-.letters > div{
-    flex:1;
-    font-size:18vw;
-    font-weight: 400;
-    color:#000;
-    text-align: center;
+	flex-direction: row;
+	div{
+		flex:1;
+		font-family: $gasoek;
+		font-size:8vw;
+		color: $white;
+	}
+	p{
+		color:$white;
+		line-height: 2em;
+	}
 }
 
 .website-content{
@@ -90,6 +79,7 @@ img{
     width:100%;
     min-height: 100vh;
     overflow: hidden;
+	background-color: $red;
 }
 
 .img-holder {
@@ -109,41 +99,10 @@ img{
 
 .content-holder{
     position: relative;
-    top:-5px;
     width: 100%;
+	min-height: 100vh;
     background: #000;
-    color:#fff;
-    padding:1em;
-}
-
-.row{
-    margin: 2em 1em;
-}
-
-.img{
-    width: 200px;
-    height:275px;
-}
-
-.row:nth-child(2) .img{
-    position: relative;
-    left:50%;
-}
-
-.row:nth-child(3) .img{
-    position: relative;
-    left:15%;
-}
-
-.row:nth-child(4) .img{
-    position:relative;
-    left:70%;
-}
-
-.row:nth-child(6) p{
-    position: relative;
-    left:30%;
-    margin: 4em 0;
+    color:$white;
 }
 
 // ---------------------------------------------
