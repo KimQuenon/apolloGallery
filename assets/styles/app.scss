@@ -4,8 +4,17 @@
 
 //variables
 $red : #FF0000;
+$darkRed: #823636;
 $white: #F5F5F5;
 $gasoek : "Gasoek One", sans-serif;
+
+//mixin
+@mixin flex($flex-direction: row, $justify-content: space-between){
+    display:flex;
+    flex-direction: $flex-direction;
+    justify-content: $justify-content;
+    align-items: center;
+}
 
 *{
 	margin: 0;
@@ -49,11 +58,11 @@ nav{
 
 .header{
     position: fixed;
-    top:65%;
-    left:50%;
+    top:70%;
+    left:28%;
     transform: translate(-50%,-50%);
     display: flex;
-    width: 95%;
+    width: 45%;
     z-index: 2;
 }
 
@@ -66,10 +75,16 @@ nav{
 		font-family: $gasoek;
 		font-size:8vw;
 		color: $white;
+        margin-bottom: -10px!important;
 	}
 	p{
 		color:$white;
 		line-height: 2em;
+        margin-bottom: 0;
+        &:first-of-type {
+            font-weight: 600;
+            margin-bottom: -35px!important;
+        }
 	}
 }
 
@@ -95,6 +110,44 @@ nav{
 .img-holder img{
     position:relative;
     transform: scale(1.5);
+}
+
+.social_media{
+    @include flex(column, center);
+    gap: 2em;
+    position:fixed;
+    top:30%;
+    right:0;
+    margin:2em;
+    z-index: 9999;
+    div{
+        @include flex(row, center);
+        width: 27px;
+        height: 27px;
+        background-color: $white;
+        border-radius: 100%;
+        transition: all 0.5s;
+        i{
+            color: $red;
+            transition: all 0.5s;
+        }
+        &:hover{
+            background-color: $darkRed;
+            i{
+                color:$white;
+            }
+        }
+    }
+}
+
+.scroll{
+    width:50px;
+    height:50px;
+    margin: 2em;
+    z-index: 9999;
+    position:absolute;
+    bottom:0;
+    left:50%;
 }
 
 .content-holder{
