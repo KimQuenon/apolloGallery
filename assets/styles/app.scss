@@ -7,6 +7,7 @@ $red : #FF0000;
 $darkRed: #823636;
 $white: #F5F5F5;
 $gasoek : "Gasoek One", sans-serif;
+$poppins: "Poppins", sans-serif;
 
 //mixin
 @mixin flex($flex-direction: row, $justify-content: space-between){
@@ -47,6 +48,27 @@ img{
     object-fit: cover;
 }
 
+i{
+    margin-left: 20px;
+}
+
+.slide{
+    background-color: $red;
+}
+
+.btn1{
+    width:100%;
+    border-radius: 50px;
+    background-color: $white;
+    color: $red!important;
+    font-family: $poppins!important;
+    font-size: 16px!important;
+    font-weight: 500;
+    padding:5px;
+    margin-top: 20px;
+    text-align: center;
+}
+
 //-------------------NAVIGATION---------------------
 header{
     width: 100%;
@@ -57,6 +79,7 @@ header{
     top: 0;
     left: 0;
     z-index:300;
+    
     nav{
         @include flex;
         width: 90%;
@@ -75,6 +98,9 @@ header{
             div > *{
                 font-size: 12px;
                 margin-bottom: 0;
+                @media all and (max-width: 768px){
+                    display: none;
+                }
             }
         }
     }
@@ -115,6 +141,10 @@ header{
     position:fixed;
     top:15px;
     right:70px;
+    @media all and (max-width: 768px){
+        top:22px;
+        right:10px;
+    }
     .bar{
         width: 80%;
         height: 2px;
@@ -147,6 +177,13 @@ header{
     display: flex;
     width: 45%;
     z-index: 2;
+    @media all and (max-width: 768px){
+        width:80%;
+        font-size: 16px;
+        position:absolute!important;
+        top: 75%;
+        left:50%;
+    }
 }
 
 .letters{
@@ -159,6 +196,9 @@ header{
 		font-size:8vw;
 		color: $white;
         margin-bottom: -10px!important;
+        @media all and (max-width: 768px){
+            margin-bottom: 0!important;
+        }
 	}
 	p{
 		color:$white;
@@ -167,8 +207,17 @@ header{
         &:first-of-type {
             font-weight: 600;
             margin-bottom: -35px!important;
+            @media all and (max-width: 768px){
+                margin-bottom: 0!important;
+            }
         }
 	}
+    .btn1{
+        display:none;
+        @media all and (max-width: 768px){
+            display: block;
+        }
+    }
 }
 
 .website-content{
@@ -178,6 +227,10 @@ header{
     min-height: 100vh;
     overflow: hidden;
 	background-color: $red;
+    @media all and (max-width: 768px){
+        position:relative!important;
+        // background-color: violet;
+    }
 }
 
 .img-holder {
@@ -185,9 +238,13 @@ header{
     top: 0;
     width: 100vw;
     height: 100vh;
-    background: #fff;
     clip-path: polygon(30% 10%, 70% 10%, 70% 70%, 30% 70%);
     transform: scale(1);
+    @media all and (max-width: 768px){
+        clip-path: polygon(10% 10%, 90% 10%, 90% 55%, 10% 55%);
+        transform: none;
+        position:relative!important;
+    }
     img{
         position:relative;
         transform: scale(1.5);
@@ -203,6 +260,9 @@ header{
     right:0;
     margin:2em;
     z-index: 10;
+    @media all and (max-width: 768px){
+        display: none;
+    }
     div{
         @include flex(row, center);
         width: 27px;
@@ -211,6 +271,7 @@ header{
         border-radius: 100%;
         transition: all 0.5s;
         i{
+            margin-left: 0;
             color: $red;
             transition: all 0.5s;
         }
@@ -231,6 +292,9 @@ header{
     position:absolute;
     bottom:0;
     left:50%;
+    @media all and (max-width: 768px){
+        display:none;
+    }
 }
 
 .content-holder{
