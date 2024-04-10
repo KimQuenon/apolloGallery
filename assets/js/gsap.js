@@ -32,6 +32,18 @@ gsap.registerPlugin(ScrollTrigger);
             }
         });
 
+        gsap.to(".scroll", {
+            y: () => window.innerHeight * 3,
+            scale: 1,
+            ease: "power2.inOut",
+            scrollTrigger: {
+                trigger: ".scroll",
+                start: "bottom bottom",
+                end: `+=50%`,
+                scrub: 1,
+            }
+        });
+
         // gsap.to(".header .letters:last-child",{
         //     x:()=> innerWidth *3,
         //     scale: 10,

@@ -1,52 +1,29 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-	<div class="container-fluid">
-		<a class="navbar-brand" href="{{ path('homepage') }}">Apollo</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-
-		<div class="collapse navbar-collapse" id="navbarColor01">
-			<ul class="navbar-nav me-auto">
-
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('homepage') }}">Home</a>
-				</li>
-
-				<li class="nav-item">
-					<a class="nav-link" href="{{ path('artworks_index') }}">Our Gallery</a>
-				</li>
-
+	<div id="menu">
+		<nav>
+			<ul>
+				<li><a href="index.php#home">Accueil</a></li>
+				<li><a href="index.php#lineup">Line-Up</a></li>
+				<li><a href="index.php#ticket">Tickets</a></li>
+				<li><a href="index.php#contact">Contact</a></li>
 			</ul>
-			<ul class="navbar-nav ms-auto">
-				{% if app.user %}
-					<li class="nav-item">
-						<a href="{{path('account_profile', {'slug':app.user.slug})}}" class="nav-link">Mon profil</a>
-					</li>
-					<li class="nav-item">
-						<a href="{{path('account_logout')}}" class="nav-link" id="logout-link">Déconnexion</a>
-					</li>
-
-				{% else %}
-					<li class="nav-item">
-						<a href="{{path('account_register')}}" class="nav-link">Inscription</a>
-					</li>
-					<li class="nav-item">
-						<a href="{{path('account_login')}}" class="nav-link">Connexion</a>
-					</li>
-				{% endif %}
-			</ul>
-		</div>
+		</nav>
 	</div>
-</nav>
-
-<script>
-	// Boite de dialogue pour confirmer la déconnexion
-    var logoutLink = document.getElementById('logout-link');
-    if (logoutLink) {
-    logoutLink.addEventListener('click', function (event) {
-    if (!confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
-    event.preventDefault(); // Annule la déconnexion si l'utilisateur annule la confirmation
-    }
-    });
-    }
-</script>
+<header>
+	<nav>
+		<div>
+			<img src="./images/logo.png" alt="Logo Apollo Gallery">
+			<div>
+				<p class="weight">APOLLO GALLERY</p>
+				<p>ONLINE STORE</p>
+			</div>
+		</div>
+	</nav>
+</header>
+<div id="burger">
+	<div class="bar"></div>
+	<div class="bar"></div>
+	<div class="bar"></div>
+</div>
+{% block javascripts %}
+    {{encore_entry_script_tags('burger')}}
+{% endblock %}

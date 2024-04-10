@@ -33,28 +33,111 @@ h1{
     letter-spacing: -0.02em;
 }
 
+p{
+    color:$white;
+}
+
+.weight{
+    font-weight: 600;
+}
+
 img{
     width: 100%;
     height:100%;
     object-fit: cover;
 }
 
-nav{
-	z-index: 9999;
-	position: fixed;
+//-------------------NAVIGATION---------------------
+header{
+    width: 100%;
+    height: 10vh;
+    @include flex(row, center);
+    flex-wrap: wrap;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:300;
+    nav{
+        @include flex;
+        width: 90%;
+        div{
+            @include flex(row, center);
+            gap:15px;
+            img{
+                width: 24px;
+                object-fit: contain;
+            }
+            div{
+                @include flex(column, space-between);
+                align-items: start;
+                gap:0;
+            }
+            div > *{
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+        }
+    }
 }
 
-.logo{
+
+#menu{
+    @include flex(column, center);
+    width: 100%;
+    height: 100vh;
+    background-color: $red;
     position: fixed;
-    top:0;
-    right:0;
-    margin:2em;
-    width:18px;
-    height:18px;
-    background: $white;
-    border-radius: 100%;
-    z-index:10000;
+    right: -100%;
+    z-index: 9999;
+    transition: all 0.5s;
+    nav ul{
+        list-style: none;
+        li{
+            margin: 30px 0;
+            text-align: center;
+            a{
+                color: $white;
+                text-decoration: none;
+                font-size: 45px;
+            }
+        }
+    }
 }
+
+.open-menu{
+    right: 0!important;
+}
+
+#burger{
+    width: 50px;
+    cursor: pointer;
+    z-index: 10000;
+    position:fixed;
+    top:15px;
+    right:70px;
+    .bar{
+        width: 80%;
+        height: 2px;
+        margin: 8px 0;
+        background-color: $white;
+        transition: all 0.5s;
+    }
+}
+
+
+#burger.open-burger {
+    .bar:nth-child(1) {
+         background-color: $white;
+         transform: translate(0px, 11px) rotate(45deg);
+     }
+    .bar:nth-child(2) {
+         opacity: 0;
+     }
+    .bar:nth-child(3) {
+         background-color: $white;
+         transform: translate(0px, -11px) rotate(-45deg);
+     }
+ }
 
 .header{
     position: fixed;
@@ -105,13 +188,13 @@ nav{
     background: #fff;
     clip-path: polygon(30% 10%, 70% 10%, 70% 70%, 30% 70%);
     transform: scale(1);
+    img{
+        position:relative;
+        transform: scale(1.5);
+    }
 }
 
-.img-holder img{
-    position:relative;
-    transform: scale(1.5);
-}
-
+//social media
 .social_media{
     @include flex(column, center);
     gap: 2em;
@@ -119,7 +202,7 @@ nav{
     top:30%;
     right:0;
     margin:2em;
-    z-index: 9999;
+    z-index: 10;
     div{
         @include flex(row, center);
         width: 27px;
@@ -144,7 +227,7 @@ nav{
     width:50px;
     height:50px;
     margin: 2em;
-    z-index: 9999;
+    z-index: 10;
     position:absolute;
     bottom:0;
     left:50%;
