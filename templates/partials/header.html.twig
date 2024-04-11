@@ -1,13 +1,48 @@
-	<div id="menu">
-		<nav>
-			<ul>
-				<li><a href="index.php#home">Accueil</a></li>
-				<li><a href="index.php#lineup">Line-Up</a></li>
-				<li><a href="index.php#ticket">Tickets</a></li>
-				<li><a href="index.php#contact">Contact</a></li>
-			</ul>
-		</nav>
-	</div>
+<div id="menu">
+	<nav>
+		<div>
+			<button href="{{path('homepage')}}">
+				<div class="link">
+					<p class="linkTitle">Home</p>
+					<p class="linkDesc">Get ready to embark on a whimsical journey through our art wonderland! Dive into our homepage and let the magic unfold.</p>
+				</div>
+				<div class="arrow">
+					<i class="fa-solid fa-chevron-right"></i>
+				</div>
+			</button>
+			<button href="{{path('about')}}">
+				<div class="link">
+					<p class="linkTitle">About</p>
+					<p class="linkDesc">Ever wondered who's stirring the paint? Take a peek at our 'About' page and meet the masterminds weaving our art story.</p>
+				</div>
+				<div class="arrow">
+					<i class="fa-solid fa-chevron-right"></i>
+				</div>
+			</button>
+			<button href="{{path('artworks_index')}}">
+				<div class="link">
+					<p class="linkTitle">Store</p>
+					<p class="linkDesc">Discover the very essence of art by browsing through our gallery of treasures.</p>
+				</div>
+				<div class="arrow">
+					<i class="fa-solid fa-chevron-right"></i>
+				</div>
+			</button>
+			<button href="{{path('homepage')}}">
+				<div class="link">
+					<p class="linkTitle">Contact</p>
+					<p class="linkDesc">Got questions or just want to say hi? Swing by our 'Contact' page and let's start a conversation!</p>
+				</div>
+				<div class="arrow">
+					<i class="fa-solid fa-chevron-right"></i>
+				</div>
+			</button>
+		</div>
+		<div class="menuImg">
+			<img src="./images/menu_img.svg" alt="">
+		</div>
+	</nav>
+</div>
 <header>
 	<nav>
 		<div>
