@@ -43,27 +43,29 @@
                         <a href="{{ path('about') }}" class="btn1">Learn more<i class="fa-solid fa-chevron-right"></i></a>
                     </div>
                     <div class="accordion" id="accordionExample">
-                    {% for faq in faqs %}
-                        <div class="accordion-item">
-                        <div class="accordion-header" id="heading{{ loop.index }}">
-                            <button class="accordion-button accordion-button-custom d-flex w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                                <p class="w-100">{{faq.question}}</p>
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                        <div id="collapse{{ loop.index }}" class="accordion-collapse collapse bg-transparent accordion-collapse-custom" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordionExample">
-                            <div class="accordion-body accordion-body-custom">
-                            {{faq.content}}
+                        {% for faq in faqs %}
+                            <div class="accordion-item">
+                                <div class="accordion-header" id="heading{{ loop.index }}">
+                                    <button class="accordion-button accordion-button-custom d-flex w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                                        <p class="w-100">{{faq.question}}</p>
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div id="collapse{{ loop.index }}" class="accordion-collapse collapse bg-transparent accordion-collapse-custom" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body accordion-body-custom">
+                                    {{faq.content}}
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
                     </div>
-
                 </div>
-                <div class="container-col"><h1>hello</h1></div>
+                <div class="container-col">
+                    <div class="pendulum"></div>
+                </div>
             </div>
 		</div>
+        <div class="slide-content"></div>
     </div>
 </div>
 {% endblock %}
