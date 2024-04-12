@@ -6,6 +6,7 @@
 $red : #FF0000;
 $darkRed: #823636;
 $white: #F5F5F5;
+$darkWhite: #e8e8e8;
 $gasoek : "Gasoek One", sans-serif;
 $poppins: "Poppins", sans-serif;
 
@@ -15,6 +16,14 @@ $poppins: "Poppins", sans-serif;
     flex-direction: $flex-direction;
     justify-content: $justify-content;
     align-items: center;
+}
+
+@mixin imgCover(){
+    width:100%;
+    height:100%;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 
 *{
@@ -29,13 +38,20 @@ html, body{
 }
 
 h1{
+    font-family: $gasoek;
     font-size: 130px;
     text-transform: uppercase;
     letter-spacing: -0.02em;
 }
 
+h2{
+    font-family: $gasoek;
+    font-size:75px!important;
+}
+
 p{
     color:$white;
+    margin-bottom: 0!important;
 }
 
 .weight{
@@ -49,7 +65,7 @@ img{
 }
 
 i{
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
 .slide{
@@ -57,7 +73,8 @@ i{
 }
 
 .btn1{
-    width:100%;
+    display: block;
+    width:170px;
     border-radius: 50px;
     background-color: $white;
     color: $red!important;
@@ -65,9 +82,13 @@ i{
     font-size: 16px!important;
     font-weight: 500;
     text-decoration: none;
-    padding:5px;
+    padding:8px 15px;
     margin-top: 20px;
     text-align: center;
+    transition: all 0.2s;
+    &:hover{
+        background-color: $darkWhite;
+    }
 }
 
 .hr{
@@ -257,6 +278,8 @@ header{
      }
  }
 
+
+//  --------------------------HOMEPAGE-------------------------
 .header{
     position: fixed;
     top:70%;
@@ -304,6 +327,7 @@ header{
         display:none;
         @media all and (max-width: 768px){
             display: block;
+            width:100%;
         }
     }
 }
@@ -317,7 +341,6 @@ header{
 	background-color: $red;
     @media all and (max-width: 768px){
         position:relative!important;
-        // background-color: violet;
     }
 }
 
@@ -385,16 +408,76 @@ header{
     }
 }
 
-.content-holder{
+.slide-content{
     position: relative;
     width: 100%;
 	min-height: 100vh;
     background: #000;
     color:$white;
     z-index: 2;
+    padding-top: 50px;
 }
 
-// ---------------------------------------------
+.container-content{
+    @include flex(row, space-between);
+    gap:20px;
+    width:90%;
+    min-height:85vh;
+    margin:0 auto;
+    background-color: #FF0000;
+    @media all and (max-width: 768px){
+        flex-direction: column;
+    }
+    .container-col{
+        @include flex(column, space-between);
+        gap:50px;
+        text-align: left;
+        width:50%;
+        height:100%;
+        @media all and (max-width: 768px){
+            width:100%;
+        }
+    }
+}
+
+#slide-faq{
+    @include imgCover();
+    @include flex(column, center);
+    background-image: url(../../public/images/faq_bg.webp);
+}
+
+#accordionExample{
+    width:100%;
+}
+
+.accordion-item {
+    background-color: transparent !important;
+    border:none!important;
+}
+
+.accordion-header{
+    background-color: transparent!important;
+    border:none!important;
+    border-bottom: 1px solid $white!important;
+}
+
+
+.accordion-button-custom {
+    background-color: transparent!important;
+    color: white!important;
+    border: none!important;
+    font-weight: 600;
+}
+
+.accordion-body-custom {
+    color: white;
+    border-top: 1px solid white;
+}
+.accordion-button::after{
+    background-image: none!important;
+}
+
+------------------------------------------
 .starsimg{
     height: 200px;
     width: 100%;

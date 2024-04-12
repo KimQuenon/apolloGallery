@@ -1,7 +1,7 @@
 gsap.registerPlugin(ScrollTrigger);
 
         document.addEventListener('DOMContentLoaded', () => {
-            const contentHolderHeight = document.querySelector('.content-holder').offsetHeight;
+            const contentHolderHeight = document.querySelector('.slide-content').offsetHeight;
             const imgHolderHeight = window.innerHeight;
             const additionalScrollHeight = window.innerHeight;
 
