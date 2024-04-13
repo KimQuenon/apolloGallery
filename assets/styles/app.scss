@@ -46,7 +46,7 @@ h1{
 
 h2{
     font-family: $gasoek;
-    font-size:75px!important;
+    font-size:45px!important;
 }
 
 p{
@@ -411,7 +411,7 @@ header{
 .slide-content{
     position: relative;
     width: 100%;
-	min-height: 100vh;
+	height: 100vh;
     background: $red;
     color:$white;
     z-index: 2;
@@ -425,7 +425,7 @@ header{
     height:95vh;
     padding-bottom: 50px;
     margin:0 auto;
-    // background-color: #FF0000;
+    background-color: blue;
     @media all and (max-width: 768px){
         width:80%;
         height:155vh;
@@ -437,15 +437,13 @@ header{
         text-align: left;
         width:50%;
         height:100%;
+        background-color: #823636;
         @media all and (max-width: 768px){
             width:100%;
             height:100%;
         }
         &:last-child {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
+            @include flex(column, center)
         }
     }
 }
@@ -514,6 +512,117 @@ header{
     }
   }
   
+#slide-latest{
+    min-height: 100vh;
+    background-color: yellow;
+    .container-content{
+        width:90%;
+        height:90%;
+        padding-bottom:50px;
+        background-color: yellowgreen;
+        padding-bottom: 0;
+        gap:50px;
+        .first-frames{
+            @include flex(column, space-between);
+            width:33%;
+            height:100%;
+            padding-bottom: 0;
+            background-color: green;
+            gap:50px;
+            .frame-title{
+                width:100%;
+                height:40%;
+                background-color: darkgreen;
+            }
+            .first-frame, .third-frame{
+                width:100%;
+                height:60%;
+                background-color: darkgreen;
+                .frame-overlay{
+                    
+                }
+                img{
+                    @include imgCover();
+                    background-size: contain;
+                    width:80%;
+                    height:90%;
+                }
+                p{
+                    font-size: 14px;
+                }
+            }
+            .second-frame {
+                width:100%;
+                height: 90%;
+                display: flex;
+                background-color: #2196F3;
+                flex-direction: column;
+                justify-content: flex-end;
+                align-items: center;
+                align-self: flex-end;
+                margin-top: auto;
+            }
+
+        }
+    }
+}
+
+.frame-overlay {
+    position: relative;
+    width: 100%;
+    height: 80%;
+}
+
+.frame-overlay img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.frame-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../public/images/frame.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 10;
+}
+
+.second-frame .frame-overlay {
+    display: flex;
+    justify-content: center; /* Pour centrer verticalement */
+    align-items: center; /* Pour centrer horizontalement */
+    flex-direction: column; /* Pour aligner verticalement */
+    width: 100%;
+    height: 100%; /* Assure que le cadre prend toute la hauteur de .second-frame */
+}
+
+.second-frame .frame-overlay img {
+    width: 65%; /* Pour que l'image ne soit pas étirée */
+    height: 80%; /* Hauteur relative à .frame-overlay */
+    max-width: 100%; /* Pour que l'image ne dépasse pas la largeur de .frame-overlay */
+}
+
+.second-frame .frame-overlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url(../../public/images/frame.png);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: rotate(90deg); /* Rotation de 90 degrés pour rendre le cadre vertical */
+    z-index: 10;
+}
 
 //------------------------------------------
 .starsimg{
