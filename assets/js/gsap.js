@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
             document.body.style.height = `${totalBodyHeight}px`;
         });
 
-        const mediaQuery = window.matchMedia("(max-width: 768px)");
+        const mediaQuery = window.matchMedia("(max-width: 1200px)");
 
         if (mediaQuery.matches) {
           ScrollTrigger.disable();

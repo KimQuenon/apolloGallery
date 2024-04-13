@@ -70,34 +70,34 @@
                 <div class="first-frames">
                     <div class="frame-title">
                         <h2>Latest frames</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis sed repudiandae, laudantium, quidem tempora consequuntur ea eos iste tenetur consequatur et officiis distinctio sapiente quos!</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis iste tenetur consequatur et officiis distinctio sapiente quos!</p>
                         <a href="{{ path('artworks_index') }}" class="btn1">Browse it<i class="fa-solid fa-chevron-right"></i></a>
                     </div>
                     <div class="first-frame">
-                        <div class="frame-overlay">
+                        <a href="{{ path('artworks_show', {'slug': recentArtworks[0].slug}) }}" class="frame-overlay">
                             <img src="{{recentArtworks[0].coverImage}}" alt="{{recentArtworks[0].title}}">
-                        </div>
+                        </a>
                         <p class="weight">{{ recentArtworks[0].title }}({{recentArtworks[0].year}})</p>
                         <p>{{ recentArtworks[0].fullName }}</p>
                     </div>
                 </div>
                 <div class="first-frames">
-                    <div class="second-frame">
+                    <a href="{{ path('artworks_show', {'slug': recentArtworks[1].slug}) }}" class="second-frame">
                         <div class="frame-overlay">
-                            <img src="{{recentArtworks[0].coverImage}}" alt="{{recentArtworks[0].title}}">
+                            <img src="{{recentArtworks[1].coverImage}}" alt="{{recentArtworks[1].title}}">
                         </div>
-                        <p class="weight">{{ recentArtworks[0].title }}({{recentArtworks[0].year}})</p>
-                        <p>{{ recentArtworks[0].fullName }}</p>
-                    </div>
+                        <p class="weight">{{ recentArtworks[1].title }}({{recentArtworks[1].year}})</p>
+                        <p>{{ recentArtworks[1].fullName }}</p>
+                    </a>
                 </div>
                 <div class="first-frames">
-                    <div class="third-frame">
+                    <a href="{{ path('artworks_show', {'slug': recentArtworks[2].slug}) }}" class="third-frame">
                         <div class="frame-overlay">
-                            <img src="{{recentArtworks[0].coverImage}}" alt="{{recentArtworks[0].title}}">
+                            <img src="{{recentArtworks[2].coverImage}}" alt="{{recentArtworks[2].title}}">
                         </div>
-                        <p class="weight">{{ recentArtworks[0].title }}({{recentArtworks[0].year}})</p>
-                        <p>{{ recentArtworks[0].fullName }}</p>
-                    </div>
+                        <p class="weight">{{ recentArtworks[2].title }}({{recentArtworks[2].year}})</p>
+                        <p>{{ recentArtworks[2].fullName }}</p>
+                    </a>
                 </div>
             </div>
         </div>
