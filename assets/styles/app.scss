@@ -426,10 +426,13 @@ header{
     padding-bottom: 50px;
     margin:0 auto;
     background-color: blue;
-    @media all and (max-width: 768px){
+    
+    @media all and (max-width: 1200px){
         width:80%;
-        height:155vh;
         flex-direction: column;
+    }
+    @media all and (max-width: 768px){
+        height:160vh;
     }
     .container-col{
         @include flex(column, space-between);
@@ -438,9 +441,8 @@ header{
         width:50%;
         height:100%;
         background-color: #823636;
-        @media all and (max-width: 768px){
+        @media all and (max-width: 1200px){
             width:100%;
-            height:100%;
         }
         &:last-child {
             @include flex(column, center)
@@ -515,8 +517,8 @@ header{
 #slide-latest{
     min-height: 100vh;
     background-color: yellow;
-    @media all and (max-width: 768px){
-        height: 180vh;
+    @media all and (max-width: 1200px){
+        height: 170vh;
     }
     .container-content{
         width:90%;
@@ -532,23 +534,25 @@ header{
             padding-bottom: 0;
             background-color: green;
             gap:50px;
-            @media all and (max-width: 768px){
+            @media all and (max-width: 1200px){
                 width: 100%;
-                gap:15px;
+                gap:20px;
             }
             .frame-title{
                 width:100%;
                 height:40%;
                 background-color: darkgreen;
-                @media all and (max-width: 768px){
-                    height: 30vh;
+                @media all and (max-width: 1200px){
+                    height: 20vh;
                 }
             }
             .first-frame, .third-frame{
                 width:100%;
                 height:60%;
                 background-color: darkgreen;
-                @media all and (max-width: 768px){
+                @include flex(column, start);
+                align-items:start;
+                @media all and (max-width: 1200px){
                     width: 100%;
                     height:40vh;
                 }
@@ -560,13 +564,17 @@ header{
                     background-size: contain;
                     width:80%;
                     height:90%;
-                    @media all and (max-width: 768px){
-                        width: 85%;
-                        // height:100%;
+                    @media all and (max-width: 1200px){
+                        width: 60%;
                     }
                 }
                 p{
                     font-size: 14px;
+                    text-align: left;
+                    @media all and (max-width: 1200px){
+                        width:65%;
+                        align-self: center;
+                    }
                 }
             }
             .second-frame {
@@ -575,12 +583,18 @@ header{
                 display: flex;
                 background-color: #2196F3;
                 flex-direction: column;
-                justify-content: flex-end;
-                align-items: center;
                 align-self: flex-end;
                 margin-top: auto;
-                @media all and (max-width: 768px){
-                    height: 50vh;
+                @media all and (max-width: 1200px){
+                    height: 55vh;
+                }
+                p{
+                    font-size: 14px;
+                    text-align: left;
+                    @media all and (max-width: 1200px){
+                        width:55%;
+                        align-self: center;
+                    }
                 }
             }
 
@@ -619,10 +633,7 @@ header{
 }
 
 .second-frame .frame-overlay {
-    display: flex;
-    justify-content: center; /* Pour centrer verticalement */
-    align-items: center; /* Pour centrer horizontalement */
-    flex-direction: column; /* Pour aligner verticalement */
+    display: relative;
     width: 100%;
     height: 100%; /* Assure que le cadre prend toute la hauteur de .second-frame */
 }
@@ -631,8 +642,9 @@ header{
     width: 65%; /* Pour que l'image ne soit pas étirée */
     height: 80%; /* Hauteur relative à .frame-overlay */
     max-width: 100%; /* Pour que l'image ne dépasse pas la largeur de .frame-overlay */
-     @media all and (max-width: 768px){
-        height:85%;
+     @media all and (max-width: 1200px){
+        width:50%;
+        height:90%;
     }
 }
 
@@ -649,6 +661,12 @@ header{
     background-repeat: no-repeat;
     transform: rotate(90deg); /* Rotation de 90 degrés pour rendre le cadre vertical */
     z-index: 10;
+    @media all and (max-width: 1200px){
+        position:absolute;
+        // top:50%;
+        left:10%;
+        width:80%;
+    }
     
 }
 
