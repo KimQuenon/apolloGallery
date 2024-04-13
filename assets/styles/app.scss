@@ -515,6 +515,9 @@ header{
 #slide-latest{
     min-height: 100vh;
     background-color: yellow;
+    @media all and (max-width: 768px){
+        height: 180vh;
+    }
     .container-content{
         width:90%;
         height:90%;
@@ -529,15 +532,26 @@ header{
             padding-bottom: 0;
             background-color: green;
             gap:50px;
+            @media all and (max-width: 768px){
+                width: 100%;
+                gap:15px;
+            }
             .frame-title{
                 width:100%;
                 height:40%;
                 background-color: darkgreen;
+                @media all and (max-width: 768px){
+                    height: 30vh;
+                }
             }
             .first-frame, .third-frame{
                 width:100%;
                 height:60%;
                 background-color: darkgreen;
+                @media all and (max-width: 768px){
+                    width: 100%;
+                    height:40vh;
+                }
                 .frame-overlay{
                     
                 }
@@ -546,6 +560,10 @@ header{
                     background-size: contain;
                     width:80%;
                     height:90%;
+                    @media all and (max-width: 768px){
+                        width: 85%;
+                        // height:100%;
+                    }
                 }
                 p{
                     font-size: 14px;
@@ -561,6 +579,9 @@ header{
                 align-items: center;
                 align-self: flex-end;
                 margin-top: auto;
+                @media all and (max-width: 768px){
+                    height: 50vh;
+                }
             }
 
         }
@@ -592,6 +613,9 @@ header{
     background-position: center;
     background-repeat: no-repeat;
     z-index: 10;
+     @media all and (max-width: 768px){
+        top:-2px;
+    }
 }
 
 .second-frame .frame-overlay {
@@ -607,6 +631,9 @@ header{
     width: 65%; /* Pour que l'image ne soit pas étirée */
     height: 80%; /* Hauteur relative à .frame-overlay */
     max-width: 100%; /* Pour que l'image ne dépasse pas la largeur de .frame-overlay */
+     @media all and (max-width: 768px){
+        height:85%;
+    }
 }
 
 .second-frame .frame-overlay::before {
@@ -622,6 +649,7 @@ header{
     background-repeat: no-repeat;
     transform: rotate(90deg); /* Rotation de 90 degrés pour rendre le cadre vertical */
     z-index: 10;
+    
 }
 
 //------------------------------------------
