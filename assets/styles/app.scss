@@ -36,7 +36,7 @@ $poppins: "Poppins", sans-serif;
 
 @mixin btn(){
     display: block;
-    width:170px;
+    width:180px;
     border-radius: 50px;
     font-family: $poppins!important;
     font-size: 16px!important;
@@ -750,9 +750,34 @@ header{
             }
             &:nth-child(2) {
                 @include flex(column, space-between);
-                align-items: end;
+                text-align: end;
                 width:35%;
-                background-color: paleturquoise;
+                // background-color: paleturquoise;
+                a{
+                    align-self: end;
+                    margin-left: auto;
+                }
+                .contact_sm{
+                    width:80%;
+                    height:60%;
+                    .icon_sm{
+                        @include flex (row, space-between);
+                        // background-color: #37F119;
+                        padding: 10px 0;
+                        gap:100px;
+                        border-bottom: 1px solid $white;
+                        &:last-of-type {
+                            border-bottom: 0;
+                        }
+                        i{
+                            width:10%;
+                        }
+                        div{
+                            width:80%;
+                            text-align: left;
+                        }
+                    }
+                }
             }
             .second-col{
                 &:first-child{
@@ -771,8 +796,9 @@ header{
                         position: absolute;
                         top:10%;
                         left:26%;
-                        p{
-                            color:$brown;
+                        .btn2{
+                            align-self: flex-end;
+                            margin-left: auto;
                         }
                     }
                     #contact{
@@ -785,6 +811,9 @@ header{
                             box-shadow: none;
                             border-radius: 0;
                             border-bottom: 1px solid $brown;
+                        }
+                        textarea{
+                            border: 1px solid $brown;
                             resize: none;
                         }
                     }
