@@ -740,6 +740,9 @@ header{
         background-color: yellowgreen;
         gap:50px;
         padding-bottom: 0;
+        @media all and (max-width: 1200px){
+            flex-direction: column-reverse;
+        }
         .container-col{
             @include flex(row, space-between);
             &:first-child {
@@ -747,27 +750,53 @@ header{
                 height:100%;
                 background-color: green;
                 gap:0;
+                @media all and (max-width: 1200px){
+                    width: 100%;
+                }
             }
             &:nth-child(2) {
                 @include flex(column, space-between);
                 text-align: end;
                 width:35%;
                 // background-color: paleturquoise;
-                a{
-                    align-self: end;
-                    margin-left: auto;
+                @media all and (max-width: 1200px){
+                    @include flex(row);
+                    align-items: flex-start;
+                    width: 100%;
+                    height:35%;
+                    text-align: left;
+                }
+                .contact_text{
+                    @media all and (max-width: 1200px){
+                        width: 50%;
+                    }
+                    a{
+                        align-self: end;
+                        margin-left: auto;
+                        @media all and (max-width: 1200px){
+                            margin:0;
+                            margin-top: 20px;
+                        }
+                    }
                 }
                 .contact_sm{
                     width:80%;
                     height:60%;
+                    @media all and (max-width: 1200px){
+                        width: 50%;
+                    }
                     .icon_sm{
                         @include flex (row, space-between);
                         // background-color: #37F119;
+                        width:80%;
                         padding: 10px 0;
                         gap:100px;
                         border-bottom: 1px solid $white;
                         &:last-of-type {
                             border-bottom: 0;
+                        }
+                        @media all and (max-width: 1200px){
+                            gap:30px;
                         }
                         i{
                             width:10%;
