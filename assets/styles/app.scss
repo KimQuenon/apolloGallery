@@ -5,8 +5,11 @@
 //variables
 $red : #FF0000;
 $darkRed: #823636;
+$bordeau:#6a2b2b;
 $white: #F5F5F5;
 $darkWhite: #e8e8e8;
+$brown:#635E5E;
+$darkBrown: #575252;
 $gasoek : "Gasoek One", sans-serif;
 $poppins: "Poppins", sans-serif;
 
@@ -18,10 +21,10 @@ $poppins: "Poppins", sans-serif;
     align-items: center;
 }
 
-@mixin imgCover(){
+@mixin imgCover($size:cover){
     width:100%;
     height:100%;
-    background-size: cover;
+    background-size: $size;
     background-position: center center;
     background-repeat: no-repeat;
 }
@@ -30,6 +33,21 @@ $poppins: "Poppins", sans-serif;
     font-size: 14px;
     line-height: 2em;
 }
+
+@mixin btn(){
+    display: block;
+    width:170px;
+    border-radius: 50px;
+    font-family: $poppins!important;
+    font-size: 16px!important;
+    font-weight: 500;
+    text-decoration: none;
+    padding:8px 15px;
+    margin-top: 20px;
+    text-align: center;
+    transition: all 0.2s;
+}
+
 *{
 	margin: 0;
 	padding: 0;
@@ -53,6 +71,10 @@ h2{
     font-size:45px!important;
 }
 
+h3{
+    font-family: $gasoek;
+    font-size: 30px!important;
+}
 p{
     color:$white;
     margin-bottom: 0!important;
@@ -77,21 +99,20 @@ i{
 }
 
 .btn1{
-    display: block;
-    width:170px;
-    border-radius: 50px;
+    @include btn();
     background-color: $white;
     color: $red!important;
-    font-family: $poppins!important;
-    font-size: 16px!important;
-    font-weight: 500;
-    text-decoration: none;
-    padding:8px 15px;
-    margin-top: 20px;
-    text-align: center;
-    transition: all 0.2s;
     &:hover{
         background-color: $darkWhite;
+    }
+}
+
+.btn2{
+    @include btn();
+    background-color: $brown;
+    color:$white;
+    &:hover{
+        background-color: $darkBrown;
     }
 }
 
@@ -100,6 +121,21 @@ i{
     margin: 0 auto;
     border-bottom: 1px solid $white;
     height:1px;
+}
+
+.container{
+    padding-top: 20px;
+    .alert{
+        z-index:1200000;
+        border: none;
+        border-radius: 50px;
+        .alert-success{
+            background-color: #37F119;
+        }
+        p{
+            font-weight: 500;
+        }
+    }
 }
 
 //-------------------NAVIGATION---------------------
@@ -544,7 +580,6 @@ header{
     .container-content{
         width:90%;
         height:90%;
-        padding-bottom:50px;
         background-color: yellowgreen;
         padding-bottom: 0;
         gap:50px;
@@ -697,6 +732,73 @@ header{
     transform: translate(-50%, -50%);
 }
 
+#slide-contact{
+    .container-content{
+        @include flex(row, space-between);
+        width:90%;
+        height:90%;
+        background-color: yellowgreen;
+        gap:50px;
+        padding-bottom: 0;
+        .container-col{
+            @include flex(row, space-between);
+            &:first-child {
+                width:65%;
+                height:100%;
+                background-color: green;
+                gap:0;
+            }
+            &:nth-child(2) {
+                @include flex(column, space-between);
+                align-items: end;
+                width:35%;
+                background-color: paleturquoise;
+            }
+            .second-col{
+                &:first-child{
+                    @include imgCover(contain);
+                    width:70%;
+                    height:100%;
+                    position: relative;
+                    background-image: url(../../public/images/paper.png);
+                    h3{
+                        color: $brown;
+                    }
+                    .form-paper{
+                        width:55%;
+                        height:65%;
+                        // background-color: pink;
+                        position: absolute;
+                        top:10%;
+                        left:26%;
+                        p{
+                            color:$brown;
+                        }
+                    }
+                    #contact{
+                        label{
+                            color:$brown;
+                        }
+                        input, textarea{
+                            background-color: transparent;
+                            border:none;
+                            box-shadow: none;
+                            border-radius: 0;
+                            border-bottom: 1px solid $brown;
+                            resize: none;
+                        }
+                    }
+                }
+                &:nth-child(2) {
+                    @include imgCover(cover);
+                    width:30%;
+                    height:100%;
+                    background-image: url(../../public/images/pen.png);
+                }
+            }
+        }
+    }
+}
 
 //------------------------------------------
 .starsimg{
