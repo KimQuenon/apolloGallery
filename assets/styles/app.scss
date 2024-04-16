@@ -766,9 +766,15 @@ header{
                     height:35%;
                     text-align: left;
                 }
+                @media all and (max-width: 768px){
+                    @include flex(column);
+                }
                 .contact_text{
                     @media all and (max-width: 1200px){
                         width: 50%;
+                    }
+                    @media all and (max-width: 768px){
+                        width: 100%;
                     }
                     a{
                         align-self: end;
@@ -784,6 +790,9 @@ header{
                     height:60%;
                     @media all and (max-width: 1200px){
                         width: 50%;
+                    }
+                    @media all and (max-width: 768px){
+                        display: none;
                     }
                     .icon_sm{
                         @include flex (row, space-between);
@@ -815,6 +824,11 @@ header{
                     height:100%;
                     position: relative;
                     background-image: url(../../public/images/paper.png);
+                    @media all and (max-width: 768px){
+                        width:100%;
+                        background-image: url(../../public/images/clipboard.png);
+                        height:125%;
+                    }
                     h3{
                         color: $brown;
                     }
@@ -825,6 +839,11 @@ header{
                         position: absolute;
                         top:10%;
                         left:26%;
+                        @media all and (max-width: 768px){
+                            width: 80%;
+                            top:20%;
+                            left:10%;
+                        }
                         .btn2{
                             align-self: flex-end;
                             margin-left: auto;
@@ -852,6 +871,9 @@ header{
                     width:30%;
                     height:100%;
                     background-image: url(../../public/images/pen.png);
+                    @media all and (max-width: 768px){
+                        display: none;
+                    }
                 }
             }
         }
