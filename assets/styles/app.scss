@@ -96,6 +96,7 @@ i{
 
 .slide{
     background-color: $red;
+    min-height: 100vh;
 }
 
 .btn1{
@@ -195,7 +196,7 @@ header{
             width:100%;
             height: 100%;
             list-style: none;
-            button{
+            a{
                 @include flex(row, space-between);
                 width:100%;
                 height:20%;
@@ -205,6 +206,7 @@ header{
                 cursor: pointer;
                 padding-bottom: 20px;
                 border-bottom: 1px solid $white;
+                text-decoration: none;
                 &:last-of-type {
                     padding-bottom:0;
                     border-bottom: none;
@@ -884,6 +886,78 @@ header{
         }
     }
 }
+
+
+
+//--------------------------ABOUT----------------------------
+.banner{
+    @include flex(column, center);
+    @include imgCover(cover);
+    width: 100%;
+    height:60vh;
+    background-image:url(../../public/images/banner.webp);
+    position:relative;
+    .banner_img{
+        width:120px;
+        height:120px;
+        position:absolute;
+        background-color: #2196F3;
+        border-radius: 15px;
+    }
+    #banner_img1{
+        @include imgCover(cover);
+        width: 120px;
+        height:120px;
+        top:10%;
+        left:45%;
+        background-image: url(../../public/images/banner_img1.jpg);
+    }
+    #banner_img2{
+        @include imgCover(cover);
+        width: 120px;
+        height:120px;
+        top:30%;
+        left:90%;
+        background-image: url(../../public/images/banner_img2.jpg);
+    }
+    #banner_img3{
+        @include imgCover(cover);
+        width: 120px;
+        height:120px;
+        top:60%;
+        left:5%;
+        background-image: url(../../public/images/banner_img3.jpg);
+    }
+    .quote{
+        @include flex(column, center);
+        width:80%;
+        height:90%;
+        // background-color: #575252;
+        h2{
+            align-self: center;
+            color:$white;
+            text-align: center;
+            z-index: 15;
+            font-size: 35px!important;
+            line-height: 1.5em;
+        }
+        p{
+            align-self:end;
+            margin-left: auto;
+            padding-top: 20px;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
 
 //------------------------------------------
 .starsimg{

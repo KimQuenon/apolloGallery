@@ -3,8 +3,20 @@
 {% block title %}About{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Liste des experts</h1>
+<div class="slide">
+
+    <div class="banner">
+        <div class="banner_img" id="banner_img1"></div>
+        <div class="banner_img" id="banner_img2"></div>
+        <div class="banner_img" id="banner_img3"></div>
+        <div class="quote">
+            <h2>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo ipsam, reprehenderit illum consectetur ut accusantium ipsa nulla sit incidunt praesentium?"</h2>
+            <p>- Eugène-Ernest Hillemacher, New Anger</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+        {# <h1>Liste des experts</h1>
         <ul>
             {% for expert in experts %}
                 {% if 'ROLE_EXPERT' in expert.roles %}
@@ -16,6 +28,4 @@
                     </form>
                 {% endif %}
             {% endfor %}
-        </ul>
-    </div>
-{% endblock %}
+        </ul> #}
