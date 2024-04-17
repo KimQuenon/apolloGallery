@@ -4,7 +4,6 @@
 
 {% block body %}
 <div class="slide">
-
     <div class="banner">
         <div class="banner_img" id="banner_img1"></div>
         <div class="banner_img" id="banner_img2"></div>
@@ -12,6 +11,53 @@
         <div class="quote">
             <h2>"Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo ipsam, reprehenderit illum consectetur ut accusantium ipsa nulla sit incidunt praesentium?"</h2>
             <p>- Eugène-Ernest Hillemacher, New Anger</p>
+        </div>
+    </div>
+    <div class="content">
+        <div class="grid-container">
+            <div class="grid-item">
+                <div class="grid-content">
+                    <div>
+                        <div>
+                            <a href="{{ path('homepage') }}">Home /</a>
+                            <a href="{{ path('about') }}" class="weight">About</a>
+                        </div>
+                        <h2>ABOUT US</h2>
+                    </div>
+                    <div>
+                        <h3>Our debut</h3>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam voluptas nemo rerum, magni veniam alias aperiam molestias illum similique quibusdam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quae officiis ipsum sed perspiciatis eligendi provident.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content"></div>
+            </div>
+            <div class="grid-item">3</div>
+            <div class="grid-item">
+                <div class="grid-content"></div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content">
+                    <h3>Our team</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel dolorum, quibusdam omnis soluta, cupiditate repudiandae corrupti obcaecati fugit fuga, rerum inventore dolore enim possimus quas tenetur harum! Dicta corporis nemo perspiciatis cum, ratione est, vero iste asperiores, nesciunt exercitationem totam.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content">
+                    <h3>Our values</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel dolorum, quibusdam omnis soluta, cupiditate repudiandae corrupti obcaecati fugit fuga, rerum inventore dolore enim possimus quas tenetur harum! Dicta corporis nemo perspiciatis cum, ratione est, vero iste asperiores, nesciunt exercitationem totam.</p>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content">
+                    <a href="{{ path('artworks_index') }}" class="btn3"><i class="fa-solid fa-chevron-left"></i>Back home</a>
+                    <a href="{{ path('artworks_index') }}" class="btn1">Browse it<i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+            <div class="grid-item">
+                <div class="grid-content"></div>
+            </div>
         </div>
     </div>
 </div>
