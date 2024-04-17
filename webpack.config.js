@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('burger', './assets/js/burger.js')
+    .addEntry('fadeIn', './assets/js/fadeIn.js')
     .addEntry('gsap', './assets/js/gsap.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

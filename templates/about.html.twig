@@ -16,6 +16,11 @@
     </div>
 </div>
 {% endblock %}
+
+{% block javascripts %}
+    {{encore_entry_script_tags('fadeIn')}}
+{% endblock %}
+
         {# <h1>Liste des experts</h1>
         <ul>
             {% for expert in experts %}

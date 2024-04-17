@@ -897,6 +897,9 @@ header{
     height:60vh;
     background-image:url(../../public/images/banner.webp);
     position:relative;
+    @media all and (max-width: 1200px){
+        height:50vh;
+    }
     .banner_img{
         width:120px;
         height:120px;
@@ -911,6 +914,9 @@ header{
         top:10%;
         left:45%;
         background-image: url(../../public/images/banner_img1.jpg);
+        @media all and (max-width: 768px){
+            display: none!important;
+        }
     }
     #banner_img2{
         @include imgCover(cover);
@@ -919,6 +925,13 @@ header{
         top:30%;
         left:90%;
         background-image: url(../../public/images/banner_img2.jpg);
+        @media all and (max-width: 1200px){
+            left:80%;
+        }
+        @media all and (max-width: 768px){
+            display: none!important;
+        }
+        
     }
     #banner_img3{
         @include imgCover(cover);
@@ -927,12 +940,17 @@ header{
         top:60%;
         left:5%;
         background-image: url(../../public/images/banner_img3.jpg);
+        @media all and (max-width: 768px){
+            display: none!important;
+        }
     }
     .quote{
         @include flex(column, center);
         width:80%;
         height:90%;
-        // background-color: #575252;
+        @media all and (max-width: 768px){
+            width:90%;
+        }
         h2{
             align-self: center;
             color:$white;
@@ -940,6 +958,9 @@ header{
             z-index: 15;
             font-size: 35px!important;
             line-height: 1.5em;
+            @media all and (max-width: 768px){
+                font-size: 20px!important;
+            }
         }
         p{
             align-self:end;
