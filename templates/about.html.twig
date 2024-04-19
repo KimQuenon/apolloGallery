@@ -66,6 +66,47 @@
             </div>
         </div>
     </div>
+    <div class="content-expert">
+        <div class="desc-expert" id="cover">
+            <div class="title-expert">
+                <h2>OUR EXPERTS</h2>
+            </div>
+            <div class="cover-expert"></div>
+        </div>
+        <div class="desc-expert">
+            <div class="pres-expert">
+                <div>
+                    <p>Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper. In ultricies arcu a elit faucibus  scelerisque. Vestibulum vel imperdiet odio..</p>
+                    <div>
+                        <a href="{{ path('artworks_index') }}" class="btn1">Ask an expert<i class="fa-solid fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                <div class="each-expert">
+                    <div class="grid-container">
+                        {% for expert in experts %}
+                            {% if 'ROLE_EXPERT' in expert.roles %}
+                            <div class="grid-item">
+                                {% if expert.picture %}
+                                    <img src="/uploads/{{expert.picture}}" alt="avatar de {{expert.fullName}}" class="avatar avatar-medium">
+                                {% else %}
+                                    <img src="https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1" alt="avatar de {{expert.fullName}}" class="avatar avatar-medium">
+                                {% endif %}
+                                <div>
+                                    <p class="weight">{{ expert.fullName }}</p>
+                                    <p>Art Expert</p>
+                                    <p>"{{expert.description}}"</p>
+                                <a href="{{ path('create_conversation', {'expertSlug': expert.slug}) }}" class="icon">
+                                    <i class="fa fa-envelope"></i>
+                                </a>
+                                </div>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
 

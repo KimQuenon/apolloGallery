@@ -154,6 +154,24 @@ i{
     }
 }
 
+.avatar {
+    max-width: 128px;
+    max-height: 128px;
+    border-radius: 50%;
+    &-medium {
+        max-width: 64px;
+        max-height: 64px;
+    }
+    &-mini {
+        max-width: 24px;
+        max-height: 24px;
+    }
+    &-micro {
+        max-width: 18px;
+        max-height: 18px;
+    }
+}
+
 //-------------------NAVIGATION---------------------
 header{
     width: 100%;
@@ -992,8 +1010,8 @@ header{
     align-items: center;
     width:90%;
     min-height: 100vh;
-    margin: 80px auto;
-    padding-bottom: 80px;
+    margin: 50px auto;
+    padding-bottom: 50px;
 }
 
 .grid-container {
@@ -1098,6 +1116,82 @@ header{
     }
     @media all and (max-width: 1200px) {
         height:30vh;
+    }
+}
+
+.content-expert{
+    @include flex(row, space-between);
+    width:100%;
+    height:100vh;
+    background-color: #2196F3;
+    gap:50px;
+    padding-top: 50px;
+    .desc-expert{
+        @include flex(column, space-between);
+        width:50%;
+        height:95%;
+        background-color: blue;
+
+    }
+    #cover{
+        .title-expert{
+            width:90%;
+            align-self: flex-end;
+
+        }
+        .cover-expert{
+            background-color: darkblue;
+            @include imgCover(cover);
+            background-image: url(../../public/images/coverExpert.jpg);
+            width:100%;
+            height:85%;
+        }
+    }
+    .pres-expert{
+        @include flex(column, space-between);
+        width:90%;
+        height:85%;
+        background-color: darkblue;
+        margin-top: auto;
+        align-items: flex-start;
+        text-align: right;
+        a{
+            align-self: flex-end;
+            margin-left: auto;
+        }
+    }
+    .each-expert{
+        width:100%;
+        .grid-container{
+            width:100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 20px;
+            background-color: darkcyan;
+            .grid-item{
+                @include flex(row, space-between);
+                width:100%;
+                height:25vh;
+                background-color: cadetblue;
+                text-align: left;
+                gap:20px;
+                p{
+                    @include text();
+                    line-height: 25px;
+                }
+                .icon{
+                    @include flex(center);
+                    background-color: $darkRed;
+                    width: 35px;
+                    height: 35px;
+                    border-radius: 50%;
+                    margin-top: 5px;
+                    i{
+                        font-size: 15px;
+                    }
+                }
+            }
+        }
     }
 }
 

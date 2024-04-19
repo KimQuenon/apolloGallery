@@ -96,7 +96,7 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setEmail($faker->email())
                 ->setPassword($hash)
-                ->setDescription('<p>' . join('<p></p>', $faker->paragraphs(3)) . '</p>')
+                ->setDescription($faker->sentence())
                 ->setRoles(['ROLE_EXPERT'])
                 ->setPicture('');
 
