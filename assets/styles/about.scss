@@ -205,23 +205,20 @@
     @include flex(row, space-between);
     width:100%;
     height:100vh;
-    background-color: #2196F3;
     gap:50px;
     padding-top: 50px;
     @media all and (max-width: 1200px){
         flex-direction: column;
-        min-height:100vh;
+        padding-top: 0;
     }
     @media all and (max-width: 768px){
         gap:25px;
-        padding-top: 0;
-        height:130vh;
+        height:150vh;
     }
     .desc-expert{
         @include flex(column, space-between);
         width:50%;
         height:95%;
-        background-color: blue;
         @media all and (max-width: 1200px){
             width:100%;
         }
@@ -229,8 +226,6 @@
     #cover{
         @media all and (max-width: 1200px){
             width:100%;
-        }
-        @media all and (max-width: 1200px){
             height:40vh;
         }
         .title-expert{
@@ -238,7 +233,6 @@
             align-self: flex-end;
         }
         .cover-expert{
-            background-color: darkblue;
             @include imgCover(cover);
             background-image: url(../../public/images/coverExpert.jpg);
             width:100%;
@@ -252,7 +246,6 @@
         @include flex(column, space-between);
         width:90%;
         height:85%;
-        background-color: darkblue;
         margin-top: auto;
         align-items: flex-start;
         text-align: right;
@@ -272,7 +265,28 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             grid-gap: 20px;
-            background-color: darkcyan;
+            position:relative;
+            &::before, &::after {
+                content: '';
+                position: absolute;
+                background-color: $white;
+                z-index: 1;
+                @media all and (max-width: 768px){
+                    display:none;
+                }
+            }
+            &::before {
+                top: 0;
+                bottom: 0;
+                left: 50%;
+                width: 1px;
+            }
+            &::after {
+                right: 0;
+                left: 0;
+                top: 50%;
+                height: 1px;
+            }
             @media all and (max-width: 1200px){
                 margin-top: 20px;
             }
@@ -280,14 +294,19 @@
                 grid-template-columns: repeat(1, 1fr);
             }
             .grid-item{
-                @include flex(row, space-between);
+                @include flex(column);
+                align-items: flex-start; 
                 width:100%;
-                height:25vh;
-                background-color: cadetblue;
+                height:27vh;
                 text-align: left;
                 gap:20px;
                 @media all and (max-width: 1200px){
-                    height:15vh;
+                    height:20vh;
+                }
+                .expert-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 10px; 
                 }
                 p{
                     @include text();
@@ -300,6 +319,10 @@
                     height: 35px;
                     border-radius: 50%;
                     margin-top: 5px;
+                    transition: all 0.2s;
+                    &:hover{
+                        background-color: $bordeau;
+                    }
                     i{
                         font-size: 15px;
                     }

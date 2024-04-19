@@ -83,19 +83,21 @@
                         {% for expert in experts %}
                             {% if 'ROLE_EXPERT' in expert.roles %}
                             <div class="grid-item">
-                                {% if expert.picture %}
-                                    <img src="/uploads/{{expert.picture}}" alt="avatar de {{expert.fullName}}" class="avatar avatar-medium">
-                                {% else %}
-                                    <img src="https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1" alt="avatar de {{expert.fullName}}" class="avatar avatar-medium">
-                                {% endif %}
-                                <div>
-                                    <p class="weight">{{ expert.fullName }}</p>
-                                    <p>Art Expert</p>
-                                    <p>"{{expert.description}}"</p>
+                                <div class="expert-info">
+                                    {% if expert.picture %}
+                                        <img src="/uploads/{{expert.picture}}" alt="avatar de {{expert.fullName}}" class="avatar avatar-medium">
+                                    {% else %}
+                                        <img src="https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1" alt="avatar de {{expert.fullName}}" class="avatar avatar-medium">
+                                    {% endif %}
+                                    <div class="expert-name">
+                                        <p class="weight">{{ expert.fullName }}</p>
+                                        <p>Art Expert</p>
+                                    </div>
+                                </div>
+                                <p>"{{expert.description}}"</p>
                                 <a href="{{ path('create_conversation', {'expertSlug': expert.slug}) }}" class="icon">
                                     <i class="fa fa-envelope"></i>
                                 </a>
-                                </div>
                             </div>
                             {% endif %}
                         {% endfor %}
@@ -111,16 +113,3 @@
     {{encore_entry_script_tags('fadeIn')}}
 {% endblock %}
 
-        {# <h1>Liste des experts</h1>
-        <ul>
-            {% for expert in experts %}
-                {% if 'ROLE_EXPERT' in expert.roles %}
-                    <li>{{ expert.fullName }}</li>
-                    <form action="{{ path('create_conversation', {'expertSlug': expert.slug}) }}" method="post">
-                        <button type="submit" class="btn btn-primary rounded-pill">
-                            <i class="fa fa-envelope"></i> Envoyer un message
-                        </button>
-                    </form>
-                {% endif %}
-            {% endfor %}
-        </ul> #}
