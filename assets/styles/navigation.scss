@@ -1,0 +1,192 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+
+//-------------------NAVIGATION---------------------
+header{
+    width: 100%;
+    height: 10vh;
+    @include flex(row, center);
+    flex-wrap: wrap;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:300;
+    
+    nav{
+        @include flex;
+        width: 90%;
+        div{
+            @include flex(row, center);
+            gap:15px;
+            img{
+                width: 24px;
+                object-fit: contain;
+            }
+            div{
+                @include flex(column, space-between);
+                align-items: start;
+                gap:0;
+            }
+            div > *{
+                font-size: 12px;
+                margin-bottom: 0;
+                @media all and (max-width: 768px){
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+#menu{
+    @include flex(column, center);
+    width: 100%;
+    height: 100vh;
+    background-color: $red;
+    position: fixed;
+    right: -100%;
+    z-index: 9999;
+    transition: all 0.5s;
+    nav{
+        @include flex(column, space-between);
+        position:relative;
+        width:90%;
+        height:80%;
+        div{
+            @include flex(column, space-between);
+            width:100%;
+            height: 100%;
+            list-style: none;
+            a{
+                @include flex(row, space-between);
+                width:100%;
+                height:20%;
+                transition: all 0.5s;
+                background-color: $red;
+                border: none;
+                cursor: pointer;
+                padding-bottom: 20px;
+                border-bottom: 1px solid $white;
+                text-decoration: none;
+                &:last-of-type {
+                    padding-bottom:0;
+                    border-bottom: none;
+                }
+                @media all and (max-width: 768px){
+                    height: 60%;
+                    padding-bottom: 10px;
+                }
+                &:hover{
+                    transform: translateX(2%);
+                }
+                .link{
+                    @include flex (row, start);
+                    width:50%;
+                    height:100%;
+                    gap:30px;
+                    text-align: start;
+                    @media all and (max-width: 1200px){
+                        width:80%;
+                    }
+                    @media all and (max-width: 768px){
+                        flex-direction: column;
+                        width:100%;
+                    }
+                    .linkTitle{
+                        width:40%;
+                        height:100%;
+                        font-family: $gasoek;
+                        text-transform: uppercase;
+                        color: $white;
+                        font-size: 45px;
+                        @media all and (max-width: 768px){
+                            width:100%;
+                            margin-top: 20px;
+                            margin-bottom: 0px;
+                        }
+                    }
+                    .linkDesc{
+                        width:60%;
+                        height:100%;
+                        margin-bottom: 0;
+                        @media all and (max-width: 1200px){
+                            width:80%;
+                            margin-bottom: 20px;
+                        }
+                        @media all and (max-width: 768px){
+                            width:100%;
+                            margin-bottom: 20px;
+                        }
+                    }
+                }
+                .arrow{
+                    width:10%;
+                    height:100%;
+                    @media all and (max-width: 768px){
+                        display:none;
+                    }
+                    i{
+                        width: 100%;
+                        font-size: 60px;
+                        text-align: center;
+                        color: $white;
+                    }
+                }
+            }
+            hr{
+                height:0%;
+            }
+        }
+    }
+    .menuImg{
+        width: 40%;
+        height: 100%;
+        position:absolute;
+        top: 15%;
+        right:10%;
+        @media all and (max-width: 1200px){
+            display: none;
+        }
+    }
+}
+
+.open-menu{
+    right: 0!important;
+}
+
+#burger{
+    width: 50px;
+    cursor: pointer;
+    z-index: 10000;
+    position:fixed;
+    top:15px;
+    right:70px;
+    @media all and (max-width: 768px){
+        top:22px;
+        right:10px;
+    }
+    .bar{
+        width: 80%;
+        height: 2px;
+        margin: 8px 0;
+        background-color: $white;
+        transition: all 0.5s;
+    }
+}
+
+#burger.open-burger {
+    .bar:nth-child(1) {
+         background-color: $white;
+         transform: translate(0px, 11px) rotate(45deg);
+     }
+    .bar:nth-child(2) {
+         opacity: 0;
+     }
+    .bar:nth-child(3) {
+         background-color: $white;
+         transform: translate(0px, -11px) rotate(-45deg);
+     }
+}
