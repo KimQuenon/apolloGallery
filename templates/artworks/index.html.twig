@@ -34,25 +34,38 @@
             </div>
             <div class="cover-gallery"></div>
         </div>
-        {# <div class="artworks-gallery"></div> #}
+        <div class="artworks-gallery">
+            <div class="artworks-content">
+                <div class="artworks-title">
+                    <h3>Latest frames</h3>
+                    <div class="widget">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><i class="fa-solid fa-filter"></i>Movements</a>
+                                <div class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42.4px, 0px); max-height: 200px; overflow-y: auto;" data-popper-placement="bottom-start">
+                                    {% for movement in movements %}
+                                        <a class="dropdown-item" href="{{ path('movements_show', {'slug': movement.slug}) }}">
+                                            {{ movement.movementName }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        </ul>
+                        <form class="d-flex">
+                            <input class="form-control form-custom me-sm-2" type="search" placeholder="Search...">
+                            <button class="btn btn-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </form>
+                    </div>
+                </div>
+                <div class="artworks-container">
+                    {% for artwork in pagination.data %}
+                        {% if not artwork.archived %}
+                            {% include "partials/_cards.html.twig" with { 'artwork': artwork } %}
+                        {% endif %}
+                    {% endfor %}
+                    {{pagination.display()}}
+                </div>
+            </div>
+        </div>
     </div>
-    {# <div class="container">
-        <div>
-            {% for movement in movements %}
-                <button type="button" class="btn btn-secondary">
-                    <a href="{{ path('movements_show', {'slug': movement.slug}) }}">
-                        {{ movement.movementName }}
-                    </a>
-                </button>
-            {% endfor %}
-        </div>
-        <div class="row mt-4">
-            {% for artwork in pagination.data %}
-                {% if not artwork.archived %}
-                    {% include "partials/_cards.html.twig" with { 'artwork': artwork } %}
-                {% endif %}
-            {% endfor %}
-            {{pagination.display()}}
-        </div>
-    </div> #}
 {% endblock %}
