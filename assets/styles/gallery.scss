@@ -15,7 +15,7 @@
         align-items: start;
         width:100%;
         height:85vh;
-        margin-top: 50px;
+        margin-top: 70px;
         gap: 50px;
         overflow: hidden;
         .text-gallery{
@@ -35,6 +35,9 @@
                     width:90%;
                     margin:0 auto;
                     height:20vh;
+                }
+                @media all and (max-width: 768px){
+                    height:50vh;
                 }
                 a{
                     text-decoration: none;
@@ -77,6 +80,15 @@
                 width:100%;
                 height:45vh;
             }
+            @media all and (max-width: 768px){
+                height:25vh;
+            }
         }
+    }
+    .artworks-gallery{
+        width:100%;
+        min-height:100vh;
+        background-color: aqua;
+        margin-top: 25px;
     }
 }
