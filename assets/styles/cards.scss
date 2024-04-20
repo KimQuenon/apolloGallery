@@ -1,0 +1,44 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.artworks-items{
+    transition: all 0.2s;
+    &:hover{
+        transform: scale(1.05);
+    }
+}
+
+.cardsimg{
+    height: 400px;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.artworks-text{
+    margin-top: 10px;
+    .artworks-infos{
+        @include flex(row, space-between);
+        width:100%;
+        align-items: start;
+        p{
+            width:70%;
+            &:last-of-type{
+                width:30%;
+                text-align: end;
+            }
+        }
+    }
+    .icons-container{
+        @include flex(row, space-between);
+        width: 100%;
+        a{
+            text-decoration: none;
+            color:$white;
+        }
+    }
+}
+
+

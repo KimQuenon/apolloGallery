@@ -101,7 +101,7 @@ i{
         border: none;
         border-radius: 50px;
         .alert-success{
-            background-color: #37F119;
+            background-color: $green;
         }
         p{
             font-weight: 500;
@@ -124,6 +124,43 @@ i{
     &-micro {
         max-width: 18px;
         max-height: 18px;
+    }
+}
+
+.icons-content{
+    @include flex(row, space-between);
+    align-self: end;
+    margin-top: auto;
+    width:30%;
+    gap:15px;
+    .icon{
+        @include flex(row, center);
+        width:30px;
+        height:30px;
+        border-radius: 50%;
+        transition:all 0.2s;
+        &-edit{
+            background-color: $green;
+            &:hover{
+                background-color: $darkGreen;
+            }
+        }
+        &-delete{
+            background-color: $darkRed;
+            &:hover{
+                background-color: $bordeau;
+            }
+        }
+        &-sales{
+            background-color: $orange;
+            &:hover{
+                background-color: $darkOrange;
+            }
+        }
+        i{
+            font-size: 14px;
+            color:$white;
+        }
     }
 }
 
@@ -682,12 +719,6 @@ i{
 
 
 //------------------------------------------
-.starsimg{
-    height: 200px;
-    width: 100%;
-    object-fit: cover;
-    display: block;
-}
 
 .full{
     min-height:70vh;

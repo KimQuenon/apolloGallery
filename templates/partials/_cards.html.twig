@@ -1,16 +1,25 @@
 {% set url = path('artworks_show', {'slug':artwork.slug}) %}
-<div class="card bg-light">
+<div class="artworks-items">
     <a href="{{url}}">
-        <img src="{{artwork.coverImage}}" alt="{{artwork.title}}" class="starsimg">
+        <img src="{{artwork.coverImage}}" alt="{{artwork.title}}" class="cardsimg">
     </a>
-    <div class="card-body">
-        <h4 class="card-title">{{artwork.title}}</h4>
-        <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="btn btn-primary">Voir plus</a>
-        {% if app.user == artwork.author %}
-            <a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
-        {% endif %}
-        {% if not artwork.archived and app.user == artwork.author %}
-            <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="btn btn-warning">Choose a seller</a>
-        {% endif %}
+    <div class="artworks-text">
+        <div class="artworks-infos">
+            <p class="weight">{{artwork.title}} ({{artwork.year}})</p>
+            <p class="weight">€ {{artwork.priceInit|number_format(2, ',', '.')}}</p>
+        </div>
+        <p>{{artwork.fullName}}</p>
+        <div class="icons-container">
+            <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="btn1">Voir plus<i class="fa-solid fa-chevron-right"></i></a>
+            <div class="icons-content">
+                {% if not artwork.archived and app.user == artwork.author %}
+                    <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="icon icon-sales"><i class="fa-solid fa-gavel"></i></a>
+                {% endif %}
+                {% if app.user == artwork.author %}
+                    <a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit"><i class="fa-solid fa-pen"></i></a>
+                    <a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete"><i class="fa-solid fa-trash-can"></i></a>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>

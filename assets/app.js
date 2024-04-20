@@ -9,6 +9,7 @@ import './styles/app.scss';
 import './styles/about.scss';
 import './styles/gallery.scss';
 import './styles/navigation.scss';
+import './styles/cards.scss';
 import './styles/_colors.scss';
 import './styles/_fonts.scss';
 import './styles/_mixins.scss';
