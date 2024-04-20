@@ -15,7 +15,7 @@
                 {% if not artwork.archived and app.user == artwork.author %}
                     <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="icon icon-sales"><i class="fa-solid fa-gavel"></i></a>
                 {% endif %}
-                {% if app.user == artwork.author %}
+                {% if app.user == artwork.author or is_granted('ROLE_ADMIN') %}
                     <a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit"><i class="fa-solid fa-pen"></i></a>
                     <a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete"><i class="fa-solid fa-trash-can"></i></a>
                 {% endif %}

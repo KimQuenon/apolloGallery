@@ -1,19 +1,36 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Artwork :
-	{{artwork.title}}
-{% endblock %}
+{% block title %}{{artwork.title}}{% endblock %}
 
 {% block body %}
-
+	<div class="slide-show">
+		<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}">
+		<div class="color-overlay"></div>
+		<div class="content-show">
+			<div>
+				<a href="{{ path('homepage') }}">Home /</a>
+				<a href="{{ path('artworks_index') }}">Our gallery /</a>
+				<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
+			</div>
+			{% set isVertical = (artwork.canvaHeight > artwork.canvaWidth) %}
+			{% set orientation_class = isVertical ? 'rotate-90' : '' %}
+			<div class="container-show">
+				<div class="img-show">
+					<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}" class="{{ orientation_class }}">
+					<div class="frame-overlay {{ orientation_class }}"></div>
+				</div>
+				<div class="info-show"></div>
+			</div>
+		</div>
+	</div>
 	{# display edit btn #}
-	{% if (app.user and app.user == artwork.author) or is_granted('ROLE_ADMIN') %}
+	{# {% if (app.user and app.user == artwork.author) or is_granted('ROLE_ADMIN') %}
 		<a href="{{path('artworks_edit', {'slug':artwork.slug})}}" class="btn btn-warning m-2">Modification de l'annonce</a>
 		<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-secondary">Supprimer</a>
-	{% endif %}
+	{% endif %} #}
 	
 	{# display share link #}
-	{% if app.user and artwork.endDate > currentDate and artwork.author != app.user %}
+	{# {% if app.user and artwork.endDate > currentDate and artwork.author != app.user %}
         {% set userHasBid = false %}
         {% for auction in artwork.auctions %}
             {% if auction.user == app.user %}
@@ -30,28 +47,28 @@
         {% else %}
             <a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn btn-dark">Make a bid</a>
         {% endif %}
-    {% endif %}
+    {% endif %} #}
 
-	<h1>{{ artwork.title }}</h1>
+	{# <h1>{{ artwork.title }}</h1>
 	<h1>{{ artwork.priceInit }}</h1>
     <p>{{ artwork.fullName }}</p>
 	<p>{{ artwork.content }}</p>
 	<p>{{ artwork.medium }}</p>
 	<p>{{ artwork.submissionDate|date('Y-m-d H:i:s') }}</p>
-	<p>{{ artwork.endDate|date('Y-m-d H:i:s') }}</p>
+	<p>{{ artwork.endDate|date('Y-m-d H:i:s') }}</p> #}
 	
 	{# display movements #}
-	{% for movement in movements %}
+	{# {% for movement in movements %}
 		<p>{{ movement.movementName }}</p>
-	{% endfor %}
+	{% endfor %} #}
 
 	{# in case artwork is sold #}
-	{% if artwork.endDate < currentDate %}
+	{# {% if artwork.endDate < currentDate %}
 		<h3>Vendu</h3>
 		<p>Cette oeuvre sera bientôt retirée du site</p>
-	{% else %}
+	{% else %} #}
 	{# display time left #}
-		<div>
+		{# <div>
 			<div id="days"></div>
 			<div class="d-flex">
 				<div id="hour"></div>
@@ -59,9 +76,9 @@
 				<div id="sec"></div>
 			</div>
 		</div>
-	{% endif %}
+	{% endif %} #}
 
-    <p>{{author.fullName}}</p>
+    {# <p>{{author.fullName}}</p>
     {% if author.picture %}
         <div>
             <img src="{{author.picture}}" alt="avatar de {{author.fullName}}">
@@ -94,11 +111,12 @@
                     {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
                 {% endfor %}
             </div>
-        </div>
+        </div> #}
 {% endblock %}
 
 {% block javascripts %}
 	<script>
+	
 		// update chrono
 function chrono() {
 const divDays = document.querySelector('#days');

@@ -8,6 +8,7 @@ import './bootstrap.js';
 import './styles/app.scss';
 import './styles/about.scss';
 import './styles/gallery.scss';
+import './styles/individual_display.scss';
 import './styles/navigation.scss';
 import './styles/cards.scss';
 import './styles/pagination.scss';

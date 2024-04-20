@@ -1,0 +1,79 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.slide-show{
+    width:100%;
+    min-height: 100vh;
+    background-color: $red;
+    position: relative;
+    img{
+        width:100%;
+        height:100vh;
+        object-fit: cover;
+    }
+    .color-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $darkRed;
+        mix-blend-mode: multiply;
+    }
+    .content-show{
+        position: absolute;
+        z-index: 5;
+        width: 90%;
+        height:80%;
+        background-color: antiquewhite;
+        top: 50%;
+        left:50%;
+        transform: translate(-50%,-50%);
+        .container-show{
+            @include flex(row, space-between);
+            gap:50px;
+            width:100%;
+            height:100%;
+            background-color: aqua;
+            margin-top: 20px;
+            .img-show {
+                width: 50%;
+                height: 100%;
+                position: relative;
+                @include flex(row,center);
+                img {
+                    width: 90%;
+                    height: 75%;
+                    object-fit: cover;
+                    &.rotate-90 {
+                        width: 50%;
+                        height: 90%;
+                        margin-top: -15px;
+                    }
+                }
+            
+                .frame-overlay {
+                    position: absolute;
+                    top: 5px;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-image: url(../../public/images/frame.png);
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    z-index: 10;
+            
+                    &.rotate-90 {
+                        width:80%;
+                        top:-15px;
+                        transform: rotate(90deg);
+                        transform-origin: center;
+                    }
+                }
+            }
+            
+        }
+    }
+}
