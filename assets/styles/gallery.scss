@@ -10,22 +10,32 @@
     background-color: $red;
     position: relative;
     .intro-gallery{
-        @include flex(row, space-between);
+        @include flex(column, space-between);
+        flex-wrap: wrap;
         align-items: start;
         width:100%;
         height:85vh;
         margin-top: 50px;
         gap: 50px;
+        overflow: hidden;
         .text-gallery{
             @include flex(column, start);
             align-items: end;
             width: 50%;
+            @media all and (max-width: 1200px){
+                width:100%;
+            }
             .margin{
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 width:90%;
                 height:70vh;
+                @media all and (max-width: 1200px){
+                    width:90%;
+                    margin:0 auto;
+                    height:20vh;
+                }
                 a{
                     text-decoration: none;
                     color:$white;
@@ -63,6 +73,10 @@
             width: 50%;
             height:100%;
             background-image: url(../../public/images/cover_gallery.jpg);
+            @media all and (max-width: 1200px){
+                width:100%;
+                height:45vh;
+            }
         }
     }
 }
