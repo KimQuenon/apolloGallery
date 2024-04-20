@@ -285,7 +285,6 @@ i{
     height:95vh;
     padding-bottom: 50px;
     margin:0 auto;
-    background-color: blue;
     @media all and (max-width: 1200px){
         width:80%;
         flex-direction: column;
@@ -300,7 +299,6 @@ i{
         text-align: left;
         width:50%;
         height:100%;
-        background-color: #823636;
         @media all and (max-width: 1200px){
             width:100%;
         }
@@ -337,7 +335,6 @@ i{
 }
 
 .pendulum {
-    background-color: #2196F3;
     width: 100%;
     margin-top: -400px;
     position: relative;
@@ -370,7 +367,6 @@ i{
   
 #slide-latest{
     min-height: 100vh;
-    background-color: yellow;
     @media all and (max-width: 1200px){
         height: 170vh;
     }
@@ -380,7 +376,6 @@ i{
     .container-content{
         width:90%;
         height:90%;
-        background-color: yellowgreen;
         padding-bottom: 0;
         gap:50px;
         @media all and (max-width: 768px){
@@ -391,7 +386,6 @@ i{
             width:33%;
             height:100%;
             padding-bottom: 0;
-            background-color: green;
             gap:50px;
             @media all and (max-width: 1200px){
                 width: 100%;
@@ -400,7 +394,6 @@ i{
             .frame-title{
                 width:100%;
                 height:40%;
-                background-color: darkgreen;
                 @media all and (max-width: 1200px){
                     height: 20vh;
                 }
@@ -414,7 +407,6 @@ i{
             .first-frame, .third-frame{
                 width:100%;
                 height:60%;
-                background-color: darkgreen;
                 @include flex(column, start);
                 align-items:start;
                 text-decoration: none;
@@ -461,7 +453,6 @@ i{
                 align-items: flex-start;
                 width:100%;
                 height: 90%;
-                background-color: #2196F3;
                 margin-top: auto;
                 text-decoration: none;
                 @media all and (max-width: 1200px){
@@ -537,7 +528,6 @@ i{
         @include flex(row, space-between);
         width:90%;
         height:90%;
-        background-color: yellowgreen;
         gap:50px;
         padding-bottom: 0;
         @media all and (max-width: 1200px){
@@ -548,7 +538,6 @@ i{
             &:first-child {
                 width:65%;
                 height:100%;
-                background-color: green;
                 gap:0;
                 @media all and (max-width: 1200px){
                     width: 100%;
@@ -558,7 +547,6 @@ i{
                 @include flex(column, space-between);
                 text-align: end;
                 width:35%;
-                // background-color: paleturquoise;
                 @media all and (max-width: 1200px){
                     @include flex(row);
                     align-items: flex-start;
@@ -598,7 +586,6 @@ i{
                     }
                     .icon_sm{
                         @include flex (row, space-between);
-                        // background-color: #37F119;
                         width:80%;
                         padding: 10px 0;
                         gap:100px;
@@ -637,7 +624,6 @@ i{
                     .form-paper{
                         width:55%;
                         height:65%;
-                        // background-color: pink;
                         position: absolute;
                         top:10%;
                         left:26%;

@@ -3,7 +3,39 @@
 {% block title %}Our Gallery{% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div class="slide-gallery">
+        <div class="intro-gallery">
+            <div class="text-gallery">
+                <div class="margin">
+                    <div>
+                        <a href="{{ path('homepage') }}">Home /</a>
+                        <a href="{{ path('artworks_index') }}" class="weight">Our gallery</a>
+                    </div>
+                    <div>
+                        <h2>OUR GALLERY</h2>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. <strong>Quia dolor dolores ea.</strong> Odio voluptas provident minima deserunt excepturi explicabo ratione fuga, beatae enim placeat accusamus, maiores vel, <strong>at mollitia voluptates reiciendis sit illo pariatur voluptate inventore velit eius.</strong> Quam id sequi culpa illum itaque. Molestiae temporibus natus reiciendis maiores doloremque incidunt suscipit! Quisquam, ex quod.</p>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eos voluptatum veritatis dolor tempora expedita.</p>
+                            <div class="social_media_gallery">
+                                <div>
+                                    <i class="fab fa-facebook"></i> 
+                                </div>
+                                <div>
+                                    <i class="fa-brands fa-twitter"></i>
+                                </div>
+                                <div>
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <i class="fa-brands fa-tiktok"></i>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover-gallery"></div>
+        </div>
+    </div>
+    {# <div class="container">
         <div>
             {% for movement in movements %}
                 <button type="button" class="btn btn-secondary">
@@ -21,5 +53,5 @@
             {% endfor %}
             {{pagination.display()}}
         </div>
-    </div>
+    </div> #}
 {% endblock %}
