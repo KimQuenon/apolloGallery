@@ -1,0 +1,45 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.pagination-container{
+    width:100%;
+    align-items: center!important;
+    margin: 70px 0;
+    .pagination{
+        @include flex(row, space-between);
+        width:25%;
+        @media all and (max-width: 768px){
+            width:50%;
+        }
+        .page-item .page-link{
+                @include flex(row, center);
+                background-color: transparent;
+                border:none;
+                border-radius: 50%!important;
+                width:30px;
+                height:30px;
+                color:$white;
+                transition: all 0.1s;
+                &:hover{
+                    border: 3px solid $white;
+                }
+            }
+        .active{
+            .page-link{
+                background-color: $white!important;
+                color: $red;
+                transition: all 0.2s;
+                &:hover{
+                    border:none;
+                    background-color: $darkWhite!important;
+                }
+            }
+        }
+        .disabled{
+            color:$white;
+            opacity: 0.5;
+        }
+    }
+}
