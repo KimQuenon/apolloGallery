@@ -59,6 +59,7 @@ class AuctionController extends AbstractController
         $user = $this->getUser();
         $artworkOwner = $artwork->getAuthor();
         $currentDate = new \DateTime();
+        $movements = $artwork->getMovements();
         
         //recup l'enchère acceptée
         $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
@@ -88,6 +89,7 @@ class AuctionController extends AbstractController
                 'topThree' => $topThree,
                 // 'avgRating' => $avgRating,
                 'context' => 'account_sales_show',
+                'movements' => $movements,
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');

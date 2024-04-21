@@ -7,55 +7,6 @@
 	{% include "partials/_display.html.twig" with {'context': context, 'artwork': artwork}  %}
 
 
-	
-	{# display share link #}
-	{# {% if app.user and artwork.endDate > currentDate and artwork.author != app.user %}
-        {% set userHasBid = false %}
-        {% for auction in artwork.auctions %}
-            {% if auction.user == app.user %}
-                {% set userHasBid = true %}
-            {% endif %}
-        {% endfor %}
-
-        {% if userHasBid %}
-            <p>Vous avez déjà fait une enchère sur cette œuvre.</p>
-			<button id="shareLinkButton" class="flex gap-1 border placeholder:border px-2 py-1 my-3 rounded text-slate-500 text-sm hover:bg-black hover:text-white">
-				Share link
-			</button>
-			<div id="copyMessage" style="display: none; color: green;">Copied link !</div>
-        {% else %}
-            <a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn btn-dark">Make a bid</a>
-        {% endif %}
-    {% endif %} #}
-
-	{# <h1>{{ artwork.title }}</h1>
-	<h1>{{ artwork.priceInit }}</h1>
-    <p>{{ artwork.fullName }}</p>
-	<p>{{ artwork.content }}</p>
-	<p>{{ artwork.medium }}</p>
-	<p>{{ artwork.submissionDate|date('Y-m-d H:i:s') }}</p>
-	<p>{{ artwork.endDate|date('Y-m-d H:i:s') }}</p> #}
-	
-	{# display movements #}
-	{# {% for movement in movements %}
-		<p>{{ movement.movementName }}</p>
-	{% endfor %} #}
-
-	{# in case artwork is sold #}
-	{# {% if artwork.endDate < currentDate %}
-		<h3>Vendu</h3>
-		<p>Cette oeuvre sera bientôt retirée du site</p>
-	{% else %} #}
-	{# display time left #}
-		{# <div>
-			<div id="days"></div>
-			<div class="d-flex">
-				<div id="hour"></div>
-				<div id="min"></div>
-				<div id="sec"></div>
-			</div>
-		</div>
-	{% endif %} #}
 
     {# <p>{{author.fullName}}</p>
     {% if author.picture %}
@@ -94,71 +45,5 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script>
-	
-		// update chrono
-function chrono() {
-const divDays = document.querySelector('#days');
-const divHours = document.querySelector('#hour');
-const divMin = document.querySelector('#min');
-const divSec = document.querySelector('#sec');
 
-// count endDate
-function compte() {
-var actualDatetime = new Date();
-var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
-var totalSecondes = (endDate - actualDatetime) / 1000;
-
-// if timer ends
-if (totalSecondes < 0) {
-divCount.innerHTML = "fin";
-return;
-}
-
-// values
-var days = Math.floor(totalSecondes / (60 * 60 * 24));
-var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
-var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
-var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
-
-// display
-divDays.innerHTML = days + " days";
-divHours.innerHTML = hours + ":";
-divMin.innerHTML = minutes + ":";
-divSec.innerHTML = secondes;
-
-var actualisation = setTimeout(compte, 1000);
-}
-compte();
-}
-chrono();
-
-
-// paste link to clipboard
-function copyLinkToClipboard(url) {
-	var input = document.createElement('input');
-	input.setAttribute('value', url);
-	document.body.appendChild(input);
-	input.select();
-	document.execCommand('copy');
-	document.body.removeChild(input);
-
-	// display successMessage
-	const copyMessage = document.getElementById('copyMessage');
-	if (copyMessage) {
-		copyMessage.style.display = 'block';
-		setTimeout(() => {
-			copyMessage.style.display = 'none';
-		}, 1500);
-	}
-}
-
-// add event
-const shareLinkButton = document.getElementById('shareLinkButton');
-if (shareLinkButton) {
-	shareLinkButton.addEventListener('click', function() {
-		copyLinkToClipboard(window.location.href);
-	});
-}
-	</script>
 {% endblock %}

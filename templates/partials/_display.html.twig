@@ -2,11 +2,19 @@
 	<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}">
 	<div class="color-overlay"></div>
 	<div class="content-show">
-		<div>
-			<a href="{{ path('homepage') }}">Home /</a>
-			<a href="{{ path('artworks_index') }}">Our gallery /</a>
-			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
-		</div>
+        {% if context == 'artworks_show' %}
+            <div>
+                <a href="{{ path('homepage') }}">Home /</a>
+                <a href="{{ path('artworks_index') }}">Our gallery /</a>
+                <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
+            </div>
+        {% elseif context == 'account_sales_show' %}
+            <div>
+                <a href="{{ path('account_profile') }}">Profile /</a>
+                <a href="{{ path('account_sales_index') }}">Sales /</a>
+                <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
+            </div>
+        {% endif %}   
 		{% set isVertical = (artwork.canvaHeight > artwork.canvaWidth) %}
 		{% set orientation_class = isVertical ? 'rotate-90' : '' %}
 		<div class="container-show">
@@ -48,14 +56,14 @@
 					</div>
 					<div class="item-info">
 						<p class="item weight">Era :</p>
-                        <p class="item">
-                            {% for movement in movements %}
-                                {{ movement.movementName }}
-                                {% if not loop.last %}
-                                    -
-                                {% endif %}
-                            {% endfor %}
-                        </p>
+						<p class="item">
+							{% for movement in movements %}
+								{{ movement.movementName }}
+								{% if not loop.last %}
+									-
+								{% endif %}
+							{% endfor %}
+						</p>
 					</div>
 					<div class="item-info">
 						<p class="item weight">Medium :</p>
@@ -107,15 +115,15 @@
 								{% endfor %}
 
 								{% if userHasBid %}
-                                <div class="share-container">
-									<p>You have already placed a bed for this artwork.</p>
-                                    <div>
-                                        <div id="copyMessage" style="display: none; color: green;">Copied link!</div>
-                                        <button id="shareLinkButton" class="btn1">
-                                            <i class="fa-solid fa-up-right-from-square"></i>Share link
-                                        </button>
-                                    </div>
-                                </div>
+									<div class="share-container">
+										<p>You have already placed a bed for this artwork.</p>
+										<div>
+											<div id="copyMessage" style="display: none; color: green;">Copied link!</div>
+											<button id="shareLinkButton" class="btn1">
+												<i class="fa-solid fa-up-right-from-square"></i>Share link
+											</button>
+										</div>
+									</div>
 								{% else %}
 									<a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn1">Make a bid
 										<i class="fa-solid fa-gavel"></i>
@@ -140,41 +148,45 @@
 			</div>
 		</div>
 	</div>
-</div></div>{% block javascripts %}
+</div>
+
+{% block javascripts %}
 <script>
-	function chrono() {
-const divDays = document.querySelector('#days');
-const divHours = document.querySelector('#hour');
-const divMin = document.querySelector('#min');
-const divSec = document.querySelector('#sec');
+    function chrono() {
+        const divDays = document.querySelector('#days');
+        const divHours = document.querySelector('#hour');
+        const divMin = document.querySelector('#min');
+        const divSec = document.querySelector('#sec');
 
-// count endDate
-function compte() {
-var actualDatetime = new Date();
-var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
-var totalSecondes = (endDate - actualDatetime) / 1000;
+        // count endDate
+        function compte() {
+        var actualDatetime = new Date();
+        var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
+        var totalSecondes = (endDate - actualDatetime) / 1000;
 
-// if timer ends
-if (totalSecondes < 0) {
-divCount.innerHTML = "fin";
-return;
-}
+        // if timer ends
+        if (totalSecondes < 0) {
+        divCount.innerHTML = "fin";
+        return;
+    }
 
-// values
-var days = Math.floor(totalSecondes / (60 * 60 * 24));
-var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
-var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
-var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
+    // values
+    var days = Math.floor(totalSecondes / (60 * 60 * 24));
+    var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
+    var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
+    var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
 
-// display
-divDays.innerHTML = days + " days";
-divHours.innerHTML = hours + ":";
-divMin.innerHTML = minutes + ":";
-divSec.innerHTML = secondes;
+    // display
+    divDays.innerHTML = days + " days";
+    divHours.innerHTML = hours + ":";
+    divMin.innerHTML = minutes + ":";
+    divSec.innerHTML = secondes;
 
-var actualisation = setTimeout(compte, 1000);
-}
-compte();
-}
-chrono();
-</script>{% endblock %}
+    var actualisation = setTimeout(compte, 1000);
+    }
+    compte();
+    }
+    chrono();
+</script>
+    {{encore_entry_script_tags('shareLink')}}
+{% endblock %}
