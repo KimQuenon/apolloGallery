@@ -237,6 +237,7 @@ class AuctionController extends AbstractController
                 $auction->setUser($user);
                 $auction->setArtwork($artwork);
                 $auction->setSubmissionDate(new \DateTime());
+                $auction->setSold('no');
     
                 $manager->persist($auction);    
                 $manager->flush();
