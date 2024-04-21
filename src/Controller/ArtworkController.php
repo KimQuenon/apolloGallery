@@ -139,6 +139,7 @@ class ArtworkController extends AbstractController
             'currentDate' => $currentDate,
             'seller' => $seller,
             'otherArtworks' => $otherArtworks,
+            'context' => 'artworks_show',
         ]);
     }
 

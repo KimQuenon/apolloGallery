@@ -87,6 +87,7 @@ class AuctionController extends AbstractController
                 'auctionAccepted' => $auctionAccepted,
                 'topThree' => $topThree,
                 'avgRating' => $avgRating,
+                'context' => 'account_sales_show',
             ]);
         } else {
             $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');

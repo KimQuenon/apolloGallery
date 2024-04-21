@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block body %}
+{% include "partials/_display.html.twig" with {'context': context, 'artwork': artwork}  %}
 <div class="container">
     <h1>Sales of {{ artwork.title }}</h1>
     <img class="img-fluid" src="{{ artwork.coverImage }}" alt="{{ artwork.title }}">
