@@ -34,9 +34,13 @@
     .icons-container{
         @include flex(row, space-between);
         width: 100%;
-        a{
-            text-decoration: none;
-            color:$white;
+        .icons-content{
+            align-self: end;
+            margin-top: auto;
+            a{
+                text-decoration: none;
+                color:$white;
+            }
         }
     }
 }

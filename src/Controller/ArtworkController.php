@@ -49,6 +49,9 @@ class ArtworkController extends AbstractController
         //form complet et valid -> envoi bdd + message et redirection
         if($form->isSubmitted() && $form->IsValid())
         {
+            $artwork->setTitle(ucwords($artwork->getTitle()));
+            $artwork->setArtistName(ucwords($artwork->getArtistName()));
+            $artwork->setArtistSurname(ucwords($artwork->getArtistSurname()));
             $artwork->setAuthor($this->getUser());
             $artwork->setArchived(false);
 

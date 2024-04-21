@@ -59,7 +59,7 @@ class AppFixtures extends Fixture
             ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
             ->setEmail('admin@epse.be')
             ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
-            ->setDescription('<p>'.join('</p><p>',$faker->paragraphs(3)).'</p>')
+            ->setDescription('<p>'.join('</p><p>',$faker->paragraphs(1)).'</p>')
             ->setRoles(['ROLE_ADMIN'])
             ->setPicture('');
 
@@ -77,7 +77,7 @@ class AppFixtures extends Fixture
                 ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
                 ->setEmail($faker->email())
                 ->setPassword($hash)
-                ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(3)).'</p>')
+                ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(1)).'</p>')
                 ->setPicture('');
 
                 $manager->persist($user);
@@ -148,7 +148,7 @@ class AppFixtures extends Fixture
                 ->setYear($faker->year())
                 ->setCanvaWidth($faker->randomFloat(2, 50, 1000))
                 ->setCanvaHeight($faker->randomFloat(2, 50, 1000))
-                ->setContent('<p>'.join('</p><p>', $faker->paragraphs(5)).'</p>')
+                ->setContent('<p>'.join('</p><p>', $faker->paragraphs(1)).'</p>')
                 ->setMedium($media[array_rand($media)])
                 ->setPriceInit($faker->randomFloat(2, 1000, 100000))
                 ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))

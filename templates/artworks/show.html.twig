@@ -19,15 +19,47 @@
 					<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}" class="{{ orientation_class }}">
 					<div class="frame-overlay {{ orientation_class }}"></div>
 				</div>
-				<div class="info-show"></div>
+				<div class="info-show">
+					<div class="title-show">
+						<h2>{{artwork.title}}</h2>
+						<div class="icons-content">
+							{% if app.user == artwork.author or is_granted('ROLE_ADMIN') %}
+								<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit"><i class="fa-solid fa-pen"></i></a>
+								<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete"><i class="fa-solid fa-trash-can"></i></a>
+							{% endif %}
+						</div>
+					</div>
+					<p class="weight">{{artwork.fullName}}</p>
+					<div class="container-info">
+						<div class="item-info">
+							<p class="item weight">Year :</p>
+							<p class="item">{{artwork.year}}</p>
+						</div>
+						<div class="item-info">
+							<p class="item weight">Year :</p>
+							<p class="item">{{artwork.year}}</p>
+						</div>
+						<div class="item-info">
+							<p class="item weight">Year :</p>
+							<p class="item">{{artwork.year}}</p>
+						</div>
+						<div class="item-info">
+							<p class="item weight">Year :</p>
+							<p class="item">{{artwork.year}}</p>
+						</div>
+						<div class="item-info">
+							<div><p class="weight">Description : </p>{{artwork.content | raw }}</div>						
+						</div>
+						<div class="item-price">
+							<p class="weight">Price :</p>
+							<div class="price">€ {{artwork.priceInit|number_format(2, ',', '.')}}</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-	{# display edit btn #}
-	{# {% if (app.user and app.user == artwork.author) or is_granted('ROLE_ADMIN') %}
-		<a href="{{path('artworks_edit', {'slug':artwork.slug})}}" class="btn btn-warning m-2">Modification de l'annonce</a>
-		<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-secondary">Supprimer</a>
-	{% endif %} #}
+
 	
 	{# display share link #}
 	{# {% if app.user and artwork.endDate > currentDate and artwork.author != app.user %}

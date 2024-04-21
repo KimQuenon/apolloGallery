@@ -101,12 +101,17 @@ i{
 
 .container{
     padding-top: 20px;
+    position: absolute;
+    z-index: 20000000;
+    left:50%;
+    transform: translateX(-50%);
     .alert{
-        z-index:1200000;
+        width:80%;
+        margin:0 auto;
         border: none;
         border-radius: 50px;
-        .alert-success{
-            background-color: $green;
+        &-success{
+            background-color: $green!important;
         }
         p{
             font-weight: 500;
@@ -134,9 +139,8 @@ i{
 
 .icons-content{
     @include flex(row, space-between);
-    align-self: end;
-    margin-top: auto;
-    width:30%;
+    // align-self: end;
+    // margin-top: auto;
     gap:15px;
     .icon{
         @include flex(row, center);
