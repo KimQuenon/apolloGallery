@@ -12,6 +12,9 @@
         width:100%;
         height:100vh;
         object-fit: cover;
+        @media all and (max-width: 1200px){
+            height:125vh;
+        }
     }
     .color-overlay {
         position: absolute;
@@ -21,6 +24,9 @@
         height: 100%;
         background-color: $darkRed;
         mix-blend-mode: multiply;
+        @media all and (max-width: 1200px){
+            height:125vh;
+        }
     }
     .content-show{
         position: absolute;
@@ -31,27 +37,48 @@
         left:50%;
         transform: translate(-50%,-50%);
         margin-top: 10px;
+        @media all and (max-width: 1200px){
+            margin-top: 0;
+            padding-bottom: 100px;
+        }
         .container-show{
-            @include flex(row, space-between);
+            @include flex(column, space-between);
+            flex-wrap: wrap;
             gap:50px;
             width:100%;
             height:100%;
             margin-top: 20px;
+            @media all and (max-width: 1200px){
+                flex-direction: row;
+                margin-top: 0;
+                gap:20px;
+            }
             .img-show {
+                @include flex(row,center);
                 width: 50%;
                 height: 100%;
                 position: relative;
-                @include flex(row,center);
+                @media all and (max-width: 1200px){
+                    width:100%;
+                    height:60%;
+                }
                 img {
                     width: 90%;
                     height: 70%;
                     object-fit: cover;
                     margin-top: -50px;
+                    @media all and (max-width: 1200px){
+                        height: 75%;
+                    }
                     &.rotate-90 {
                         width: 50%;
                         height: 80%;
                         margin-top: -15px;
                         margin-left: 30px;
+                        @media all and (max-width: 1200px){
+                            width:45%;
+                            margin-left: 0;
+                        }
                     }
                 }
             
@@ -71,13 +98,19 @@
                         top:-15px;
                         transform: rotate(90deg);
                         transform-origin: center;
+                        @media all and (max-width: 1200px){
+                            width:70%;
+                        }
                     }
                 }
             }
             .info-show{
                 width:50%;
                 height: 100%;
-                // background-color: firebrick;
+                @media all and (max-width: 1200px){
+                    width:100%;
+                    height:40vh;
+                }
                 .title-show{
                     @include flex(row, space-between);
                 }
