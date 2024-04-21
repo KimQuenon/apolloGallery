@@ -86,7 +86,7 @@ class AuctionController extends AbstractController
                 'currentDate' => $currentDate,
                 'auctionAccepted' => $auctionAccepted,
                 'topThree' => $topThree,
-                'avgRating' => $avgRating,
+                // 'avgRating' => $avgRating,
                 'context' => 'account_sales_show',
             ]);
         } else {

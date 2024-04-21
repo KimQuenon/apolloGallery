@@ -19,41 +19,76 @@
 						<h2>{{artwork.title}}</h2>
 						<div class="icons-content">
 							{% if app.user == artwork.author or is_granted('ROLE_ADMIN') %}
+                                {% if context == 'artworks_show' %}
+                                    <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="icon icon-sales"><i class="fa-solid fa-gavel"></i></a>
+                                {% endif %}
 								<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit"><i class="fa-solid fa-pen"></i></a>
-								<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete"><i class="fa-solid fa-trash-can"></i></a>
+								<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete-clear"><i class="fa-solid fa-trash-can"></i></a>
 							{% endif %}
 						</div>
 					</div>
 					<p class="weight">{{artwork.fullName}}</p>
 					<div class="container-info">
-						<div class="item-info">
-							<p class="item weight">Year :</p>
-							<p class="item">{{artwork.year}}</p>
+                    	<div class="item-info">
+							<div><p class="weight">Description : </p><p>{{artwork.content | raw }}</p></div>						
 						</div>
 						<div class="item-info">
 							<p class="item weight">Year :</p>
 							<p class="item">{{artwork.year}}</p>
 						</div>
 						<div class="item-info">
-							<p class="item weight">Year :</p>
+							<p class="item weight">Era :</p>
 							<p class="item">{{artwork.year}}</p>
 						</div>
 						<div class="item-info">
-							<p class="item weight">Year :</p>
-							<p class="item">{{artwork.year}}</p>
+							<p class="item weight">Medium :</p>
+							<p class="item">{{artwork.medium}}</p>
 						</div>
 						<div class="item-info">
-							<div><p class="weight">Description : </p>{{artwork.content | raw }}</div>						
+							<p class="item weight">Canva size :</p>
+							<p class="item">{{artwork.canvaWidth}} x {{artwork.canvaHeight}} cm</p>
 						</div>
                     {% if context == 'artworks_show' %}
+                        <div class="item-info">
+							<p class="item weight time">Time left :</p>
+                            {% if artwork.endDate < currentDate %}
+							<p class="item">
+                                <div class="item-flex">
+                                    <h3>Sold</h3>
+                                    <p>This artwork will be deleted soon...</p>
+                                </div>
+                            </p>
+                            {% else %}
+                            <p class="item">
+                                <div class="item-flex">
+                                    <div id="days"></div>
+                                    <div class="d-flex">
+                                        <div id="hour"></div>
+                                        <div id="min"></div>
+                                        <div id="sec"></div>
+                                    </div>
+                                </div>
+                            </p>
+						</div>
                         <div class="item-price">
                             <p class="weight">Price :</p>
                             <div class="price">€ {{ artwork.priceInit | number_format(2, ',', '.') }}</div>
                         </div>
+                        {% if app.user != artwork.author %}
+                            <a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn1">Make a bid <i class="fa-solid fa-gavel"></i></a>
+                        {% endif %}
+                        {% endif %}
                     {% elseif context == 'account_sales_show' %}
-                        <div class="item-price">
-                            <p class="weight">Highest Bid :</p>
-                            {# <div class="price">€ {{ artwork.highestBid | number_format(2, ',', '.') }}</div> #}
+                        {% if topThree is not empty %}
+                            <div class="item-price">
+                                <p class="weight">Highest bid :</p>
+                                <div class="price">€ {{ topThree[0].amount | number_format(2, ',', '.') }}</div>
+                            </div>
+                        {% else %}
+                            <div class="item-price">
+                                <p class="price">No auction yet.</p>
+                            </div>
+                        {% endif %}                        
                         </div>
                     {% endif %}
 					</div>
@@ -61,3 +96,47 @@
 			</div>
 		</div>
 	</div>
+
+{% block javascripts %}
+<script>
+function chrono() {
+const divDays = document.querySelector('#days');
+const divHours = document.querySelector('#hour');
+const divMin = document.querySelector('#min');
+const divSec = document.querySelector('#sec');
+
+// count endDate
+function compte() {
+var actualDatetime = new Date();
+var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
+var totalSecondes = (endDate - actualDatetime) / 1000;
+
+// if timer ends
+if (totalSecondes < 0) {
+divCount.innerHTML = "fin";
+return;
+}
+
+// values
+var days = Math.floor(totalSecondes / (60 * 60 * 24));
+var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
+var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
+var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
+
+// display
+divDays.innerHTML = days + " days";
+divHours.innerHTML = hours + ":";
+divMin.innerHTML = minutes + ":";
+divSec.innerHTML = secondes;
+
+var actualisation = setTimeout(compte, 1000);
+}
+compte();
+}
+chrono();
+
+
+</script>
+
+
+{% endblock %}

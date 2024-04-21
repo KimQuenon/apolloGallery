@@ -160,6 +160,12 @@ i{
                 background-color: $bordeau;
             }
         }
+        &-delete-clear{
+            background-color: $red;
+            &:hover{
+                background-color: $darkRed;
+            }
+        }
         &-sales{
             background-color: $orange;
             &:hover{
