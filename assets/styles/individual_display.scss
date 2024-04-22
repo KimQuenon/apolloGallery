@@ -15,6 +15,9 @@
         @media all and (max-width: 1200px){
             height:125vh;
         }
+        @media all and (max-width: 768px){
+            // height:120vh;
+        }
     }
     .color-overlay {
         position: absolute;
@@ -26,6 +29,9 @@
         mix-blend-mode: multiply;
         @media all and (max-width: 1200px){
             height:125vh;
+        }
+        @media all and (max-width: 768px){
+            // height:120vh;
         }
     }
     .content-show{
@@ -62,6 +68,9 @@
                     width:100%;
                     height:60%;
                 }
+                @media all and (max-width: 1200px){
+                    height:40%;
+                }
                 img {
                     width: 90%;
                     height: 70%;
@@ -69,6 +78,9 @@
                     margin-top: -50px;
                     @media all and (max-width: 1200px){
                         height: 75%;
+                    }
+                    @media all and (max-width: 768px){
+                        margin-top: -30px;
                     }
                     &.rotate-90 {
                         width: 50%;
@@ -92,7 +104,10 @@
                     background-size: contain;
                     background-repeat: no-repeat;
                     z-index: 10;
-            
+                    @media all and (max-width: 768px){
+                        // left:60%;
+                        // transform: translateX(-50%);
+                    }
                     &.rotate-90 {
                         width:80%;
                         top:-15px;
