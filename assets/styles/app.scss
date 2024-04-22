@@ -92,6 +92,15 @@ i{
     }
 }
 
+.btn4{
+    @include btn();
+    background-color: $darkRed;
+    color:$white;
+    &:hover{
+        background-color: $bordeau;
+    }
+}
+
 .hr{
     width: 100%;
     margin: 0 auto;
@@ -99,23 +108,31 @@ i{
     height:1px;
 }
 
-.container{
+.container-alert{
+    width:100%;
     padding-top: 20px;
     position: absolute;
     z-index: 20000000;
     left:50%;
     transform: translateX(-50%);
     .alert{
-        width:80%;
-        margin:0 auto;
-        border: none;
-        border-radius: 50px;
-        &-success{
-            background-color: $green!important;
-        }
-        p{
-            font-weight: 500;
-        }
+        width: 80%;
+    }
+}
+.alert{
+    margin:0 auto;
+    border: none!important;
+    border-radius: 50px!important;
+    font-weight: 500;
+    color:$white!important;
+    &-success{
+        background-color: $green!important;
+    }
+    &-danger{
+        background-color: $darkRed!important;
+    }
+    p{
+        font-weight: 500;
     }
 }
 
@@ -139,8 +156,6 @@ i{
 
 .icons-content{
     @include flex(row, space-between);
-    // align-self: end;
-    // margin-top: auto;
     gap:15px;
     .icon{
         @include flex(row, center);
@@ -188,7 +203,13 @@ i{
     .row-layout{
         width:50%;
         height:100%;
-        background-color: blue;
+        // background-color: blue;
+        &:last-of-type{
+            @include flex(column,center);
+        }
+        .form-layout{
+            width:85%;
+        }
     }
 }
 .img-layout{

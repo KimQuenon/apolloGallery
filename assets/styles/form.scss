@@ -1,0 +1,30 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+h1, label{
+    color:$white!important;
+}
+
+.space{
+    margin-bottom: 20px!important;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    label {
+        flex: 0 0 30%;
+        margin-right: 10px;
+    }
+    input {
+        flex: 1;
+        border-radius: 50px;
+        border:none;
+    }
+    button{
+        align-self: flex-end;
+        margin-left: auto;
+    }
+}
