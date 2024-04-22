@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block img_section %}
-	<img src="../../images/register.jpg" alt="register" class="img-layout">
+	<img src="../../images/register.jpg" alt="register" class="img-layout" id="registration_img">
 {% endblock %}
 
 {% form_theme myForm _self %}
@@ -19,18 +19,18 @@
         <p class="space">Welcome to Apollo Gallery, et blablablablabla et blablabla et aussi un autre blabla pour que ça fasse deux lignes.</p>
         {{form_start(myForm)}}
             {{form_widget(myForm)}}
-            <button type="submit" class="btn4">Sign up</button>
+            <button type="submit" class="btn4 align">Sign up</button>
         {{form_end(myForm)}}
     </div>
 {% endblock %}
 
 {% block form_row %}
     <div class="container">
-        <div class="form-group row space">
+        <div class="form-group row">
             <div class="col-4">
                 {{form_label(form)}}
             </div>
-            <div class="col-8">
+            <div class="col-8 space">
                 {{form_widget(form)}}
                 {{form_errors(form)}}
             </div>

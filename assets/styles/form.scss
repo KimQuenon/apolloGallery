@@ -18,6 +18,14 @@ h1, label{
     }
 }
 
+textarea{
+    resize:none!important;
+}
+
+.align{
+    align-self: flex-end;
+    margin-left: auto;
+}
 
 .container-layout{
     @include flex(row, space-between);
@@ -55,6 +63,10 @@ h1, label{
                     border-radius: 25px;
                     padding:70px 20px;
                 }
+                @media all and (max-width:768px){
+                    padding:15px 5px;
+                    margin-top: 70px;
+                }
             }
         }
     }
@@ -80,9 +92,11 @@ h1, label{
     @media all and (max-width: 1200px){
         display: block;
     }
+    @media all and (max-width: 768px){
+        display: block!important;
+    }
     label {
         flex: 0 0 30%;
-        margin-right: 10px;
     }
     input {
         flex: 1;
@@ -92,8 +106,18 @@ h1, label{
             margin-top: 15px;
         }
     }
-    button{
-        align-self: flex-end;
-        margin-left: auto;
+    .col-4, .col-8{
+        @media all and (max-width: 768px){
+            width: 100%!important;
+        }
+        input{
+            margin-top:0!important;
+        }
     }
+}
+
+#registration_img{
+    @media all and (max-width: 768px){
+        height:125vh;
+    } 
 }
