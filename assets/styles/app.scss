@@ -194,30 +194,6 @@ i{
     }
 }
 
-.container-layout{
-    @include flex(row, space-between);
-    width:100%;
-    height: 100vh;
-    position: relative;
-    background-color: $red;
-    .row-layout{
-        width:50%;
-        height:100%;
-        // background-color: blue;
-        &:last-of-type{
-            @include flex(column,center);
-        }
-        .form-layout{
-            width:85%;
-        }
-    }
-}
-.img-layout{
-    width: 100%;
-    height:100%;
-    object-fit: cover;
-    background-color: rebeccapurple;
-}
 //  --------------------------HOMEPAGE-------------------------
 .header{
     position: fixed;
