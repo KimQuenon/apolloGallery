@@ -4,7 +4,9 @@
 {% endblock %}
 
 {% block img_section %}
-	<img src="../../images/login.jpg" alt="login" class="img-layout">
+    <div class="pic-layout">
+	    <img src="../../images/login.jpg" alt="login" class="img-layout">
+    </div>
 {% endblock %}
 
 {% block form_section %}
@@ -15,11 +17,6 @@
 			<a href="{{ path('account_login') }}" class="subText weight">Login</a>
 		</div>
 		<div>
-			<h1>welcome back !</h1>
-			<p class="weight space">No account yet ?
-				<a href="{{path('account_register')}}" class="text-decoration-underline">Sign up right here !</a>
-			</p>
-			<p class="space">Welcome to Apollo Gallery, et blablablablabla et blablabla et aussi un autre blabla pour que ça fasse deux lignes.</p>
 			{% if hasError %}
 				<div class="alert alert-danger">
 					Une erreur est survenue, le nom d'utilisateur ou le mot de passe est invalide.
@@ -30,6 +27,11 @@
 					{{loginError}}
 				</div>
 			{% endif %}
+			<h1>welcome back !</h1>
+			<p class="weight space">No account yet ?
+				<a href="{{path('account_register')}}" class="text-decoration-underline">Sign up right here !</a>
+			</p>
+			<p class="space">Welcome to Apollo Gallery, et blablablablabla et blablabla et aussi un autre blabla pour que ça fasse deux lignes.</p>
 			<form action="{{path('account_login')}}" method="POST">
 				<div class="form-group space">
 					<label for="email" class="weight">E-mail</label>
@@ -43,7 +45,7 @@
 					<button type="submit" class="btn4">Login</button>
 				</div>
 			</form>
-            <div>
+            <div class="sm">
                 <p class="subText center">Follow us here too :</p>
                 <div class="social_media_all">
                     {% include "partials/_social-media.html.twig" %}

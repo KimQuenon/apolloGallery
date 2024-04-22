@@ -1,14 +1,39 @@
-{% extends "base.html.twig" %}
+{% extends 'form-layout.html.twig' %}
 
-{% block title %}Inscription{% endblock %}
+{% block title %}Register
+{% endblock %}
 
-{% block body %}
-    <div class="container full">
-        <h1>Inscription</h1>
+{% block img_section %}
+	<img src="../../images/register.jpg" alt="register" class="img-layout">
+{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block form_section %}
+    <div class="container">
+    	<div class="space">
+			<a href="{{ path('homepage') }}" class="subText">Home /</a>
+			<a href="{{ path('account_register') }}" class="subText weight">Register</a>
+		</div>
+        <h1>a new face ?</h1>
+        <p class="space">Welcome to Apollo Gallery, et blablablablabla et blablabla et aussi un autre blabla pour que ça fasse deux lignes.</p>
         {{form_start(myForm)}}
-
             {{form_widget(myForm)}}
-            <button type="submit" class="btn btn-success">M'inscrire</button>
+            <button type="submit" class="btn4">Sign up</button>
         {{form_end(myForm)}}
+    </div>
+{% endblock %}
+
+{% block form_row %}
+    <div class="container">
+        <div class="form-group row space">
+            <div class="col-4">
+                {{form_label(form)}}
+            </div>
+            <div class="col-8">
+                {{form_widget(form)}}
+                {{form_errors(form)}}
+            </div>
+        </div>
     </div>
 {% endblock %}
