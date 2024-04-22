@@ -16,7 +16,7 @@
             height:125vh;
         }
         @media all and (max-width: 768px){
-            // height:120vh;
+            height:130vh;
         }
     }
     .color-overlay {
@@ -31,7 +31,7 @@
             height:125vh;
         }
         @media all and (max-width: 768px){
-            // height:120vh;
+            height:130vh;
         }
     }
     .content-show{
@@ -46,6 +46,10 @@
         @media all and (max-width: 1200px){
             margin-top: 0;
             padding-bottom: 100px;
+        }
+        @media all and (max-width: 768px){
+            margin-top: 0;
+            padding-bottom: 150px;
         }
         .container-show{
             @include flex(column, space-between);
@@ -68,8 +72,8 @@
                     width:100%;
                     height:60%;
                 }
-                @media all and (max-width: 1200px){
-                    height:40%;
+                @media all and (max-width: 768px){
+                    height:30%;
                 }
                 img {
                     width: 90%;
@@ -80,7 +84,9 @@
                         height: 75%;
                     }
                     @media all and (max-width: 768px){
-                        margin-top: -30px;
+                        margin-top: 10px;
+                        width:75%;
+                        height:80%;
                     }
                     &.rotate-90 {
                         width: 50%;
@@ -90,6 +96,12 @@
                         @media all and (max-width: 1200px){
                             width:45%;
                             margin-left: 0;
+                        }
+                        @media all and (max-width: 768px){
+                            width:50%;
+                            height:120%;
+                            margin-top: 50px;
+                            margin-left:0;
                         }
                     }
                 }
@@ -105,8 +117,7 @@
                     background-repeat: no-repeat;
                     z-index: 10;
                     @media all and (max-width: 768px){
-                        // left:60%;
-                        // transform: translateX(-50%);
+                        left:7%;
                     }
                     &.rotate-90 {
                         width:80%;
@@ -115,6 +126,12 @@
                         transform-origin: center;
                         @media all and (max-width: 1200px){
                             width:70%;
+                        }
+                        @media all and (max-width: 768px){
+                            top:30%;
+                            left:0%;
+                            width:100%;
+                            height:95%;
                         }
                     }
                 }
@@ -126,8 +143,16 @@
                     width:100%;
                     height:40vh;
                 }
+                @media all and (max-width: 768px){
+                    height:45vh;
+                }
                 .title-show{
                     @include flex(row, space-between);
+                    h2{
+                        @media all and (max-width: 768px){
+                            font-size: 30px!important;
+                        }
+                    }
                 }
                 .container-info{
                     width:100%;
