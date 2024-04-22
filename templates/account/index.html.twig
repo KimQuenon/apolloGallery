@@ -11,8 +11,8 @@
 
 	<div class="container">
 		<div class="space">
-			<a href="{{ path('homepage') }}">Home /</a>
-			<a href="{{ path('account_login') }}" class="weight">Login</a>
+			<a href="{{ path('homepage') }}" class="subText">Home /</a>
+			<a href="{{ path('account_login') }}" class="subText weight">Login</a>
 		</div>
 		<div>
 			<h1>welcome back !</h1>
@@ -43,7 +43,12 @@
 					<button type="submit" class="btn4">Login</button>
 				</div>
 			</form>
-
+            <div>
+                <p class="subText center">Follow us here too :</p>
+                <div class="social_media_all">
+                    {% include "partials/_social-media.html.twig" %}
+                </div>
+            </div>
 		</div>
 	</div>
 {% endblock %}

@@ -46,28 +46,8 @@
                 h2, p{
                     margin-bottom: 25px!important;
                 }
-                .social_media_gallery{
-                    @include flex(row, center);
-                    margin: 0 auto;
-                    width:25%;
-                    gap:35px;
-                    padding-top: 50px;
-                    div{
-                        @include flex(row,center);
-                        color: $red;
-                        background-color: $white;
-                        width:30px;
-                        height:30px;
-                        border-radius: 50%;
-                        transition: all 0.2s;
-                        &:hover{
-                            color:$white;
-                            background-color: $darkRed;
-                        }
-                        i{
-                            font-size: 16px;
-                        }
-                    }
+                .social_media_all{
+                    @include media(30px, 16px, 35px, 50px);
                 }
             }
         }

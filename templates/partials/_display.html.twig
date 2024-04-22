@@ -4,9 +4,9 @@
 	<div class="content-show">
         {% if context == 'artworks_show' %}
             <div>
-                <a href="{{ path('homepage') }}">Home /</a>
-                <a href="{{ path('artworks_index') }}">Our gallery /</a>
-                <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
+                <a href="{{ path('homepage') }}" class="subText">Home /</a>
+                <a href="{{ path('artworks_index') }}" class="subText">Our gallery /</a>
+                <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText weight">{{artwork.title}}</a>
             </div>
         {% elseif context == 'account_sales_show' %}
             <div>

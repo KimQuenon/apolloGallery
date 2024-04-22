@@ -1,3 +1,5 @@
+@import 'colors';
+
 @mixin flex($flex-direction: row, $justify-content: space-between){
     display:flex;
     flex-direction: $flex-direction;
@@ -30,4 +32,28 @@
     margin-top: 20px;
     text-align: center;
     transition: all 0.2s;
+}
+
+@mixin media($iconSize, $fontSize, $gap, $paddingTop){
+    @include flex(row, center);
+    margin: 0 auto;
+    width:25%;
+    gap:$gap;
+    padding-top: $paddingTop;
+    div{
+        @include flex(row,center);
+        color: $red;
+        background-color: $white;
+        width: $iconSize;
+        height: $iconSize;
+        border-radius: 50%;
+        transition: all 0.2s;
+        &:hover{
+            color:$white;
+            background-color: $darkRed;
+        }
+        i{
+            font-size: $fontSize;
+        }
+    }
 }

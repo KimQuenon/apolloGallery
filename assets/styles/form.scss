@@ -11,6 +11,9 @@ h1, label{
     margin-bottom: 20px!important;
 }
 
+.social_media_all{
+    @include media(22px, 12px, 15px, 15px);
+}
 
 .container-layout{
     @include flex(row, space-between);
