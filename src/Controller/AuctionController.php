@@ -255,6 +255,7 @@ class AuctionController extends AbstractController
             }
         }
         return $this->render("artworks/auction.html.twig",[
+            'artwork' => $artwork,
             'myForm' => $form->createView(),  
         ]);
     }

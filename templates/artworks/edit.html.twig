@@ -12,7 +12,7 @@
     <div class="container margin-y">
     	<div class="space">
 			<a href="{{ path('artworks_index') }}" class="subText">Gallery /</a>
-			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText">Profile /</a>
+			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText">{{artwork.title}} /</a>
 			<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="subText weight">Edit</a>
 		</div>
         <h1 class="mb-4">{{artwork.title}}</h1>
