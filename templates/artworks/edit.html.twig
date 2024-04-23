@@ -1,29 +1,30 @@
-{% extends "base.html.twig" %}
+{% extends 'form-layout.html.twig' %}
 
+{% block title %}Edit mode{% endblock %}
 
-{% block title %}Mode Edition{% endblock %}
+{% block img_section %}
+    <img src="../../images/edit_artwork.jpg" alt="new_artwork" class="img-layout" id="edit_img">
+{% endblock %}
 
 {% form_theme myForm _self %}
 
-{% block body %}
-
-    <div class="container mt-4">
-        <h1>Modification de l'annonce : {{artwork.title}}</strong></h1>
-        {{form_start(myForm)}}
-            {{form_widget(myForm)}}
-            <button type="submit" class="btn btn-warning mt-3">Modifier</button>
-        {{form_end(myForm)}}
+{% block form_section %}
+    <div class="container margin-y">
+        <h1 class="mb-4">{{artwork.title}}</h1>
+        {{ form_start(myForm) }}
+             {{form_widget(myForm)}}
+            <button type="submit" class="btn4 align">Edit</button>
+        {{ form_end(myForm) }}
     </div>
-
 {% endblock %}
 
 {% block form_row %}
-    <div class="form-group mt-2">
-        <div class="row">
-            <div class="col-6">
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
                 {{form_label(form)}}
             </div>
-            <div class="col-6">
+            <div class="col-8 space">
                {% if form.vars.name == 'endDate' or form.vars.name =='priceInit' %}
                     {{form_widget(form, { 'attr': {'readonly': 'readonly' } })}}
                 {% else %}
