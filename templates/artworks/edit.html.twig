@@ -3,13 +3,18 @@
 {% block title %}Edit mode{% endblock %}
 
 {% block img_section %}
-    <img src="../../images/edit_artwork.jpg" alt="new_artwork" class="img-layout" id="edit_img">
+    <img src="../../images/edit_artwork.jpg" alt="edit_artwork" class="img-layout" id="edit_img">
 {% endblock %}
 
 {% form_theme myForm _self %}
 
 {% block form_section %}
     <div class="container margin-y">
+    	<div class="space">
+			<a href="{{ path('artworks_index') }}" class="subText">Gallery /</a>
+			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText">Profile /</a>
+			<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="subText weight">Edit</a>
+		</div>
         <h1 class="mb-4">{{artwork.title}}</h1>
         {{ form_start(myForm) }}
              {{form_widget(myForm)}}

@@ -11,6 +11,11 @@
 
 {% block form_section %}
     <div class="container margin-y">
+        <div class="space">
+			<a href="{{ path('account_profile') }}" class="subText">Profile /</a>
+			<a href="{{ path('account_artworks') }}" class="subText">Artworks /</a>
+			<a href="{{ path('artworks_create') }}" class="subText weight">New artwork</a>
+		</div>
         <h1 class="mb-4">New frame</h1>
 
         {{ form_start(myForm) }}

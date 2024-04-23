@@ -1,14 +1,41 @@
-{% extends "base.html.twig" %}
+{% extends 'form-layout.html.twig' %}
 
-{% block title %}Modification du profil utilisateur{% endblock %}
+{% block title %}Login
+{% endblock %}
 
-{% block body %}
-<div class="container full">
-    <h1>Modification du profil</h1>
-    {{form_start(myForm)}}
-        {{form_widget(myForm)}}
-        <button type="submit" class="btn btn-warning">Enregistrer les modifications</button>
-    {{form_end(myForm)}}
-</div>
+{% form_theme myForm _self %}
 
+{% block img_section %}
+	<div class="pic-layout">
+		<img src="../../images/edit_profile.jpg" alt="edit_profile" class="img-layout">
+	</div>
+{% endblock %}
+
+{% block form_section %}
+	<div class="container">
+		<div class="space">
+			<a href="{{ path('homepage') }}" class="subText">Home /</a>
+			<a href="{{ path('account_profile') }}" class="subText">Profile /</a>
+			<a href="{{ path('account_edit') }}" class="subText weight">Edit</a>
+		</div>
+		<h1 class="space">Edit your profile</h1>
+		{{form_start(myForm)}}
+		{{form_widget(myForm)}}
+		<button type="submit" class="btn4 align">Edit</button>
+		{{form_end(myForm)}}
+	</div>
+{% endblock %}
+
+{% block form_row %}
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
+                {{form_label(form)}}
+            </div>
+            <div class="col-8 space">
+                {{form_widget(form)}}
+                {{form_errors(form)}}
+            </div>
+        </div>
+    </div>
 {% endblock %}
