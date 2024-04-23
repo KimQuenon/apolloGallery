@@ -1,31 +1,37 @@
-{% extends "base.html.twig" %}
+{% extends 'form-layout.html.twig' %}
 
 {% block title %}New frame{% endblock %}
 
-{# {% form_theme myForm 'artworks/_collection.html.twig' %} #}
+{% block img_section %}
+    {# <div class="img-section" id="new_frame"></div> #}
+    <img src="../../images/new_artwork.jpg" alt="new_artwork" class="img-layout" id="new_img">
+{% endblock %}
+
 {% form_theme myForm _self %}
 
-{% block body %}
-    <div class="container mt-4">
-        <h1>Nouvelle oeuvre à vendre</h1>
+{% block form_section %}
+    <div class="container margin-y">
+        <h1 class="mb-4">New frame</h1>
 
         {{ form_start(myForm) }}
              {{form_widget(myForm)}}
-            <button type="submit" class="btn btn-primary mt-3">Terminer</button>
+            <button type="submit" class="btn4 align">Submit</button>
         {{ form_end(myForm) }}
     </div>
 {% endblock %}
 
 {% block form_row %}
-    <div class="form-group mt-2">
-        <div class="row">
-            <div class="col-6">
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
                 {{form_label(form)}}
             </div>
-            <div class="col-6">
+            <div class="col-8 space">
                 {{form_widget(form)}}
                 {{form_errors(form)}}
             </div>
         </div>
     </div>
 {% endblock %}
+
+

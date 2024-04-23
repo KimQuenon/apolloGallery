@@ -3,82 +3,174 @@
 @import 'fonts';
 @import 'mixins';
 
-h1, label{
-    color:$white!important;
+h1,
+label, legend {
+    color: $white !important;
 }
 
-.space{
-    margin-bottom: 20px!important;
+select{
+    border-radius: 50px!important;
 }
 
-.sm{
+.input-group-text{
+    border-top-left-radius: 50px!important;
+    border-bottom-left-radius: 50px!important;
+}
+
+textarea {
+    resize: none !important;
+}
+
+.space {
+    margin-bottom: 20px !important;
+}
+
+.sm {
     padding-top: 50px;
-    .social_media_all{
+
+    .social_media_all {
         @include media(22px, 12px, 15px, 15px);
     }
 }
 
-textarea{
-    resize:none!important;
-}
-
-.align{
+.align {
     align-self: flex-end;
     margin-left: auto;
 }
 
-.container-layout{
+.margin-y{
+    margin-bottom: 3em;
+    margin-top: 3em;
+    @media all and (max-width: 1200px){
+        margin-top: 0!important;
+        margin-bottom: 0!important;
+    }
+}
+
+.container-layout {
     @include flex(row, space-between);
-    width:100%;
+    align-items: stretch;
     min-height: 100vh;
-    position: relative;
+    height: auto;
     background-color: $red;
+    position: relative;
     @media all and (max-width: 1200px){
         flex-direction: column;
     }
-    .row-layout{
-        width:50%;
-        min-height: 100vh;
+    .row-layout {
         position: relative;
+        flex: 1;
         &:first-of-type{
-       
-            min-height: 100vh;
             @media all and (max-width: 1200px){
                 width: 100%;
                 position: relative;
             }
         }
-        &:last-of-type{
-            @include flex(column,center);
+        &:last-of-type {
+            @include flex(column, center);
+            align-items: center!important;
             @media all and (max-width:1200px){
                 width:100%;
                 position: absolute;
-                top: 0;
+                top: 50%;
                 left: 0;
+                transform: translateY(-50%);
             }
-            .form-layout{
-                width:85%;
+            .form-layout {
+                width: 90%;
                 @media all and (max-width:1200px){
                     background-color: $red;
                     border-radius: 25px;
-                    padding:70px 20px;
+                    padding:40px 20px;
                 }
                 @media all and (max-width:768px){
                     padding:15px 5px;
-                    margin-top: 70px;
                 }
             }
         }
     }
 }
 
-.img-layout{
-    width: 100%;
-    height:100%;
-    object-fit: cover;
+#new_frame {
+    background: url('../../public/images/new_artwork.jpg') no-repeat center center;
+    background-size: cover;
+    height: 100%;
 }
 
-.pic-layout{
+#artwork_movements {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    @media all and (max-width:768px){
+        display: block;
+        margin-top: 25px;
+    }        
+    .form-check {
+        flex: 1 0 45%;    
+        min-width: 45%;
+    }
+}
+
+
+
+
+
+
+// .container-layout{
+//     @include flex(row, space-between);
+//      aign-items: strech;
+//     width:100%;
+//     min-height: 100vh;
+//     position: relative;
+//     background-color: $red;
+//     @media all and (max-width: 1200px){
+//         flex-direction: column;
+//     }
+//     .row-layout{
+//         width:50%;
+//         min-height: 100vh;
+//         // height:100%;
+//         position: relative;
+//         &:first-of-type{
+//             // min-height: 100vh;
+//             // height:100%;
+//             @media all and (max-width: 1200px){
+//                 width: 100%;
+//                 position: relative;
+//             }
+//         }
+//         &:last-of-type{
+//             @include flex(column,center);
+//             @media all and (max-width:1200px){
+//                 width:100%;
+//                 position: absolute;
+//                 top: 0;
+//                 left: 0;
+//             }
+//             .form-layout{
+//                 width:85%;
+//                 @media all and (max-width:1200px){
+//                     background-color: $red;
+//                     border-radius: 25px;
+//                     padding:70px 20px;
+//                 }
+//                 @media all and (max-width:768px){
+//                     padding:15px 5px;
+//                     margin-top: 70px;
+//                 }
+//             }
+//         }
+//     }
+// }
+
+// .img-layout{
+//     width: 100%;
+//     height:100%;
+//     object-fit: cover;
+// }
+
+.pic-layout {
     position: absolute;
     top: 0;
     width: 100%;
@@ -86,38 +178,63 @@ textarea{
 }
 
 
-.form-group {
-    display: flex;
-    align-items: center;
-    @media all and (max-width: 1200px){
-        display: block;
-    }
-    @media all and (max-width: 768px){
-        display: block!important;
-    }
-    label {
-        flex: 0 0 30%;
-    }
-    input {
-        flex: 1;
-        border-radius: 50px;
-        border:none;
-        @media all and (max-width: 1200px){
-            margin-top: 15px;
-        }
-    }
-    .col-4, .col-8{
-        @media all and (max-width: 768px){
-            width: 100%!important;
-        }
-        input{
-            margin-top:0!important;
-        }
-    }
-}
 
+// .img-section{
+//     width:100%;
+//     min-height:100vh;
+// }
+// #new_frame{
+//     @include imgCover(cover);
+//     background-image: url(../../public/images/new_artwork.jpg);
+// }
 #registration_img{
     @media all and (max-width: 768px){
         height:125vh;
     } 
+}
+#new_img{
+    @media all and (max-width: 1200px){
+        height:120vh;
+    } 
+    @media all and (max-width: 768px){
+        height:200vh;
+    } 
+}
+
+.form-group {
+    display: flex;
+    align-items: start;
+    @media all and (max-width: 1200px) {
+        display: block;
+    }
+
+    @media all and (max-width: 768px) {
+        display: block !important;
+    }
+
+    label {
+        flex: 0 0 30%;
+    }
+
+    input {
+        flex: 1;
+        border-radius: 50px;
+        border: none;
+
+        @media all and (max-width: 1200px) {
+            margin-top: 15px;
+        }
+    }
+
+    .col-4,
+    .col-8 {
+        padding-left:0;
+        @media all and (max-width: 768px) {
+            width: 100% !important;
+        }
+
+        input {
+            margin-top: 0 !important;
+        }
+    }
 }

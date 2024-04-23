@@ -18,16 +18,16 @@ class RegistrationType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Votre prénom est..."))
-            ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Votre nom de famille est..."))
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse e-mail est..."))
-            ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "Votre mot de passe"))
-            ->add('passwordConfirm', PasswordType::class, $this->getConfiguration('Confirmation de votre mot de passe', 'Veuillez confirmer votre mot de passe'))
+            ->add('firstName', TextType::class, $this->getConfiguration("First name", "John"))
+            ->add('lastName', TextType::class, $this->getConfiguration("Last name", "Doe"))
+            ->add('email', EmailType::class, $this->getConfiguration("Mail", "john.doe@gmail.com"))
+            ->add('password', PasswordType::class, $this->getConfiguration("Password", "••••••••••"))
+            ->add('passwordConfirm', PasswordType::class, $this->getConfiguration('Confirm your password', "••••••••••"))
             ->add('picture', FileType::class,[
                 'label'=>"Avatar (jpg, png, gif)",
                 'required'=>false
             ])
-            ->add('description', TextareaType::class, $this->getConfiguration("Description détaillée", "Il est temps de raconter votre vie..."))
+            ->add('description', TextareaType::class, $this->getConfiguration("Bio", "Type in some interesting facts about you..."))
         ;
     }
 
