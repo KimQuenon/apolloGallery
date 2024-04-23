@@ -15,10 +15,10 @@ class AccountModifyType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('firstName', TextType::class, $this->getConfiguration("Prénom", "Votre prénom..."))
-        ->add('lastName', TextType::class, $this->getConfiguration("Nom", "Votre nom..."))
-        ->add('email', EmailType::class, $this->getConfiguration("Mail", "Votre adresse mail..."))
-        ->add('description', TextareaType::class, $this->getConfiguration("Description", "Votre description..."))
+        ->add('firstName', TextType::class, $this->getConfiguration("First name", "John"))
+        ->add('lastName', TextType::class, $this->getConfiguration("Last name", "Doe"))
+        ->add('email', EmailType::class, $this->getConfiguration("Mail", "john.doe@gmail.com"))
+        ->add('description', TextareaType::class, $this->getConfiguration("Bio", "Be careful of what you share..."))
         ;
     }
 

@@ -1,17 +1,44 @@
-{% extends "base.html.twig" %}
+{% extends 'form-layout.html.twig' %}
 
-{% block title %}Suppression du profil utilisateur{% endblock %}
+{% block title %}Delete your profile
+{% endblock %}
 
-{% block body %}
-<div class="container mt-4 full">
-    <h1>Suppression du profil</h1>
-    <p>Nous sommes désolés de vous voir partir... souhaitez-vous nous faire part des raisons de votre départ ?</p>
-    {# <a href="{{path('contactpage')}}" class="btn btn-primary mb-3">Contactez-nous</a> #}
-    {# <a href="{{ path('contact') }}" class="btn btn-primary">Contactez-nous</a> #}
-    {{form_start(myForm)}}
-        {{form_widget(myForm)}}
-        <button type="submit" class="btn btn-warning">Supprimer votre compte</button>
-    {{form_end(myForm)}}
-</div>
+{% form_theme myForm _self %}
 
+{% block img_section %}
+	<div class="pic-layout">
+		<img src="../../images/delete_profile.jpg" alt="delete_profile" class="img-layout">
+	</div>
+{% endblock %}
+
+{% block form_section %}
+	<div class="container">
+		<div class="space">
+			<a href="{{ path('homepage') }}" class="subText">Home /</a>
+			<a href="{{ path('account_profile') }}" class="subText">Profile /</a>
+			<a href="{{ path('account_delete') }}" class="subText weight">Delete</a>
+		</div>
+		<h1>Delete your profile</h1>
+		<p>We are sorry to see you leave... Would you like to tell us the reason of your departure ?</p>
+		<a href="{{path('homepage')}}" class="btn1 space"><i class="fa-regular fa-envelope"></i>Contact us</a>
+		{# <a href="{{ path('contact') }}" class="btn btn-primary">Contactez-nous</a> #}
+		{{form_start(myForm)}}
+		{{form_widget(myForm)}}
+		<button type="submit" class="btn4 align"><i class="fa-solid fa-trash-can"></i>Delete</button>
+		{{form_end(myForm)}}
+	</div>
+{% endblock %}
+
+{% block form_row %}
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
+                {{form_label(form)}}
+            </div>
+            <div class="col-8 space">
+                {{form_widget(form)}}
+                {{form_errors(form)}}
+            </div>
+        </div>
+    </div>
 {% endblock %}

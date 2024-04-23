@@ -14,8 +14,8 @@ class DeleteType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email', EmailType::class, $this->getConfiguration("Email", "Votre adresse e-mail est..."))
-            ->add('password', PasswordType::class, $this->getConfiguration("Mot de passe", "Votre mot de passe"))
+            ->add('email', EmailType::class, $this->getConfiguration("Mail", "john.doe@gmail.com"))
+            ->add('password', PasswordType::class, $this->getConfiguration("Password", "••••••••••"))
         ;
     }
 
