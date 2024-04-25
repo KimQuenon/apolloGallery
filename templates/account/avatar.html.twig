@@ -1,16 +1,43 @@
-{% extends "base.html.twig" %}
+{% extends 'form-layout.html.twig' %}
 
-{% block title %}Modifier Avatar{% endblock %}
+{% block title %}Change your profile picture{% endblock %}
 
-{% block body %}
-    <div class="container full">
-        <h1>Modification de l'avatar de {{app.user.email}}</h1>
-        <img src="/uploads/{{app.user.picture}}" alt="avatar de {{app.user.email}}">
+{% form_theme myForm _self %}
+
+{% block img_section %}
+	<div class="pic-layout">
+		<img src="../../images/avatar_modify.jpg" alt="avatar_modify" class="img-layout">
+	</div>
+{% endblock %}
+
+{% block form_section %}
+    <div class="container">
+        <div class="space">
+            <a href="{{ path('homepage') }}" class="subText">Home /</a>
+            <a href="{{ path('account_profile') }}" class="subText">Profile /</a>
+            <a href="{{ path('account_avatar') }}" class="subText weight">Edit avatar</a>
+        </div>
+        <h1 class="space">Change your profile picture</h1>
+        {% if app.user.picture %}
+            <img src="/uploads/{{app.user.picture}}" alt="avatar de {{app.user.email}}">
+        {% endif %}
         {{form_start(myForm)}}
-
             {{form_widget(myForm)}}
-            <button type="submit" class="btn btn-warning">Confirmez la modification de l'avatar</button>
+            <button type="submit" class="btn4 align">Confirm</button>
         {{form_end(myForm)}}
     </div>
+{% endblock %}
 
+{% block form_row %}
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
+                {{form_label(form)}}
+            </div>
+            <div class="col-8 space">
+                {{form_widget(form)}}
+                {{form_errors(form)}}
+            </div>
+        </div>
+    </div>
 {% endblock %}
