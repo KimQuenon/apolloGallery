@@ -5,7 +5,7 @@
 .slide-profile{
     @include flex(column, center);
     width:100%;
-    min-height:100vh;
+    // min-height:100vh;
     position: relative;
     background-color: $red;
     .lines{
@@ -14,6 +14,9 @@
         height:90vh;
         margin: 0 auto;
         position:relative;
+        @media all and (max-width: 1200px){
+            height:70vh;
+        }
         .line{
             width:100%;
             height:25%;
@@ -34,6 +37,10 @@
         left:50%;
         transform: translate(-50%, -50%);
         border-radius: 50px;
+        @media all and (max-width: 1200px){
+            width:90%;
+            height:50vh;
+        }
         p{
             color:$darkBrown;
         }
