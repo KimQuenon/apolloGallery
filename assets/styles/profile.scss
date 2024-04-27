@@ -8,6 +8,9 @@
     // min-height:100vh;
     position: relative;
     background-color: $red;
+    @media all and (max-width: 768px){
+        height:150vh;
+    }
     .lines{
         @include flex(column, center);
         width:95%;
@@ -41,6 +44,10 @@
             width:90%;
             height:50vh;
         }
+        @media all and (max-width: 768px){
+            height:120vh;
+            // top:100%;
+        }
         p{
             color:$darkBrown;
         }
@@ -51,6 +58,15 @@
             border-top-left-radius: 50px;
             border-top-right-radius: 50px;
             padding-left: 45px;
+            @media all and (max-width: 768px){
+                padding-left: 0;
+            }
+            h2{
+                @media all and (max-width: 768px){
+                    text-align: center;
+                    font-size: 30px!important;
+                }
+            }
         }
         .profile-container{
             @include flex(column, center);
@@ -61,19 +77,47 @@
                 width:90%;
                 // height:45vh;
                 margin-top: 30px;
+                @media all and (max-width: 768px){
+                    flex-direction: column;
+                }
                 .profile-picture{
                     width: 40%;
+                    @media all and (max-width: 768px){
+                        width:100%;
+                    }
                 }
                 .profile-info{
                     width: 60%;
+                    @media all and (max-width: 768px){
+                        width:100%;
+                    }
                     .profile-header{
                         @include flex(row, space-between);
                         align-items: start;
                         width:100%;
+                        @media all and (max-width: 768px){
+                            flex-direction: column-reverse;
+                        }
+                        .icons-content{
+                            @media all and (max-width: 768px){
+                                margin-bottom: 10px;
+                                margin-left: auto;
+                            }
+                        }
                     }
                     .profile-actions{
                         @include flex(row, end);
                         gap:10px;
+                        @media all and (max-width: 768px){
+                            flex-direction: column;
+                            width: 100%;
+                        }
+                        a{
+                            @media all and (max-width: 768px){
+                                width: 100%!important;
+                                margin-top: 10px;
+                            }
+                        }
                     }
                 }
             }
