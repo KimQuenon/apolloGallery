@@ -1,0 +1,75 @@
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.slide-profile{
+    @include flex(column, center);
+    width:100%;
+    min-height:100vh;
+    position: relative;
+    background-color: $red;
+    .lines{
+        @include flex(column, center);
+        width:95%;
+        height:90vh;
+        margin: 0 auto;
+        position:relative;
+        .line{
+            width:100%;
+            height:25%;
+            border-bottom: 1px solid $white;
+            &:last-of-type{
+                border:none;
+            }
+        }
+    }
+    .profile-card{
+        @include imgCover(cover);
+        width:50%;
+        height:70vh;
+        background-color: white;
+        background-image: url(../../public/images/profile.png);
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50px;
+        p{
+            color:$darkBrown;
+        }
+        .profile-title{
+            width:100%;
+            background-color: $darkRed;
+            padding: 10px;
+            border-top-left-radius: 50px;
+            border-top-right-radius: 50px;
+            padding-left: 45px;
+        }
+        .profile-container{
+            @include flex(column, center);
+            width:100%;
+            .profile-content{
+                @include flex(row, space-between);
+                gap:30px;
+                width:90%;
+                // height:45vh;
+                margin-top: 30px;
+                .profile-picture{
+                    width: 40%;
+                }
+                .profile-info{
+                    width: 60%;
+                    .profile-header{
+                        @include flex(row, space-between);
+                        align-items: start;
+                        width:100%;
+                    }
+                    .profile-actions{
+                        @include flex(row, end);
+                        gap:10px;
+                    }
+                }
+            }
+        }
+    }
+}

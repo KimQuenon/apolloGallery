@@ -13,7 +13,7 @@ class ProfileController extends AbstractController
     //page du profil utilisateur
     #[Route("/account/profile/", name:"account_profile")]
     #[IsGranted('ROLE_USER')]
-    public function index(): Response
+    public function index(ArtworkRepository $artworkRepo): Response
     {
         $user = $this->getUser();
 
@@ -27,9 +27,12 @@ class ProfileController extends AbstractController
             }
         }
 
+        $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($user);
+
         return $this->render("profile/index.html.twig",[
             'user'=>$user,
             'reviews' => $reviews,
+            'archivedArtworks' => $archivedArtworks,
         ]);
     }
 

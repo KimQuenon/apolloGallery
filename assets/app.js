@@ -13,6 +13,7 @@ import './styles/individual_display.scss';
 import './styles/navigation.scss';
 import './styles/cards.scss';
 import './styles/pagination.scss';
+import './styles/profile.scss';
 import './styles/_colors.scss';
 import './styles/_fonts.scss';
 import './styles/_mixins.scss';

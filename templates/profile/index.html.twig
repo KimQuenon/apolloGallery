@@ -3,19 +3,66 @@
 {% block title %}Profil{% endblock %}
 
 {% block body %}
-   <div class="container full">
-    <h1>Bienvenue {{user.firstName}} {{user.lastName}} !</h1>
-    {% if user.picture %}
+   <div class="slide-profile">
+        <div class="lines">
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+            <div class="line"></div>
+        </div>
+        <div class="profile-card">
+            <div class="profile-title">
+                <h2>{{user.fullName}}</h2>
+            </div>
+            <div class="profile-container">
+                <div class="profile-content">
+                    <div class="profile-picture">
+                    {% if user.picture %}
+                        <img src="/uploads/{{user.picture}}" alt="avatar of {{user.fullName}}">
+                    {% else %}
+                        <img src="../../images/default.jpg" alt="default placeholder">
+                    {% endif %}
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-header space">
+                            <div class="profile-fields">
+                                <p><span class="weight">Name: </span>{{user.fullName}}</p>
+                                <p><span class="weight">From: </span>London, UK</p>
+                                <p><span class="weight">User since: </span>{{ user.createdAt | date('d-m-Y') }}</p>
+                                <p><span class="weight">Sold paintings: </span>{{archivedArtworks | length}}</p>
+                            </div>
+                            <div class="icons-content">
+                                <a href="{{ path('account_edit') }}" class="icon icon-edit">
+                                    <i class="fa-solid fa-pen"></i>
+                                </a>
+								<a href="{{ path('account_password') }}" class="icon icon-sales">
+									<i class="fa-solid fa-lock"></i>
+								</a>
+                                <a href="{{ path('account_delete') }}" class="icon icon-delete-clear">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="profile-desc space">
+                            <p><span class="weight">Description: </span>{{user.description | raw}}</p>
+                        </div>
+                        <div class="profile-actions">
+                            <a href="{{path('account_artworks')}}" class="btn5"><i class="fa-solid fa-chart-line"></i>MY ARTWORKS</a>
+                            <a href="{{path('account_auctions')}}" class="btn6"><i class="fa-solid fa-gavel"></i>MY AUCTIONS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+   </div>
+    {# {% if user.picture %}
         <div>
-            <img src="/uploads/{{user.picture}}" alt="avatar">
         </div>
     {% else %}
         <div>
-            <img src="https://no5.co.nz/cdn/shop/t/4/assets/placeholder_600x.png?v=113555733946226816651632776942" alt="échec">
         </div>
-    {% endif %}
-   </div>
-    <div class="container">
+    {% endif %} #}
+    {# <div class="container">
         <h1>Reviews de {{ user.fullName }}</h1>
             {% if reviews | length > 0 %}
                 {{user.avgRatings}}
@@ -32,5 +79,5 @@
             {% else %}
                 <small>Pas encore noté</small>
         {% endif %}
-    </div>
+    </div> #}
 {% endblock %}

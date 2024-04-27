@@ -107,6 +107,26 @@ i{
     }
 }
 
+.btn5{
+    @include btn();
+    width:auto;
+    background-color: $blue;
+    color:$white;
+    &:hover{
+        background-color: $darkBlue;
+    }
+}
+
+.btn6{
+    @include btn();
+    width:auto;
+    background-color: $green;
+    color:$white;
+    &:hover{
+        background-color: $darkGreen;
+    }
+}
+
 .hr{
     width: 100%;
     margin: 0 auto;
