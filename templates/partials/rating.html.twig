@@ -4,16 +4,16 @@
     
     {% for i in 1..5 %}
         {% if i <= filledStars %}
-            <i class='fas fa-star'></i>
+            <i class='fas fa-star star-filled'></i> <!-- Classe pour les étoiles pleines -->
         {% elseif halfStar %}
-            <!-- Demi-étoile -->
             {% if loop.index == filledStars + 1 %}
-                <i class='fas fa-star-half-alt'></i>
+                <i class='fas fa-star-half-alt star-half'></i> <!-- Classe pour les demi-étoiles -->
             {% else %}
-                <i class='far fa-star'></i>
+                <i class='far fa-star star-empty'></i> <!-- Classe pour les étoiles vides -->
             {% endif %}
         {% else %}
-            <i class='far fa-star'></i>
+            <i class='far fa-star star-empty'></i>
         {% endif %}
     {% endfor %}
 </span>
+

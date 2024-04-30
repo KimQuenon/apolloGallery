@@ -173,8 +173,8 @@
         }
     }
     .grid-item:nth-child(8) {
-        grid-column-start: 2; /* Commence à partir de la deuxième colonne */
-        grid-column-end: 4; /* S'étend jusqu'à la quatrième colonne */
+        grid-column-start: 2;
+        grid-column-end: 4;
         @media all and (max-width: 1200px) {
             display: none;
         }

@@ -87,23 +87,65 @@
 				<div class="line"></div>
 				<div class="line"></div>
 			</div>
-{% if latestArtworks is not empty %}
-    <div class="frames-container">
-        {% for i in 0..3 %}
-            {% if latestArtworks|length > i %}
-                <div class="grid-items">
-					<a href="{{ path('artworks_show', {'slug': latestArtworks[i].slug}) }}">
-						<img src="{{latestArtworks[i].coverImage}}" alt="{{latestArtworks[i].title}}">
-					</a>
-                </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-{% else %}
-    <p>No artworks posted yet...</p>
-
-{% endif %}
-
+			{% if latestArtworks is not empty %}
+				<div class="frames-container">
+					{% for i in 0..3 %}
+						{% if latestArtworks|length > i %}
+							<div class="grid-items">
+								<a href="{{ path('artworks_show', {'slug': latestArtworks[i].slug}) }}">
+									<img src="{{latestArtworks[i].coverImage}}" alt="{{latestArtworks[i].title}}">
+								</a>
+							</div>
+						{% endif %}
+					{% endfor %}
+				</div>
+			{% else %}
+				<p>No artworks posted yet...</p>
+				<a href="{{ path('artworks_create') }}" class="btn1">Post one
+					<i class="fa-solid fa-chevron-right"></i>
+				</a>
+			{% endif %}
+		</div>
+		<div class="slide-profile" id="reviews-user">
+			<div class="reviews-container">
+				<div>
+					<h2>Reviews</h2>
+					<p class="space">Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper. In ultricies arcu a elit faucibus  scelerisque. Vestibulum vel imperdiet odio..</p>
+				</div>
+				<div>
+					{% if reviews | length > 0 %}
+						{# {{user.avgRatings}}
+						{% include "partials/rating.html.twig" with {'rating': user.avgRatings} %}
+						({{ reviews | length}}
+						avis) #}
+						{% for review in reviews %}
+							<div class="review-content">
+								<div class="review-img">
+									{% if review.author.picture %}
+										<img src="/uploads/{{review.author.picture}}" alt="avatar of {{review.author.fullName}}" class="avatar-medium">
+									{% else %}
+										<img src="../../images/default.jpg" alt="default placeholder">
+									{% endif %}
+								</div>
+								<div class="review-container">
+									<div class="review-rating mb-2">
+										<p>
+											<span class="weight">{{review.author.fullName}}</span>
+											said:</p>
+										{% include "partials/rating.html.twig" with {'rating': review.rating} %}
+									</div>
+									<p>"{{ review.content }}"</p>
+								</div>
+							</div>
+						{% endfor %}
+					{% else %}
+						<small>Pas encore noté</small>
+					{% endif %}
+				</div>
+			</div>
+			<div class="medals">
+				<h1>medals</h1>
+			</div>
 		</div>
 	</div>
 {% endblock %}
