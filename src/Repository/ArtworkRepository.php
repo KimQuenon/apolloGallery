@@ -22,6 +22,18 @@ class ArtworkRepository extends ServiceEntityRepository
         parent::__construct($registry, Artwork::class);
     }
 
+    public function findLatestArtworksByUser(User $user, int $limit = 4): array
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.author = :user')
+            ->andWhere('a.archived = false')
+            ->setParameter('user', $user)
+            ->orderBy('a.endDate', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findArtworkUserDesc(User $user): array
     {
         return $this->createQueryBuilder('a')

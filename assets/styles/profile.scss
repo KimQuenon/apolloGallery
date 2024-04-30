@@ -3,31 +3,35 @@
 @import 'mixins';
 
 .slide-profile{
-    @include flex(column, center);
     width:100%;
     // min-height:100vh;
     position: relative;
     background-color: $red;
+}
+
+.lines{
+    @include flex(column, center);
+    width:95%;
+    height:95vh;
+    margin: 0 auto;
+    position:relative;
+    @media all and (max-width: 1200px){
+        height:70vh;
+    }
+    .line{
+        width:100%;
+        height:25%;
+        border-bottom: 1px solid $white;
+        &:last-of-type{
+            border:none;
+        }
+    }
+}
+
+#id-card{
+    @include flex(column, center);
     @media all and (max-width: 768px){
         height:150vh;
-    }
-    .lines{
-        @include flex(column, center);
-        width:95%;
-        height:90vh;
-        margin: 0 auto;
-        position:relative;
-        @media all and (max-width: 1200px){
-            height:70vh;
-        }
-        .line{
-            width:100%;
-            height:25%;
-            border-bottom: 1px solid $white;
-            &:last-of-type{
-                border:none;
-            }
-        }
     }
     .profile-card{
         @include imgCover(cover);
@@ -122,5 +126,40 @@
                 }
             }
         }
+    }
+}
+
+#latest-frames{
+    height:120vh!important;
+    .slide-container{
+        @include flex(row, space-between);
+        width:90%;
+        margin: 0 auto;
+    }
+    .frames-container{
+        position: absolute;
+        width:90%;
+        height:80%;
+        background-color: antiquewhite;
+        top:50%;
+        left:50%;
+        transform: translate(-50%, -50%);
+        display: grid;
+        grid-template-columns: repeat(4, 1fr); /* 3 colonnes, chaque colonne a la même largeur */
+        grid-template-rows: repeat(2, 1fr);    /* 2 rangs, chaque rang a la même hauteur */
+        gap: 50px;
+        .grid-items{
+            width:100%;
+            height:100%;
+            background-color: firebrick;
+            &:first-child{
+                grid-column: span 2; /* Prendre 2 colonnes */
+                grid-row: span 2;    /* Prendre 2 rangs */
+            }
+            &:nth-child(2){
+                grid-column: span 2; /* Prendre 2 colonnes */
+            }
+        }
+
     }
 }

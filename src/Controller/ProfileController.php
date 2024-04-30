@@ -18,6 +18,7 @@ class ProfileController extends AbstractController
         $user = $this->getUser();
 
         $artworks = $user->getArtworks();
+        $latestArtworks = $artworkRepo->findLatestArtworksByUser($user, 4);
 
         $reviews = [];
         foreach ($artworks as $artwork) {
@@ -33,6 +34,7 @@ class ProfileController extends AbstractController
             'user'=>$user,
             'reviews' => $reviews,
             'archivedArtworks' => $archivedArtworks,
+            'latestArtworks' => $latestArtworks
         ]);
     }
 
