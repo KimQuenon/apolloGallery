@@ -1,23 +1,44 @@
-
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ movement.movementName }}
+	{{ movement.movementName }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ movement.movementName }}</h1>
+	<div class="bannerMovement">
+		<h1>{{ movement.movementName }}</h1>
+	</div>
+	<div class="slide-movement">
+		<div class="container-movement">
 
-    {% if artworks %}
-        <h2>Oeuvres liées à ce mouvement:</h2>
-        <ul>
-            {% for artwork in artworks %}
-                {% if not artwork.archived %}
-                    {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
-                {% endif %}
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Aucune oeuvre n'est liée à ce mouvement.</p>
-    {% endif %}
+			<div class="other-movements">
+				<p class="weight space">Time machine:</p>
+				{% for movement in otherMovements %}
+					<p class="space">
+						<a href="{{ path('movements_show', { 'slug': movement.slug }) }}">{{ movement.movementName }}</a>
+					</p>
+				{% endfor %}
+			</div>
+			<div class="artwork-movement">
+				{% if artworks %}
+					<div class="space">
+						<a href="{{ path('homepage') }}" class="subText">Home /</a>
+						<a href="{{ path('artworks_index') }}" class="subText">Gallery /</a>
+						<a href="{{ path('movements_show', { 'slug': movement.slug }) }}" class="weight">{{ movement.movementName }}</a>
+					</div>
+
+					<div class="artworks-container">
+						{% for artwork in artworks %}
+							{% if not artwork.archived %}
+								{% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+							{% endif %}
+						{% endfor %}
+					{% else %}
+						<p>Aucune oeuvre n'est liée à ce mouvement.</p>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
 {% endblock %}

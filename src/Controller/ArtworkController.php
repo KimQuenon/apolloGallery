@@ -83,12 +83,18 @@ class ArtworkController extends AbstractController
     }
 
     #[Route("artworks/movements/{slug}", name: "movements_show")]
-    public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo): Response
+    public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo, MovementRepository $movementRepo): Response
     {
         $artworks = $movement->getArtwork();
-        
+        $movements = $movementRepo->findAll();
+
+        $otherMovements = array_filter($movements, function ($m) use ($movement) {
+            return $m->getSlug() !== $movement->getSlug();
+        });
+
         return $this->render('artworks/movements/show.html.twig', [
             'movement' => $movement,
+            'otherMovements' => $otherMovements,
             'artworks' => $artworks,
         ]);
 
