@@ -93,8 +93,7 @@ i{
     color:$white;
     &:hover{
         background-color: $white;
-        opacity: 0.5;
-        color: $red;
+        color: $red!important;
     }
 }
 

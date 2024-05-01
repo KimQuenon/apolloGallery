@@ -1,28 +1,81 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Your gallery{% endblock %}
+{% block title %}Your gallery
+{% endblock %}
 
 {% block body %}
-    <div class="container full">
-    {% if artworks|length > 0 %}
-        {% if artworks|length == 1 %}
-            <h1>Vos avez posté {{ artworks|length }} annonce:</h1>
-        {% else %}
-            <h1>Vos avez posté {{ artworks|length }} annonces:</h1>
-        {% endif %}
-        <p>Désireux d'étoffer vos ventes ?</p>
-        {# <a href="{{ path('artworks_create') }}" class="btn btn-primary mb-3">Ajouter une annonce</a> #}
-        <div class="row">
-            {% for artwork in artworks %}
-                {% if not artwork.archived %}
-                    {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
-                {% endif %}
-            {% endfor %}
-        </div>
-    {% else %}
-        <h1>Vous n'avez pas encore posté d'annonce</h1>
-        <p>Il n'est jamais trop tard pour vendre...</p>
-        <a href="{{ path('artworks_create') }}" class="btn btn-primary">Ajouter une annonce</a>
-    {% endif %}
-    </div>
+	<div class="slide-artworks">
+		<div class="pres-artworks">
+			<div class="columns-artworks first" id="first-column"></div>
+			<div class="columns-artworks second" id="second-column"></div>
+		</div>
+
+		<div class="title-artworks">
+			<h2>Your Artworks</h2>
+			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit quo veniam nemo exercitationem earum quam. Consectetur, maxime sit. Enim animi doloribus exercitationem molestias accusamus!</p>
+			<div class="actions-artworks">
+				<a href="{{ path('artworks_index') }}" class="btn3">
+					<i class="fa-solid fa-chevron-left"></i>To the gallery</a>
+				<a href="{{ path('artworks_create') }}" class="btn1">Post an artwork<i class="fa-solid fa-chevron-right"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="slide-artworks-second">
+		{% if artworks|length > 0 %}
+			<div class="subtitle-artworks">
+				<h3>Your current artworks</h3>
+				<a href="{{ path('artworks_create') }}" class="btn1">Post artwork<i class="fa-solid fa-chevron-right"></i>
+				</a>
+			</div>
+			<div class="artworks-container">
+				{% for artwork in artworks %}
+					{% if not artwork.archived %}
+						{% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% endif %}
+	</div>
+	{#  #}
+	{# <div class="container full">
+			{% if artworks|length > 0 %}
+				<div class="row">
+	            {% for artwork in artworks %}
+					{% if not artwork.archived %}
+						{% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+					{% endif %}
+				{% endfor %}
+			</div>
+		{% else %}
+			<h1>Vous n'avez pas encore posté d'annonce</h1>
+			<p>Il n'est jamais trop tard pour vendre...</p>
+			<a href="{{ path('artworks_create') }}" class="btn btn-primary">Ajouter une annonce</a>
+		{% endif %}
+	</div> #}
+
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		function animateFirstColumn() {
+const firstColumn = document.getElementById("first-column");
+if (firstColumn) {
+firstColumn.classList.add("show");
+}
+}
+
+function animateSecondColumn() {
+const secondColumn = document.getElementById("second-column");
+if (secondColumn) {
+secondColumn.classList.add("show");
+}
+}
+
+// Appeler les fonctions lorsque la page est chargée
+window.addEventListener("load", function () {
+animateFirstColumn();
+animateSecondColumn();
+});
+	</script>
 {% endblock %}

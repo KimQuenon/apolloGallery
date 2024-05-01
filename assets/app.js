@@ -14,6 +14,7 @@ import './styles/navigation.scss';
 import './styles/cards.scss';
 import './styles/pagination.scss';
 import './styles/profile.scss';
+import './styles/profile_artworks.scss';
 import './styles/sales.scss';
 import './styles/_colors.scss';
 import './styles/_fonts.scss';
