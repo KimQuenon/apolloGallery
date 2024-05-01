@@ -150,9 +150,15 @@
         gap:50px;
         .other-movements{
             width:10%;
+            @media all and (max-width: 768px){
+                display: none;
+            }
         }
         .artwork-movement{
             width:90%;
+            @media all and (max-width: 768px){
+                width:100%;
+            }
         }
     }
 }

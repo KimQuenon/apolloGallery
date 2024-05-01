@@ -127,16 +127,16 @@ i{
     }
 }
 
-.star-filled {
-    color: $orange; /* Couleur pour les étoiles pleines */
-}
-
-.star-half {
-    color: $orange; /* Couleur pour les demi-étoiles */
+.star-filled, .star-half {
+    color: $orange;
+    font-size: 12px;
+    margin:0!important;
 }
 
 .star-empty {
-    color: $orange; /* Couleur pour les étoiles vides */
+    color: $orange;
+    font-size: 12px;
+    margin:0!important;
 }
 
 
