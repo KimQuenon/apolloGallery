@@ -5,8 +5,9 @@ import './bootstrap.js';
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
  */
-import './styles/app.scss';
 import './styles/about.scss';
+import './styles/app.scss';
+import './styles/archives.scss';
 import './styles/form.scss';
 import './styles/gallery.scss';
 import './styles/individual_display.scss';

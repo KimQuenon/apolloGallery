@@ -1,0 +1,60 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.slide-archives{
+    width:100%;
+    min-height:100vh;
+    background-color: $red;
+    
+    .container-archives{
+        @include flex(column, space-between);
+        width:90%;
+        height:90vh;
+        margin: 0 auto;
+        padding-top: 50px;
+        align-items: start;
+        position: relative;
+        .shelf-archives{
+            @include imgCover(contain);
+            width:100%;
+            height:45vh;
+            background-image: url(../../public/images/shelf.svg);
+            transition: transform 1s, opacity 1s;
+            opacity: 0;
+            transform: translateY(-100%);
+        
+            &.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .desc-archives{
+            width:50%;
+        }
+        .ladder-archives {
+            @include imgCover(contain);
+            position: absolute;
+            width: 50%;
+            height: 100vh;
+            right: 0;
+            top: 10%;
+            background-image: url(../../public/images/ladder.svg);
+            transition: transform 1s, opacity 1s;
+            opacity: 0;
+            transform: translateX(100%);
+        
+            &.show { // Le contexte est correct ici
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+    }
+    .container-archived{
+        width:90%;
+        margin: 0 auto;
+        padding-top: 100px;
+    }
+}
