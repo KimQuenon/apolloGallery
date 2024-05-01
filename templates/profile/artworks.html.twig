@@ -35,25 +35,12 @@
 					{% endif %}
 				{% endfor %}
 			</div>
+		{% else %}
+			<h1>No artworks to sell.. yet !</h1>
+			<p>It is never too late to start this journey...</p>
+			<a href="{{ path('artworks_create') }}" class="btn1">Post artwork</a>
 		{% endif %}
 	</div>
-	{#  #}
-	{# <div class="container full">
-			{% if artworks|length > 0 %}
-				<div class="row">
-	            {% for artwork in artworks %}
-					{% if not artwork.archived %}
-						{% include "partials/_cards.html.twig" with {'artwork': artwork} %}
-					{% endif %}
-				{% endfor %}
-			</div>
-		{% else %}
-			<h1>Vous n'avez pas encore posté d'annonce</h1>
-			<p>Il n'est jamais trop tard pour vendre...</p>
-			<a href="{{ path('artworks_create') }}" class="btn btn-primary">Ajouter une annonce</a>
-		{% endif %}
-	</div> #}
-
 {% endblock %}
 
 {% block javascripts %}
