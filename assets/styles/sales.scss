@@ -9,12 +9,19 @@
     background-color: $red;
     padding-top: 50px;
     padding-bottom: 50px;
+    h2{
+        width: 90%;
+        margin: 0 auto;
+    }
     .container-sales{
         @include flex();
         align-items: start;
         width:90%;
         margin:0 auto;
-        .container-topThree{
+        @media all and (max-width: 1200px){
+            flex-direction: column-reverse;
+        }
+        .container-topThree, .container-podium-desc{
             width:50%;
             @media all and (max-width: 1200px){
                 width:100%;
@@ -27,7 +34,8 @@
                 padding-top: 25px;
                 @media all and (max-width: 768px){
                     grid-template-columns: 1fr;
-                    grid-template-rows: repeat(3, 1fr); 
+                    grid-template-rows: repeat(3, 1fr);
+                    
                 }
                 .grid-item{
                     @include flex(column, space-between);
@@ -105,6 +113,13 @@
                     }
                 }
             }
+        }
+        .container-podium-desc h3, .container-podium-desc p{
+            text-align: end;
+        }
+        .container-podium-desc .btn1{
+            align-self: end;
+            margin-left: auto;
         }
     }
 }
