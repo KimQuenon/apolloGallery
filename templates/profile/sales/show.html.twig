@@ -12,39 +12,43 @@
 		<div class="container-sales">
 			{% if not auctionAccepted %}
 				<div class="container-topThree">
-
 					{% if topThree|length > 0 %}
 						<div class="grid-topThree">
 							{% for index in 0..2 %}
-								<div class="grid-item" id="{{ ['first', 'second', 'third'][index] }}-bid">
-									<div class="item">
-										<div class="img-item">
-											{% if topThree[index].user.picture %}
-												<img src="/uploads/{{ topThree[index].user.picture }}" alt="avatar of {{ topThree[index].user.fullName }}" class="avatar-medium">
-											{% else %}
-												<img src="../../images/default.jpg" alt="default placeholder">
-											{% endif %}
+								{% if topThree[index] is defined %}
+									<div class="grid-item" id="{{ ['first', 'second', 'third'][index] }}-bid">
+										<div class="item">
+											<div class="img-item">
+												{% if topThree[index].user.picture %}
+													<img src="/uploads/{{ topThree[index].user.picture }}" alt="avatar of {{ topThree[index].user.fullName }}" class="avatar-medium">
+												{% else %}
+													<img src="../../images/default.jpg" alt="default placeholder">
+												{% endif %}
+											</div>
+											<div class="desc-item">
+												{% include "partials/rating.html.twig" with {'rating': topThree[index].user.avgRatings} %}
+												<p class="weight">{{ topThree[index].user.fullName }}</p>
+												<p>€
+													{{ topThree[index].amount | number_format(2, ',', '.') }}</p>
+											</div>
 										</div>
-										<div class="desc-item">
-											{% include "partials/rating.html.twig" with {'rating': topThree[index].user.avgRatings} %}
-											<p class="weight">{{ topThree[index].user.fullName }}</p>
-											<p>€
-												{{ topThree[index].amount | number_format(2, ',', '.') }}</p>
+										<div class="podium" id="{{ ['first', 'second', 'third'][index] }}-podium">
+											<img src="../../images/{{ ['first_bid', 'second_bid', 'third_bid'][index] }}.png" alt="{{ ['first', 'second', 'third'][index] }} place">
 										</div>
 									</div>
-									<div class="podium" id="{{ ['first', 'second', 'third'][index] }}-podium">
-										<img src="../../images/{{ ['first_bid', 'second_bid', 'third_bid'][index] }}.png" alt="{{ ['first', 'second', 'third'][index] }} place">
-									</div>
-								</div>
+								{% endif %}
 							{% endfor %}
 						</div>
-
+					{% else %}
+						<p>No top bidders available.</p>
 					{% endif %}
+
 				</div>
 				<div class="container-podium-desc">
 					<h3>Podium</h3>
-                    <p>Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper. In ultricies arcu a elit faucibus  scelerisque. Vesti imperdiet odio.</p>
-                                            <a href="{{ path('about') }}" class="btn1">Ask an expert<i class="fa-solid fa-chevron-right"></i></a>
+					<p>Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper. In ultricies arcu a elit faucibus  scelerisque. Vesti imperdiet odio.</p>
+					<a href="{{ path('about') }}" class="btn1">Ask an expert<i class="fa-solid fa-chevron-right"></i>
+					</a>
 				</div>
 			{% else %}
 				<div>
@@ -53,6 +57,52 @@
 			{% endif %}
 		</div>
 	</div>
+	<div class="slide-sales">
+		<h2>History</h2>
+		<div class="container-history">
+			{% if auctions|length > 0 %}
+				{% for auction in auctions %}
+					<div class="item-history">
+						<div class="content-history">
+							<div class="content-offer">
+								<div class="item">
+									<div class="img-item">
+										{% if auction.user.picture %}
+											<img src="/uploads/{{ auction.user.picture }}" alt="avatar of {{ auction.user.fullName }}" class="avatar-medium">
+										{% else %}
+											<img src="../../images/default.jpg" alt="default placeholder">
+										{% endif %}
+									</div>
+									<div class="desc-item">
+										<p class="weight">{{ auction.user.fullName }}</p>
+										{% include "partials/rating.html.twig" with {'rating': auction.user.avgRatings} %}
+										<p>(based on
+											{{ auction.user.reviews | length}}
+											reviews)</p>
+									</div>
+								</div>
+								<div>
+									<p>made a bid of</p>
+									<p class="weight">{{ auction.amount }}</p>
+								</div>
+							</div>
+                            <div class="actions-history">
 
-
+								{% if artwork.endDate < currentDate  %}
+                                    <a href="{{ path('account_sales_accept', {'id': auction.id}) }}" class="btn6">Accepter</a>
+                                    <a href="{{ path('account_sales_refuse', {'id': auction.id}) }}" class="btn4">Refuser</a>
+                                {% endif %}
+                            </div>
+						</div>
+					</div>
+				{% endfor %}
+			{% else %}
+				<div>
+					<p>Aucune enchère n'a été faite pour cette oeuvre.</p>
+					<a href="{{ path('account_sales_relaunch', {'slug': artwork.slug}) }}" class="btn btn-warning">Relancer</a>
+					<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
+				</div>
+			{% endif %}
+		</div>
+	</div>
 {% endblock %}

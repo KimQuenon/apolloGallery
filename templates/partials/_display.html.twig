@@ -2,19 +2,19 @@
 	<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}">
 	<div class="color-overlay"></div>
 	<div class="content-show">
-        {% if context == 'artworks_show' %}
-            <div>
-                <a href="{{ path('homepage') }}" class="subText">Home /</a>
-                <a href="{{ path('artworks_index') }}" class="subText">Our gallery /</a>
-                <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText weight">{{artwork.title}}</a>
-            </div>
-        {% elseif context == 'account_sales_show' %}
-            <div>
-                <a href="{{ path('account_profile') }}">Profile /</a>
-                <a href="{{ path('account_sales_index') }}">Sales /</a>
-                <a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
-            </div>
-        {% endif %}   
+		{% if context == 'artworks_show' %}
+			<div>
+				<a href="{{ path('homepage') }}" class="subText">Home /</a>
+				<a href="{{ path('artworks_index') }}" class="subText">Our gallery /</a>
+				<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText weight">{{artwork.title}}</a>
+			</div>
+		{% elseif context == 'account_sales_show' %}
+			<div>
+				<a href="{{ path('account_profile') }}">Profile /</a>
+				<a href="{{ path('account_sales_index') }}">Sales /</a>
+				<a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
+			</div>
+		{% endif %}
 		{% set isVertical = (artwork.canvaHeight > artwork.canvaWidth) %}
 		{% set orientation_class = isVertical ? 'rotate-90' : '' %}
 		<div class="container-show">
@@ -25,21 +25,21 @@
 			<div class="info-show">
 				<div class="title-show">
 					<h2>{{artwork.title}}</h2>
-					<div class="icons-content">
-						{% if app.user == artwork.author or is_granted('ROLE_ADMIN') %}
-							{% if context == 'artworks_show' %}
+					{% if context == 'artworks_show' %}
+						<div class="icons-content">
+							{% if app.user == artwork.author or is_granted('ROLE_ADMIN') %}
 								<a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="icon icon-sales">
 									<i class="fa-solid fa-gavel"></i>
 								</a>
+								<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit">
+									<i class="fa-solid fa-pen"></i>
+								</a>
+								<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete-clear">
+									<i class="fa-solid fa-trash-can"></i>
+								</a>
 							{% endif %}
-							<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit">
-								<i class="fa-solid fa-pen"></i>
-							</a>
-							<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="icon icon-delete-clear">
-								<i class="fa-solid fa-trash-can"></i>
-							</a>
-						{% endif %}
-					</div>
+						</div>
+					{% endif %}
 				</div>
 				<p class="weight">{{artwork.fullName}}</p>
 				<div class="container-info">
@@ -151,42 +151,42 @@
 </div>
 
 {% block javascripts %}
-<script>
-    function chrono() {
-        const divDays = document.querySelector('#days');
-        const divHours = document.querySelector('#hour');
-        const divMin = document.querySelector('#min');
-        const divSec = document.querySelector('#sec');
+	<script>
+		function chrono() {
+const divDays = document.querySelector('#days');
+const divHours = document.querySelector('#hour');
+const divMin = document.querySelector('#min');
+const divSec = document.querySelector('#sec');
 
-        // count endDate
-        function compte() {
-        var actualDatetime = new Date();
-        var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
-        var totalSecondes = (endDate - actualDatetime) / 1000;
+// count endDate
+function compte() {
+var actualDatetime = new Date();
+var endDate = new Date("{{ artwork.endDate|date('M d Y H:i:s') }}");
+var totalSecondes = (endDate - actualDatetime) / 1000;
 
-        // if timer ends
-        if (totalSecondes < 0) {
-        divCount.innerHTML = "fin";
-        return;
-    }
+// if timer ends
+if (totalSecondes < 0) {
+divCount.innerHTML = "fin";
+return;
+}
 
-    // values
-    var days = Math.floor(totalSecondes / (60 * 60 * 24));
-    var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
-    var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
-    var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
+// values
+var days = Math.floor(totalSecondes / (60 * 60 * 24));
+var hours = Math.floor((totalSecondes - (days * 60 * 60 * 24)) / (60 * 60));
+var minutes = Math.floor((totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60))) / 60);
+var secondes = Math.floor(totalSecondes - ((days * 60 * 60 * 24 + hours * 60 * 60 + minutes * 60)));
 
-    // display
-    divDays.innerHTML = days + " days";
-    divHours.innerHTML = hours + ":";
-    divMin.innerHTML = minutes + ":";
-    divSec.innerHTML = secondes;
+// display
+divDays.innerHTML = days + " days";
+divHours.innerHTML = hours + ":";
+divMin.innerHTML = minutes + ":";
+divSec.innerHTML = secondes;
 
-    var actualisation = setTimeout(compte, 1000);
-    }
-    compte();
-    }
-    chrono();
-</script>
-    {{encore_entry_script_tags('shareLink')}}
+var actualisation = setTimeout(compte, 1000);
+}
+compte();
+}
+chrono();
+	</script>
+	{{encore_entry_script_tags('shareLink')}}
 {% endblock %}
