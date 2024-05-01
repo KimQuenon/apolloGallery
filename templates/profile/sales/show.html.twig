@@ -81,13 +81,12 @@
 											reviews)</p>
 									</div>
 								</div>
-								<div>
-									<p>made a bid of</p>
-									<p class="weight">{{ auction.amount }}</p>
+								<div class="content-bid">
+									<p>made a bid of </p>
+									<p class="weight">{{ auction.amount | number_format(2, ',', '.') }} €</p>
 								</div>
 							</div>
                             <div class="actions-history">
-
 								{% if artwork.endDate < currentDate  %}
                                     <a href="{{ path('account_sales_accept', {'id': auction.id}) }}" class="btn6">Accepter</a>
                                     <a href="{{ path('account_sales_refuse', {'id': auction.id}) }}" class="btn4">Refuser</a>
