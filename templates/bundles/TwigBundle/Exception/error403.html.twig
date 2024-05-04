@@ -1,14 +1,11 @@
-{% extends "base.html.twig" %}
+{% extends "error.html.twig" %}
 
-{% block title %}Vous n'avez pas le droit d'accéder à cette ressource{% endblock %}
+{% block title %}Not found
+{% endblock %}
 
-{% block body %}
-    <div class="container full">
-        <h1>Accès refusé</h1>
-        <div class="alert alert-danger">
-            <p>Vous n'avez pas le droit d'accéder à cette ressource!</p>
-            <p>{{exception.message}}</p>
-            <a href="{{path('homepage')}}" class='btn btn-primary'>Retour à l'accueil</a>
-        </div>
-    </div>
+{% block error_name %}403 : Access denied{% endblock %}
+{% block error_text %}attention, vous n'êtes pas autorisé à venir ici{% endblock %}
+
+{% block javascripts %}
+    {{encore_entry_script_tags('shake')}}
 {% endblock %}

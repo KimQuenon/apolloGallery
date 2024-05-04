@@ -25,6 +25,7 @@ Encore
     .addEntry('chrono', './assets/js/chrono.js')
     .addEntry('fadeIn', './assets/js/fadeIn.js')
     .addEntry('gsap', './assets/js/gsap.js')
+    .addEntry('shake', './assets/js/shake.js')
     .addEntry('shareLink', './assets/js/shareLink.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

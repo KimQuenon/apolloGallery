@@ -1,77 +1,11 @@
-{% extends "base.html.twig" %}
+{% extends "error.html.twig" %}
 
 {% block title %}Not found
 {% endblock %}
 
-{% block body %}
-	<div class="slide" id="slide-errors">
-		<div class="grid-errors">
-			<div class="items-errors">
-				<h1>404 : Not Found</h1>
-				<p>Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper.</p>
-				<div>
-					<a href="{{path('homepage')}}" class='btn3'>
-						<i class="fa-solid fa-chevron-left"></i>
-						Homepage</a>
-					<a href="{{path('artworks_index')}}" class='btn1'>To the gallery
-						<i class="fa-solid fa-chevron-right"></i>
-					</a>
-				</div>
-			</div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-			<div class="items-errors square"></div>
-		</div>
-	</div>
-{% endblock %}
+{% block error_name %}404 : Not Found{% endblock %}
+{% block error_text %}attention, vous n'êtes pas autorisé à venir ici{% endblock %}
 
 {% block javascripts %}
-	<script>
-		function shake(square, tremblings, distance, speed) {
-        let move = 0;
-        let intervalId = setInterval(() => {
-        move = move === 0 ? distance : 0;
-        square.style.transform = `translateX(${move}px)`;
-
-        tremblings--;
-
-        if (tremblings <= 0) {
-        clearInterval(intervalId);
-        square.style.transform = `translateX(0)`;
-        }
-        }, speed);
-        }
-
-        
-        document.addEventListener("DOMContentLoaded", function () {
-        const squares = document.querySelectorAll(".square");
-
-        squares.forEach((square) => {
-        shake(square, 10, 2, 50);
-        });
-
-        });
-	</script>
+    {{encore_entry_script_tags('shake')}}
 {% endblock %}
