@@ -17,6 +17,9 @@
         @media all and (max-width: 1200px){
             grid-template-columns: repeat(4, 1fr);
         }
+        @media all and (max-width: 768px){
+            grid-template-columns: repeat(3, 1fr);
+        }
         .image-cell {
             @include imgCover(contain);
             width: 100%;
@@ -24,13 +27,17 @@
         }
 
         .items-errors {
-            background-color: pink;
+            // background-color: pink;
             &:first-child {
                 grid-column: span 3;
                 grid-row: span 2;
                 div {
                     display: flex;
                     gap: 20px;
+                    @media all and (max-width: 768px){
+                        flex-direction: column;
+                        align-items: center;
+                    }
                 }
             }
 
@@ -86,6 +93,9 @@
                 @extend .image-cell;
                 grid-row: span 2;
                 @extend .frame4;
+                @media all and (max-width: 768px){
+                    display: none;
+                }
             }
             &:nth-child(8){
                 @media all and (max-width: 1200px){
