@@ -184,7 +184,7 @@
     gap: 50px;
     align-items: start;
     padding-bottom: 50px;
-    .reviews-container, .medals {
+    .reviews-container, .medals-container {
         width: 50%;
         height: 90%;
     }
@@ -209,6 +209,48 @@
         .review-rating {
             @include flex(row, space-between);
             
+        }
+    }
+
+    .medals-container{
+        position:relative;
+        .medals{
+            width:100%;
+            position:relative;
+            margin-top: 50px;
+            .first-ring{
+                @include flex(column, center);
+                width:350px;
+                height:350px;
+                background-color: #FFC54D;
+                border-radius: 50%;
+                position: absolute;
+                top:80%;
+                left:50%;
+                transform: translateX(-50%);
+                z-index: 1;
+                .second-ring{
+                    @include flex(column, center);                width:275px;
+                    height:275px;
+                    background-color: #E8B04B;
+                    border-radius: 50%;
+                    h2{
+                        color:#A47727!important;
+                        font-size: 120px!important;
+                    }
+                }
+            }
+            .ribbons{
+                @include imgCover(contain);
+                width:100%;
+                height:55vh;
+                background-image: url(../../public/images/medal_ribbons.svg);
+                position: absolute;
+                margin-top: 150px;
+                top:90%;
+                left:50%;
+                transform: translateX(-50%);
+            }
         }
     }
 }

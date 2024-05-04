@@ -114,10 +114,6 @@
 				</div>
 				<div>
 					{% if reviews | length > 0 %}
-						{# {{user.avgRatings}}
-						{% include "partials/rating.html.twig" with {'rating': user.avgRatings} %}
-						({{ reviews | length}}
-						avis) #}
 						{% for review in reviews %}
 							<div class="review-content">
 								<div class="review-img">
@@ -143,8 +139,15 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="medals">
-				<h1>medals</h1>
+			<div class="medals-container">
+				<div class="medals">
+					<div class="first-ring">
+						<div class="second-ring">
+							<h2>{{user.avgRatings}}</h2>
+						</div>
+					</div>
+					<div class="ribbons"></div>
+				</div>
 			</div>
 		</div>
 	</div>
