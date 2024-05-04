@@ -4,7 +4,7 @@
 
 #slide-errors {
     @include flex(column, center);
-
+    overflow: hidden!important;
     .grid-errors {
         width: 90%;
         height: 85vh;
