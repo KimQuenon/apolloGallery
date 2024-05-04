@@ -138,6 +138,8 @@ class ArtworkController extends AbstractController
             return $otherArtwork !== $artwork;
         });
 
+        $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($author);
+
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
             'movements' => $movements,
@@ -145,6 +147,7 @@ class ArtworkController extends AbstractController
             'currentDate' => $currentDate,
             'seller' => $seller,
             'otherArtworks' => $otherArtworks,
+            'archivedArtworks' => $archivedArtworks,
             'context' => 'artworks_show',
         ]);
     }

@@ -1,49 +1,45 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{{artwork.title}}{% endblock %}
-
+{% block title %}
+	{{artwork.title}}
+{% endblock %}
 
 {% block body %}
 	{% include "partials/_display.html.twig" with {'context': context, 'artwork': artwork}  %}
-
-
-
-    {# <p>{{author.fullName}}</p>
-    {% if author.picture %}
-        <div>
-            <img src="{{author.picture}}" alt="avatar de {{author.fullName}}">
-        </div>
-    {% else %}
-    <div>
-        <img src="https://no5.co.nz/cdn/shop/t/4/assets/placeholder_600x.png?v=113555733946226816651632776942" alt="avatar de {{author.fullName}}">
-    </div>
-    {% endif %}
-
-	        <div class="container mt-5">
-            <h1>Profil de l'utilisateur</h1>
-            <div class="row mt-4">
-                <div class="col-md-10">
-                    <h3>{{seller.lastName}}</h3>
-                    <h4 class="text-body-secondary">{{seller.firstName}}</h4>
-					<p>{{seller.reviews | length}} avis</p>
-					{% include "partials/rating.html.twig" with {'rating': seller.avgRatings} %}
-                    <hr>
-                    <div class="text-end mb-3"><p>{{seller.description | raw}}</p>
-                        <figcaption class="blockquote-footer">
-                            {{seller.fullName}} for<cite title="Source Title">Apollo Gallery</cite>
-                        </figcaption>
+	<div class="slide-show">
+		<div class="profile-show">
+			<h2>About the seller</h2>
+			<div class="circle-picture">
+				{% if artwork.author.picture %}
+					<img src="/uploads/{{artwork.author.picture}}" alt="avatar of {{artwork.author.fullName}}">
+				{% else %}
+					<img src="../../images/default.jpg" alt="default placeholder">
+				{% endif %}
+			</div>
+			<div class="circle-profile">
+                <div class="circle-content">
+                    <div class="laurel">
+                        <h3>2.5</h3>
+                        <img src="../../images/laurel.svg" alt="laurel crown">
                     </div>
+                    <p><span class="weight">Name :</span> {{artwork.author.fullName}}</p>
+                    <p><span class="weight">From :</span> London, UK</p>
+                    <p><span class="weight">Bio :</span> {{artwork.author.description | raw}}</p>
+                    <p><span class="weight">Selled paintings :</span> {{archivedArtworks | length}}</p>
                 </div>
             </div>
-            <h1 class="mt-3 mb-4">Du même vendeur</h1>
-            <div class="row">
+		</div>
+	</div>
+	<div class="others-show">
+        <div class="others-container">
+            <h2>From this user</h2>
+            <div class="artworks-container">
                 {% for artwork in otherArtworks %}
-                    {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+                    {% if not artwork.archived %}
+                        {% include "partials/_cards.html.twig" with {'artwork': artwork} %}
+                    {% endif %}
                 {% endfor %}
             </div>
-        </div> #}
-{% endblock %}
-
-{% block javascripts %}
-
+        </div>
+	</div>
 {% endblock %}

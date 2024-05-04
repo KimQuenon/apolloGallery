@@ -1,7 +1,7 @@
 <div class="slide-show">
 	<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}">
 	<div class="color-overlay"></div>
-	<div class="content-show">
+	<div class="content-show ">
 		{% if context == 'artworks_show' %}
 			<div>
 				<a href="{{ path('homepage') }}" class="subText">Home /</a>
@@ -148,11 +148,8 @@
 			</div>
 		</div>
 	</div>
-</div>
-
-{% block javascripts %}
-	<script>
-		function chrono() {
+</div></div></div>{% block javascripts %}<script>
+function chrono() {
 const divDays = document.querySelector('#days');
 const divHours = document.querySelector('#hour');
 const divMin = document.querySelector('#min');
@@ -186,7 +183,4 @@ var actualisation = setTimeout(compte, 1000);
 }
 compte();
 }
-chrono();
-	</script>
-	{{encore_entry_script_tags('shareLink')}}
-{% endblock %}
+chrono();</script>{{encore_entry_script_tags('shareLink')}}{% endblock %}

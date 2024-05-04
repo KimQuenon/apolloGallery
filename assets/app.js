@@ -8,6 +8,7 @@ import './bootstrap.js';
 import './styles/about.scss';
 import './styles/app.scss';
 import './styles/archives.scss';
+import './styles/artworks_show.scss';
 import './styles/errors.scss';
 import './styles/form.scss';
 import './styles/gallery.scss';
