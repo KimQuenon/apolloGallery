@@ -24,17 +24,19 @@ class AuctionController extends AbstractController
     {
         $user = $this->getUser(); // Récupérer l'utilisateur connecté
         $auctions = $auctionRepo->findAuctionsByUser($user);
-        $acceptedAuctions = $auctionRepo->findAcceptedAuctionsByUser($user);
+
         $refusedAuctions = [];
         foreach ($auctions as $auction) {
             $artwork = $auction->getArtwork();
             $refusedAuctions[$artwork->getId()] = $auctionRepo->findRefusedAuctionsByUser($artwork, $user);
         }
-    
+
+        $ongoingAuctions = $auctionRepo->findOngoingAuctionsByUser($user);
+
         return $this->render('profile/auctions.html.twig', [
             'auctions' => $auctions,
-            'acceptedAuctions' => $acceptedAuctions,
             'refusedAuctions' => $refusedAuctions,
+            'ongoingAuctions' => $ongoingAuctions
         ]);
     }
 

@@ -1,0 +1,27 @@
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.auctions-container {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 80px;
+    position: relative;
+    .won-container {
+        width: 50%;
+        background-color: magenta;
+        position: relative;
+        .won-img {
+            width: 150%;
+            height: 15vh;
+            border-top-right-radius: 100px;
+            border-bottom-right-radius: 100px;
+            background-color: $darkRed;
+            position: absolute;
+            left: -20%; 
+        }
+        .won-content{
+            padding-top: 120px;
+        }
+    }
+}

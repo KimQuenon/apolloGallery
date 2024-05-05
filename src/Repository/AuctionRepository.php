@@ -90,24 +90,6 @@ class AuctionRepository extends ServiceEntityRepository
             ->getOneOrNullResult();
     }
 
-    /**
-     * si enchère remportée par l'utilisateur
-     *
-     * @param User $user
-     * @return array
-     */
-    public function findAcceptedAuctionsByUser(User $user): array
-    {
-        return $this->createQueryBuilder('a')
-            ->join('a.artwork', 'aw')
-            ->andWhere('aw.author = :user')
-            ->andWhere('a.sold = :sold')
-            ->setParameter('user', $user)
-            ->setParameter('sold', 'yes')
-            ->orderBy('a.id', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
 
     /**
      * si enchère perdue par l'utilisateur (vérif sur l'achive)
@@ -119,18 +101,33 @@ class AuctionRepository extends ServiceEntityRepository
     public function findRefusedAuctionsByUser(Artwork $artwork, User $user): array
     {
         return $this->createQueryBuilder('a')
-            ->join('a.artwork', 'aw') // Jointure avec la table Artwork
-            ->andWhere('aw = :artwork') // l'œuvre donnée
-            ->andWhere('a.user = :user') // l'utilisateur donné
-            ->andWhere('a.sold = :sold') // enchères non acceptée
-            ->andWhere('aw.archived = :archived') // sur une oeuvre archivée
+            ->join('a.artwork', 'aw')
+            ->andWhere('aw = :artwork')
+            ->andWhere('a.user = :user')
+            ->andWhere('a.sold = :sold')
+            ->andWhere('aw.archived = :archived')
             ->setParameter('artwork', $artwork)
             ->setParameter('user', $user)
             ->setParameter('sold', 'no')
-            ->setParameter('archived', true) // Définir le paramètre pour vérifier si l'œuvre est archivée
+            ->setParameter('archived', true)
             ->getQuery()
             ->getResult();
     }
+
+    public function findOngoingAuctionsByUser(User $user): array
+{
+    return $this->createQueryBuilder('a')
+        ->join('a.artwork', 'aw')
+        ->andWhere('a.user = :user')
+        ->andWhere('a.sold = :sold')
+        ->andWhere('aw.archived = :archived')
+        ->setParameter('user', $user)
+        ->setParameter('sold', 'no') // L'enchère n'est pas encore vendue
+        ->setParameter('archived', false) // L'œuvre n'est pas archivée
+        ->getQuery()
+        ->getResult();
+}
+
 
     /**
      * Nombre d'enchères d'une oeuvre

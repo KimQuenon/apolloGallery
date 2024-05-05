@@ -9,6 +9,7 @@ import './styles/about.scss';
 import './styles/app.scss';
 import './styles/archives.scss';
 import './styles/artworks_show.scss';
+import './styles/auctions.scss';
 import './styles/conversations.scss';
 import './styles/errors.scss';
 import './styles/form.scss';
