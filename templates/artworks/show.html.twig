@@ -6,7 +6,7 @@
 
 {% block body %}
 	{% include "partials/_display.html.twig" with {'context': context, 'artwork': artwork}  %}
-	<div class="slide-show">
+	<div class="slide-show" id="pres-show">
 		<div class="profile-show">
 			<h2>About the seller</h2>
 			<div class="circle-picture">
@@ -19,7 +19,7 @@
 			<div class="circle-profile">
                 <div class="circle-content">
                     <div class="laurel">
-                        <h3>2.5</h3>
+                        <h3>{{artwork.author.avgRatings}}</h3>
                         <img src="../../images/laurel.svg" alt="laurel crown">
                     </div>
                     <p><span class="weight">Name :</span> {{artwork.author.fullName}}</p>
@@ -42,4 +42,30 @@
             </div>
         </div>
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+  const observerOptions = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 0.1,
+  };
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  const elements = document.querySelectorAll(".circle-picture, .circle-profile");
+  elements.forEach((element) => observer.observe(element));
+});
+
+</script>
 {% endblock %}
