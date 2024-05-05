@@ -2,29 +2,29 @@
 @import 'fonts';
 @import 'mixins';
 
-@keyframes slideInFromLeft {
-    0% {
-        transform: translateX(-100%);
-        opacity: 0;
-    }
+// @keyframes slideInFromLeft {
+//     0% {
+//         transform: translateX(-100%);
+//         opacity: 0;
+//     }
 
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
+//     100% {
+//         transform: translateX(0);
+//         opacity: 1;
+//     }
+// }
 
-@keyframes slideInFromRight {
-    0% {
-        transform: translateX(100%);
-        opacity: 0;
-    }
+// @keyframes slideInFromRight {
+//     0% {
+//         transform: translateX(100%);
+//         opacity: 0;
+//     }
 
-    100% {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
+//     100% {
+//         transform: translateX(0);
+//         opacity: 1;
+//     }
+// }
 
 #pres-show{
     overflow-x: hidden;
@@ -47,9 +47,9 @@
     }
     .circle-picture {
         left: 15%;
-        opacity: 0;
-        transform: translateX(-100%);
-        transition: all 1s;
+        // opacity: 0;
+        // transform: translateX(-100%);
+        // transition: all 1s;
         @media all and (max-width: 1200px){
             left:15%;
         }
@@ -69,9 +69,9 @@
         right: 15%;
         background-image: url(../../public/images/artworks_show.jpg);
         background-size: cover;
-        opacity: 0;
-        transform: translateX(100%);
-        transition: all 1s;
+        // opacity: 0;
+        // transform: translateX(100%);
+        // transition: all 1s;
         @media all and (max-width: 1200px){
             right:10%;
             margin-top: 400px;
@@ -117,10 +117,10 @@
     }
 }
 
-.circle-picture.visible {
-    animation: slideInFromLeft 1s forwards;
-}
+// .circle-picture.visible {
+//     animation: slideInFromLeft 1s forwards;
+// }
 
-.circle-profile.visible {
-    animation: slideInFromRight 1s forwards;
-}
+// .circle-profile.visible {
+//     animation: slideInFromRight 1s forwards;
+// }
