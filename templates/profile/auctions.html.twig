@@ -1,76 +1,129 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    My auctions
+	My auctions
 {% endblock %}
 
 {% block body %}
-<div class="slide">
-    <div class="auctions-container">
-        <div class="won-container">
-            <div>
-                <a href="{{ path('account_profile') }}" class="subText">Profile /</a>
-                <a href="{{ path('account_sales_index') }}" class="subText weight">My auctions</a>
-            </div>
-            <h1>My Auctions</h1>
-            <div class="won-img">
-            </div>
-            <div class="won-content">
-                {% if auctions is not empty %}
-                    <p>Enchère remportée</p>
-                    {% for auction in auctions %}
-                        {% if auction.sold == "yes" %}
-                            <div class="col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <h5 class="card-title">{{ auction.artwork.title }}</h5>
-                                            <p class="card-text">{{ auction.amount }}</p>
+	<div class="auctions-slide">
+		<div class="auctions-container">
+			<div class="won-container">
+				<div>
+					<a href="{{ path('account_profile') }}" class="subText">Profile /</a>
+					<a href="{{ path('account_sales_index') }}" class="subText weight">My auctions</a>
+				</div>
+				<h1>My Auctions</h1>
+				<div class="won-img"></div>
+				<div class="won-content">
+                    <div class="overflow">
+                        {% if auctions is not empty %}
+                            <h3 class="space">Ding ding, a winner !</h3>
+                            {% for auction in auctions %}
+                                {% if auction.sold == "yes" %}
+                                    <div class="auction-card">
+                                        <div class="preview-card">
+                                            <img src="{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
                                         </div>
-                                        <a href="{{ path('artworks_show', {'slug': auction.artwork.slug}) }}" class="btn btn-primary">Voir plus</a>
+                                        <div class="resume-card">
+                                            <p>
+                                                <span class="weight">Title</span>:
+                                                {{auction.artwork.title}}</p>
+                                            <p>
+                                                <span class="weight">Artist</span>:
+                                                {{auction.artwork.fullName}}</p>
+                                            <p>
+                                                <span class="weight">Initial price</span>: €
+                                                {{auction.artwork.priceInit|number_format(2, ',', '.')}}</p>
+                                            <p class="space">
+                                                <span class="weight">Your auction</span>: €
+                                                {{auction.amount|number_format(2, ',', '.')}}</p>
+                                            <p class="weight">Contact the seller right here :</p>
+                                            <p class="weight">
+                                                <a href="mailto:{{ auction.artwork.author.email }}">{{ auction.artwork.author.email }}</a>
+                                            </p>
+                                            <a href="{{ path('artworks_show', {'slug': auction.artwork.slug}) }}" class="btn1">See more<i class="fa-solid fa-chevron-right"></i>
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% else %}
+                            <p>Isn't it frustrating how empty is this right here ?</p>
                         {% endif %}
-                    {% endfor %}
-                    <hr>
-                {% else %}
-                    <p>Aucune enchère remportée pour le moment</p>
-                {% endif %}
+                    </div>
+				</div>
+			</div>
+			<div class="lost-container">
+				<a href="{{path('account_artworks')}}" class="btn1">
+					<i class="fa-solid fa-chevron-left"></i>My artworks</a>
+				<div class="lost-img"></div>
+				<div class="lost-content">
+					<h3 class="space">Maybe next time ?</h3>
+                    <div class="overflow">
                         {% if refusedAuctions is not empty %}
-            <hr>
-            <p>Enchères refusées</p>
-            {% for artworkId, refusals in refusedAuctions %}
-                {% for refusal in refusals %}
-                    <div class="col-md-6 mb-4">
-                        <div class="card">
-                            <div class="card-body d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5 class="card-title">{{ refusal.artwork.title }}</h5>
-                                    <p class="card-text">{{ refusal.amount }}</p>
-                                </div>
-                                <p class="text-danger">Enchère refusée</p>
-                            </div>
+                            {% for artworkId, refusals in refusedAuctions %}
+                                {% for auction in refusals %}
+                                    <div class="auction-card">
+                                        <div class="preview-mini">
+                                            <img src="{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
+                                        </div>
+                                        <div class="resume-mini">
+                                            <p>
+                                                <span class="weight">Title</span>:
+                                                {{auction.artwork.title}}</p>
+                                            <p>
+                                                <span class="weight">Artist</span>:
+                                                {{auction.artwork.fullName}}</p>
+                                            <p>
+                                                <span class="weight">Initial price</span>: €
+                                                {{auction.artwork.priceInit|number_format(2, ',', '.')}}</p>
+                                            <p class="space">
+                                                <span class="weight">Your auction</span>: €
+                                                {{auction.amount|number_format(2, ',', '.')}}</p>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        {% else %}
+                            <p>Well nothing new for now...</p>
+                        {% endif %}
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="ongoing-container">
+            {% if ongoingAuctions is not empty %}
+                <h2>It's still time for you:</h2>
+                {% for auction in ongoingAuctions %}
+                    <div class="auction-card">
+                        <div class="preview-mini">
+                            <img src="{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
                         </div>
+                        <div class="resume-mini">
+                            <p>
+                                <span class="weight">Title</span>:
+                                {{auction.artwork.title}}</p>
+                            <p>
+                                <span class="weight">Artist</span>:
+                                {{auction.artwork.fullName}}</p>
+                            <p>
+                                <span class="weight">Initial price</span>: €
+                                {{auction.artwork.priceInit|number_format(2, ',', '.')}}</p>
+                            <p class="space">
+                                <span class="weight">Your auction</span>: €
+                                {{auction.amount|number_format(2, ',', '.')}}</p>
+                        </div>
+                        <a href="{{ path('artworks_show', {'slug': auction.artwork.slug}) }}" class="btn1">See more<i class="fa-solid fa-chevron-right"></i>
+                        </a>
                     </div>
                 {% endfor %}
-            {% endfor %}
-        {% endif %}
-        {% for auction in ongoingAuctions %}
-            <div class="col-md-6 mb-4">
-                <div class="card">
-                    <div class="card-body d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="card-title">{{ auction.artwork.title }}</h5>
-                            <p class="card-text">{{ auction.amount }}</p>
-                        </div>
-                        <a href="{{ path('artworks_show', {'slug': auction.artwork.slug}) }}" class="btn btn-primary">Voir plus</a>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-            </div>
-        </div>
-    </div>
-</div>
+            {% else %}
+                <h2>It's so quiet in there...</h2>
+                <p>It's time to go shopping !</p>
+                                        <a href="{{ path('artworks_index', {'slug': auction.artwork.slug}) }}" class="btn1"><i class="fa-solid fa-chevron-left"></i>To the gallery !
+                        </a>
+            {% endif %}
+		</div>
+	</div>
 {% endblock %}
+
