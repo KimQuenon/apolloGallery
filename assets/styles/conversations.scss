@@ -12,20 +12,30 @@
     .conversations-content{
         @include flex();
         align-items: start;
+
         .list-group-item{
             background-color: transparent!important;
             border:none!important;
             border-bottom: 1px solid $white!important;
             border-radius: 0!important ;
+            @media all and (max-width: 1200px){
+                display: none;
+            }
         }
         #message-container{
             height:400px;
             overflow-y: auto;
+            @media all and (max-width: 1200px){
+                height:800px;
+            }
             .user-message, .not-user-message{
                 padding: 20px;
                 border-radius: 15px;
                 width:75%;
                 position:relative;
+                @media all and (max-width: 1200px){
+                    width:100%;
+                }
                 small{
                     opacity: 0.5;
                 }
