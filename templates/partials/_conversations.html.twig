@@ -1,0 +1,32 @@
+
+{% if conversations | length > 0 %}
+<div class="list-group">
+	{% for conversation in conversations %}
+		{% set otherUser = conversation.user.id == app.user.id ? conversation.expert : conversation.user %}
+		<a href="{{ path('conversation_show', {'slug': otherUser.slug}) }}" class="list-group-item list-group-item-action">
+			<div class="conversations-content">
+				<h5>{{ otherUser.fullName }}</h5>
+				{% if conversation.lastMessage %}
+					<small>{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>
+				{% endif %}
+			</div>
+			<p>
+				{% if conversation.lastMessage %}
+					{% if app.user == conversation.lastMessage.sendBy %}
+						<span class="weight">You said:</span>
+						{{ conversation.lastMessage.content | slice(0, 50) }}...
+					{% else %}
+						<span class="weight">said:</span>
+						{{ conversation.lastMessage.content | slice(0, 50) }}...
+					{% endif %}
+				{% else %}
+					Pas de message
+				{% endif %}
+			</p>
+		</a>
+	{% endfor %}
+</div>
+{% else %}
+    <p>No conversation found.</p>
+{% endif %}
+

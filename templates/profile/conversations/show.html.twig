@@ -1,83 +1,62 @@
-{% extends 'base.html.twig' %}
+{% extends 'conversation-layout.html.twig' %}
+{% set otherUser = conversation.user.id == app.user.id ? conversation.expert : conversation.user %}
 
-{% block title %}Conversation
+{% block title %}
+	Conversation with
+	{{otherUser.fullName}}
 {% endblock %}
 
-{% block body %}
-	<div class="slide">
-		<div class="conversations-container">
-			<div class="conversations-title space">
-				<h1>Conversations</h1>
-				<a href="{{ path('account_conversations') }}" class="btn1">Back to profile</a>
-			</div>
-			<div class="conversations-content">
-				<div>
-					<div class="list-group">
-						{% for conversation in conversations %}
-							{% set otherUser = conversation.user.id == app.user.id ? conversation.expert : conversation.user %}
-							<a href="{{ path('conversation_show', {'slug': otherUser.slug}) }}" class="list-group-item list-group-item-action">
-								<div class="conversations-content">
-									<h5>{{ otherUser.fullName }}</h5>
-									{% if conversation.lastMessage %}
-										<small>{{ conversation.lastMessage.timestamp|date('d/m/Y H:i') }}</small>
-									{% endif %}
-								</div>
-								<p>
-									{% if conversation.lastMessage %}
-										{% if app.user == conversation.lastMessage.sendBy %}
-											<span class="weight">You said:</span>
-											{{ conversation.lastMessage.content | slice(0, 50) }}...
-										{% else %}
-											<span class="weight">said:</span>
-											{{ conversation.lastMessage.content | slice(0, 50) }}...
-										{% endif %}
-									{% else %}
-										Pas de message
-									{% endif %}
-								</p>
-							</a>
-						{% endfor %}
-					</div>
-				</div>
-				<div>
-					<div id="message-container">
-						<div class="w-100 container d-flex gap-20 flex-column">
-							{% for message in messages %}
-								<div class="w-100 d-flex flex-column p-2">
-									{% if message.sendBy == app.user %}
-										<div class="user-message">
-											<div>{{ message.content }}</div>
-											<small>{{ message.timestamp|date('d/m/Y H:i') }}</small>
-										</div>
-									{% else %}
-										<div class="not-user-message">
-											<div>{{ message.content }}</div>
-											<small>{{ message.timestamp|date('d/m/Y H:i') }}</small>
-										</div>
-									{% endif %}
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-					<div class="mt-4">
-						{{ form_start(myForm) }}
-						<div class="d-flex align-items-center justify-content-between">
-							<div class="input-group">
-								{{ form_widget(myForm.content, {'attr': {'class': 'form-control form-control-sm', 'style': 'padding: 10px;'}}) }}
+{% block title_section %}
+	to:
+	{{otherUser.fullName}}
+{% endblock %}
+
+{% block button_section %}
+	<a href="{{ path('account_conversations') }}" class="btn1"><i class="fa-solid fa-chevron-left"></i>Conversations</a>
+{% endblock %}
+{% block conversations_section %}
+	<div id="display-conversation">
+		{% include "partials/_conversations.html.twig" %}
+	</div>
+{% endblock %}
+
+{% block messages_section %}
+
+	<div class="write-message">
+		<div id="message-container">
+			<div class="w-100 container d-flex gap-20 flex-column">
+				{% for message in messages %}
+					<div class="w-100 d-flex flex-column p-2">
+						{% if message.sendBy == app.user %}
+							<div class="user-message">
+								<div>{{ message.content }}</div>
+								<small>{{ message.timestamp|date('d/m/Y H:i') }}</small>
 							</div>
-							<div>
-								<button type="submit" class="btn p-3">
-									<i class="fas fa-arrow-up"></i>
-								</button>
+						{% else %}
+							<div class="not-user-message">
+								<div>{{ message.content }}</div>
+								<small>{{ message.timestamp|date('d/m/Y H:i') }}</small>
 							</div>
-						</div>
-						{{ form_end(myForm) }}
+						{% endif %}
 					</div>
-				</div>
+				{% endfor %}
 			</div>
 		</div>
+		<div class="mt-4">
+			{{ form_start(myForm) }}
+			<div class="d-flex align-items-center justify-content-between">
+				<div class="input-group">
+					{{ form_widget(myForm.content, {'attr': {'class': 'form-control form-control-sm', 'style': 'padding: 10px;'}}) }}
+				</div>
+				<div>
+					<button type="submit" class="btn p-3">
+						<i class="fas fa-arrow-up"></i>
+					</button>
+				</div>
+			</div>
+			{{ form_end(myForm) }}
+		</div>
 	</div>
-
 	<script>
 		// Scroll to bottom after DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function (event) {
