@@ -814,35 +814,3 @@ i{
 .full{
     min-height:70vh;
 }
-
-.not-user-message:after {
-	content: '';
-	position: absolute;
-	bottom: -7px;
-	left: 10px;
-	width: 0;
-	border-width: 7px 10px 0 0;
-	border-style: solid;
-	border-color: #eceff1 transparent;
-}
-
-.user-message:after {
-	content: '';
-	position: absolute;
-	bottom: -7px;
-	right: 10px;
-	width: 0;
-	border-width: 7px 0 0 10px;
-	border-style: solid;
-	border-color: #2196F3 transparent;
-}
-
-.input-group{
-    width: 90%;
-}
-
- #message_content{
-    resize:none;
-    height:70px;
-    border-radius: 15px;
-}

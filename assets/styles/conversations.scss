@@ -1,0 +1,80 @@
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+.conversations-container{
+    width:90%;
+    margin:0 auto;
+    padding-top: 80px;
+    .conversations-title{
+        @include flex();
+    }
+    .conversations-content{
+        @include flex();
+        align-items: start;
+        .list-group-item{
+            background-color: transparent!important;
+            border:none!important;
+            border-bottom: 1px solid $white!important;
+            border-radius: 0!important ;
+        }
+        #message-container{
+            height:400px;
+            overflow-y: auto;
+            .user-message, .not-user-message{
+                padding: 20px;
+                border-radius: 15px;
+                width:75%;
+                position:relative;
+                small{
+                    opacity: 0.5;
+                }
+            }
+            .user-message{
+                background-color: $darkRed;
+                color: $white;
+                align-self: self-end;
+                &::after{
+                    position: absolute;
+                    bottom: -7px;
+                    right: 10px;
+                    width: 0;
+                    border-width: 7px 0 0 10px;
+                    border-style: solid;
+                    border-color: $darkRed transparent;
+                }
+            }
+            .not-user-message{
+                background-color: $white;
+                align-self: self-start;
+                &::after{
+                    content: '';
+                    position: absolute;
+                    bottom: -7px;
+                    left: 10px;
+                    width: 0;
+                    border-width: 7px 10px 0 0;
+                    border-style: solid;
+                    border-color: $white transparent;
+                }
+            }
+        }
+        .input-group{
+            width: 90%!important;
+        }
+        button{
+            background-color: $darkRed;
+            color:$white;
+            &:hover{
+                background-color: $bordeau;
+            }
+        }
+    }
+}
+
+
+ #message_content{
+    resize:none;
+    height:70px;
+    border-radius: 15px;
+}
