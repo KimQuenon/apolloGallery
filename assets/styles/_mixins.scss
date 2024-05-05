@@ -57,3 +57,14 @@
         }
     }
 }
+
+@mixin fadeIn($translate){
+    opacity: 0;
+    transition: transform 1s, opacity 1s;
+    transform: $translate;
+}
+
+@mixin show($translate){
+    opacity:1;
+    transform: $translate;
+}

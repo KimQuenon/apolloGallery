@@ -6,14 +6,14 @@
 {% block body %}
 	<div class="slide-archives">
 		<div class="container-archives">
-			<div class="shelf-archives"></div>
+			<div class="shelf-archives top"></div>
 			<div class="desc-archives">
 				<h2>Archived Artworks</h2>
 				<p>Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper.</p>
 				<a href="{{ path('account_artworks') }}" class="btn1">
 					<i class="fa-solid fa-chevron-left"></i>Your artworks</a>
 			</div>
-			<div class="ladder-archives"></div>
+			<div class="ladder-archives right"></div>
 		</div>
 	</div>
     <div class="slide-archives">
@@ -38,24 +38,5 @@
     </div>
 {% endblock %}
 {% block javascripts %}
-	<script>
-		function animateLadder() {
-const ladder = document.querySelector(".ladder-archives");
-if (ladder) {
-ladder.classList.add("show");
-}
-}
-function animateShelf() {
-    const shelf = document.querySelector(".shelf-archives");
-    if (shelf) {
-        shelf.classList.add("show");
-    }
-}
-
-window.addEventListener("load", function () {
-animateLadder();
-animateShelf();
-});
-	</script>
-
+    {{encore_entry_script_tags('animFade')}}
 {% endblock %}

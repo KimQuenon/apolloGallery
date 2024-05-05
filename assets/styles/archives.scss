@@ -5,9 +5,9 @@
 
 .slide-archives{
     width:100%;
-    min-height:100vh;
+    min-height:110vh;
     background-color: $red;
-    
+    overflow: hidden;
     .container-archives{
         @include flex(column, space-between);
         width:90%;
@@ -21,14 +21,6 @@
             width:100%;
             height:45vh;
             background-image: url(../../public/images/shelf.svg);
-            transition: transform 1s, opacity 1s;
-            opacity: 0;
-            transform: translateY(-100%);
-        
-            &.show {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
         .desc-archives{
             width:50%;
@@ -41,14 +33,6 @@
             right: 0;
             top: 10%;
             background-image: url(../../public/images/ladder.svg);
-            transition: transform 1s, opacity 1s;
-            opacity: 0;
-            transform: translateX(100%);
-        
-            &.show { // Le contexte est correct ici
-                transform: translateX(0);
-                opacity: 1;
-            }
         }
         
     }

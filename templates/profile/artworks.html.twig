@@ -6,8 +6,8 @@
 {% block body %}
 	<div class="slide-artworks">
 		<div class="pres-artworks">
-			<div class="columns-artworks first" id="first-column"></div>
-			<div class="columns-artworks second" id="second-column"></div>
+			<div class="columns-artworks left"></div>
+			<div class="columns-artworks right"></div>
 		</div>
 
 		<div class="title-artworks">
@@ -44,24 +44,5 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script>
-		function animateFirstColumn() {
-const firstColumn = document.getElementById("first-column");
-if (firstColumn) {
-firstColumn.classList.add("show");
-}
-}
-
-function animateSecondColumn() {
-const secondColumn = document.getElementById("second-column");
-if (secondColumn) {
-secondColumn.classList.add("show");
-}
-}
-
-window.addEventListener("load", function () {
-animateFirstColumn();
-animateSecondColumn();
-});
-	</script>
+{{encore_entry_script_tags('animFade')}}
 {% endblock %}

@@ -138,7 +138,6 @@ i{
     margin:0!important;
 }
 
-
 .hr{
     width: 100%;
     margin: 0 auto;
@@ -234,6 +233,26 @@ i{
             color:$white;
         }
     }
+}
+
+.left{
+    @include fadeIn(translateX(-100%));
+}
+
+.right{
+    @include fadeIn(translateX(100%));
+}
+
+.top{
+    @include fadeIn(translateY(-100%));
+}
+
+.showX{
+    @include show(translateX(0));
+}
+
+.showY{
+    @include show(translateY(0));
 }
 
 //  --------------------------HOMEPAGE-------------------------

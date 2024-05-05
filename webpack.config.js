@@ -21,6 +21,7 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .addEntry('animFade', './assets/js/animFade.js')
     .addEntry('burger', './assets/js/burger.js')
     .addEntry('chrono', './assets/js/chrono.js')
     .addEntry('fadeIn', './assets/js/fadeIn.js')
