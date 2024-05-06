@@ -87,13 +87,18 @@
                     .dropdown-toggle{
                         color:$white;
                     }
-                    .form-custom{
-                        background-color: transparent!important;
-                        border:2px solid $white!important;
-                        border-radius: 50px!important;
-                        &::placeholder {
-                            color: white!important;
+                    #search-input{
+                        border-radius: 80px;
+                    }
+                    #search-results ul li{
+                        border-bottom: 1px solid $brown;
+                        padding: 8px;
+                        &:last-of-type{
+                            border:none;
                         }
+                    }
+                    #search-results ul li a, .dropdown-item{
+                        color: $darkBrown!important;
                     }
                     .btn-secondary{
                         width:50px!important;

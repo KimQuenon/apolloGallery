@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -33,6 +34,31 @@ class ArtworkController extends AbstractController
             'pagination' => $pagination,
             'movements' => $movements,
         ]);
+    }
+
+    #[Route('/artworks/search/ajax', name: 'artworks_search_ajax', methods: ['GET'])]
+    public function searchAjax(Request $request, ArtworkRepository $artworkRepo): JsonResponse
+    {
+        $query = $request->query->get('query', '');
+
+        if (empty($query)) {
+            return new JsonResponse([]); // Renvoie un tableau vide si aucun terme
+        }
+
+        $results = $artworkRepo->findByTitleOrArtistQuery($query)
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+
+        $jsonResults = array_map(function ($artwork) {
+            return [
+                'title' => $artwork->getTitle(),
+                'artist' => $artwork->getFullName(),
+                'slug' => $artwork->getSlug(),
+            ];
+        }, $results);
+
+        return new JsonResponse($jsonResults);
     }
 
     

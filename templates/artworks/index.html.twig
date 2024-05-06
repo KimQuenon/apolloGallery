@@ -1,62 +1,125 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Our Gallery{% endblock %}
+{% block title %}Our Gallery
+{% endblock %}
 
 {% block body %}
-    <div class="slide-gallery">
-        <div class="intro-gallery">
-            <div class="text-gallery">
-                <div class="margin">
-                    <div>
-                        <a href="{{ path('homepage') }}" class="subText">Home /</a>
-                        <a href="{{ path('artworks_index') }}" class="subText weight">Our gallery</a>
-                    </div>
-                    <div>
-                        <h2>OUR GALLERY</h2>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. <strong>Quia dolor dolores ea.</strong> Odio voluptas provident minima deserunt excepturi explicabo ratione fuga, beatae enim placeat accusamus, maiores vel, <strong>at mollitia voluptates reiciendis sit illo pariatur voluptate inventore velit eius.</strong> Quam id sequi culpa illum itaque. Molestiae temporibus natus reiciendis maiores doloremque incidunt suscipit! Quisquam, ex quod.</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eos voluptatum veritatis dolor tempora expedita.</p>
-                        <div class="social_media_all">
-                            {% include "partials/_social-media.html.twig" %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="cover-gallery"></div>
-        </div>
-        <div class="artworks-gallery">
-            <div class="artworks-content">
-                <div class="artworks-title">
-                    <h3>Latest frames</h3>
-                    <div class="widget">
-                        <ul class="nav nav-pills">
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true"><i class="fa-solid fa-filter"></i>Movements</a>
-                                <div class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42.4px, 0px); max-height: 200px; overflow-y: auto;" data-popper-placement="bottom-start">
-                                    {% for movement in movements %}
-                                        <a class="dropdown-item" href="{{ path('movements_show', {'slug': movement.slug}) }}">
-                                            {{ movement.movementName }}
-                                        </a>
-                                    {% endfor %}
-                                </div>
-                            </li>
-                        </ul>
-                        <form class="d-flex">
-                            <input class="form-control form-custom me-sm-2" type="search" placeholder="Search...">
-                            <button class="btn btn-secondary" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-                        </form>
-                    </div>
-                </div>
-                <div class="artworks-container">
-                    {% for artwork in pagination.data %}
-                        {% if not artwork.archived %}
-                            {% include "partials/_cards.html.twig" with { 'artwork': artwork } %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-                <div>
-                    {{pagination.display()}}
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="slide-gallery">
+		<div class="intro-gallery">
+			<div class="text-gallery">
+				<div class="margin">
+					<div>
+						<a href="{{ path('homepage') }}" class="subText">Home /</a>
+						<a href="{{ path('artworks_index') }}" class="subText weight">Our gallery</a>
+					</div>
+					<div>
+						<h2>OUR GALLERY</h2>
+						<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+							<strong>Quia dolor dolores ea.</strong>
+							Odio voluptas provident minima deserunt excepturi explicabo ratione fuga, beatae enim placeat accusamus, maiores vel,
+							<strong>at mollitia voluptates reiciendis sit illo pariatur voluptate inventore velit eius.</strong>
+							Quam id sequi culpa illum itaque. Molestiae temporibus natus reiciendis maiores doloremque incidunt suscipit! Quisquam, ex quod.</p>
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eos voluptatum veritatis dolor tempora expedita.</p>
+						<div class="social_media_all">
+							{% include "partials/_social-media.html.twig" %}
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="cover-gallery"></div>
+		</div>
+		<div class="artworks-gallery">
+			<div class="artworks-content">
+				<div class="artworks-title">
+					<h3>Latest frames</h3>
+					<div class="widget">
+						<ul class="nav nav-pills">
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">
+									<i class="fa-solid fa-filter"></i>Movements</a>
+								<div class="dropdown-menu" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate3d(0px, 42.4px, 0px); max-height: 200px; overflow-y: auto;" data-popper-placement="bottom-start">
+									{% for movement in movements %}
+										<a class="dropdown-item" href="{{ path('movements_show', {'slug': movement.slug}) }}">
+											{{ movement.movementName }}
+										</a>
+									{% endfor %}
+								</div>
+							</li>
+						</ul>
+						<div class="search-bar">
+							<form class="d-flex" id="search-form">
+								<div class="dropdown">
+									<input class="form-control" type="text" id="search-input" placeholder="Search artworks...">
+									<div class="dropdown-menu" id="search-results" style="display: none;">
+										<ul class="list-unstyled p-3"></ul>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="artworks-container">
+					{% for artwork in pagination.data %}
+						{% if not artwork.archived %}
+							{% include "partials/_cards.html.twig" with { 'artwork': artwork } %}
+						{% endif %}
+					{% endfor %}
+				</div>
+				<div>
+					{{pagination.display()}}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+const searchInput = document.querySelector('#search-input');
+const searchResults = document.querySelector('#search-results');
+const resultsList = searchResults.querySelector('ul');
+
+searchInput.addEventListener('input', function () {
+const query = this.value.trim();
+
+if (query.length > 1) {
+fetch (`/artworks/search/ajax?query=${
+encodeURIComponent(query)
+}`).then((response) => response.json()).then((data) => {
+resultsList.innerHTML = '';
+
+if (data.length > 0) {
+searchResults.style.display = 'block';
+data.forEach((result) => {
+const item = document.createElement('li');
+const link = document.createElement('a');
+link.href = `/artworks/${
+result.slug
+}`;
+link.textContent = `${
+result.title
+} - ${
+result.artist
+}`; 
+item.appendChild(link);
+resultsList.appendChild(item);
+});
+} else {
+searchResults.style.display = 'none';
+}
+});
+} else {
+searchResults.style.display = 'none';
+}
+});
+
+searchInput.addEventListener('blur', () => {
+setTimeout(() => {
+searchResults.style.display = 'none';
+}, 200);
+});
+});
+
+	</script>
 {% endblock %}

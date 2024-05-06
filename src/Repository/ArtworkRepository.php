@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\User;
 use App\Entity\Artwork;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -22,6 +23,13 @@ class ArtworkRepository extends ServiceEntityRepository
         parent::__construct($registry, Artwork::class);
     }
 
+    public function findByTitleOrArtistQuery(string $term): QueryBuilder
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :term OR a.artistName LIKE :term OR a.artistSurname LIKE :term')  // Rechercher par titre ou nom de l'artiste
+            ->setParameter('term', '%' . $term . '%');
+    }
+    
     public function findLatestArtworksByUser(User $user, int $limit = 4): array
     {
         return $this->createQueryBuilder('a')
