@@ -28,10 +28,10 @@
 					<i class="fa-solid fa-chevron-right"></i>
 				</div>
 			</a>
-			<a href="{{path('homepage')}}">
+			<a href="{{path('account_login')}}">
 				<div class="link">
-					<p class="linkTitle">Contact</p>
-					<p class="linkDesc">Got questions or just want to say hi? Swing by our 'Contact' page and let's start a conversation!</p>
+					<p class="linkTitle">Publish</p>
+					<p class="linkDesc">Start a colorful journey inside our world and contribute to it by adding your own masterpiece !</p>
 				</div>
 				<div class="arrow">
 					<i class="fa-solid fa-chevron-right"></i>
@@ -48,9 +48,37 @@
 		<div>
 			<img src="../../images/logo.png" alt="Logo Apollo Gallery">
 			<div>
-				<p class="weight">APOLLO GALLERY</p>
+				<a href="{{ path("homepage")}}" class="weight">APOLLO GALLERY</a>
 				<p>ONLINE STORE</p>
 			</div>
+		</div>
+		<div class="nav-actions">
+			{% if app.user %}
+				<a href="{{ path('artworks_create') }}" class="btn1">New artwork<i class="fa-solid fa-chevron-right"></i>
+				</a>
+				<div class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true"><i class="fa-regular fa-circle-user fa-xl"></i></a>
+					<div class="dropdown-menu" data-bs-popper="static">
+						<a class="dropdown-item" href="{{path('account_profile')}}">My profile</a>
+						<a class="dropdown-item" href="{{path('account_artworks')}}">My artworks</a>
+						<a class="dropdown-item" href="{{path('account_archives')}}">My archives</a>
+						<a class="dropdown-item" href="{{path('account_auctions')}}">My auctions</a>
+						<a class="dropdown-item" href="{{path('account_conversations')}}">My conversations</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{{path('account_edit')}}">Edit profile</a>
+						<a class="dropdown-item" href="{{path('account_avatar')}}">Edit avatar</a>
+						<a class="dropdown-item" href="{{path('account_password')}}">Edit password</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{{path('account_delete')}}">Delete account</span></a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="{{path('account_logout')}}"><span class="text-danger">Log out</span></a>
+					</div>
+				</div>
+			{% else %}
+				<a href="{{ path('account_register') }}">Sign up</a>
+				<a href="{{ path('account_login') }}" class="btn1">Login<i class="fa-solid fa-chevron-right"></i>
+				</a>
+			{% endif %}
 		</div>
 	</nav>
 </header>
@@ -60,5 +88,5 @@
 	<div class="bar"></div>
 </div>
 {% block javascripts %}
-    {{encore_entry_script_tags('burger')}}
+	{{encore_entry_script_tags('burger')}}
 {% endblock %}

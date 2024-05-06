@@ -30,6 +30,7 @@ security:
             lazy: true
             provider: app_user_provider
             form_login:
+                default_target_path: account_profile
                 login_path: account_login
                 check_path: account_login
             logout:

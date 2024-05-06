@@ -16,7 +16,7 @@ header{
     z-index:300;
     
     nav{
-        @include flex;
+        @include flex();
         width: 90%;
         div{
             @include flex(row, center);
@@ -36,6 +36,21 @@ header{
                 @media all and (max-width: 768px){
                     display: none;
                 }
+            }
+        }
+        .nav-actions{
+            padding-right: 70px;
+            @include flex(row);
+            gap:20px;
+            .dropdown-item{
+                color:$darkBrown!important;
+            }
+            a, .btn1{
+                font-size: 14px!important;
+                margin-top: 0;
+            }
+            .btn1{
+                width:150px;
             }
         }
     }
