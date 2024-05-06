@@ -1,0 +1,83 @@
+//variables
+@import 'colors';
+@import 'fonts';
+@import 'mixins';
+
+footer {
+    @include text();
+    color: $white;
+    height: 40vh;
+    @media all and (max-width: 1200px){
+        height:55vh;
+    }
+    .footer-container {
+        @include flex(row, space-between);
+        align-items: start;
+        flex-wrap: wrap;
+        width: 90%;
+        margin: 0 auto;
+    }
+    #footer1 {
+        @include imgCover(cover);
+        padding-top:50px;
+        width: 100%;
+        height: 35vh;
+        background-image: url(../../public/images/footer.jpg);
+        @media all and (max-width: 1200px){
+            height:50vh;
+        }
+        img {
+            @include imgCover(cover);
+            width: 50px;
+            height: 60px;
+            margin-right: 4%;
+        }
+    
+        .footer-text {
+            display: flex;
+            width: 35%;
+            justify-content: space-between;
+            line-height: 18px;
+            @media all and (max-width: 1200px){
+                width: 100%;
+                margin: 20px;
+            }
+        }
+        
+        .footer-sm {
+            @include flex();
+            font-size: 20px;;
+        }
+    }
+    #footer2 {
+        padding: 10px 0;
+        background-color: $bordeau;
+        @media all and (max-width: 1200px){
+            display: flex;
+            order: -4;
+        }
+        span{
+            color: $red; 
+        }
+    }
+}
+
+
+
+
+// @media all and (max-width: 900px) {
+//     #footer1 #footertext {
+//         width: 100%;
+//         margin: 20px;
+
+//     }
+
+//     #footer2 {
+
+//         display: flex;
+//         order: -4;
+
+//     }
+
+
+// }

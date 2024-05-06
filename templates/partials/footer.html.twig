@@ -1,0 +1,47 @@
+<footer>
+	<div id="footer1">
+		<div class="footer-container">
+			<div class="footer-text">
+				<img src="../../images/logo.png" alt="footerimage">
+				This website has been established as part of a final exam by Kimberley Quenon - year 2023/2024. The content on this website is entirely fictional and intended for illustrative purposes only. Don't interpreted it as a source of factual information.
+			</div>
+			<div class="footer-content">
+				<a href="{{path('homepage')}}" class="weight">HOMEPAGE</a><br>
+				<a href="{{path('about')}}" class="weight">ABOUT</a><br>
+				<a href="{{path('artworks_index')}}" class="weight">GALLERY</a><br>
+				<a href="{{path('account_login')}}" class="weight">LOGIN</a><br>
+				<a href="{{path('account_register')}}" class="weight">REGISTER</a><br>
+			</div>
+			<div class="footer-content">
+				<p class="weight">About</p>
+				<a href="{{path('about')}}">Our debut</a><br>
+				<a href="{{path('about')}}">Our team</a><br>
+				<a href="{{path('about')}}">Our debut</a><br>
+			</div>
+			<div class="footer-content">
+				<p class="weight">Contact</p>
+                <a href="{{path('homepage')}}">Support</a><br>
+                <a href="{{path('about')}}">Our experts</a><br>
+			</div>
+			<div class="footer-sm">
+				{% include "partials/_social-media.html.twig" %}
+			</div>
+		</div>
+	</div>
+	<div id="footer2">
+		<div class="footer-container">
+			<nav>
+				<a href="#home">ACCUEIL</a>
+				<span class="red">|</span>
+				<a href="#lineup">LINE-UP</a>
+				<span class="red">|</span>
+				<a href="#ticket">TICKETS</a>
+				<span class="red">|</span>
+				<a href="#contact">CONTACT</a>
+			</nav>
+			<div class="copy">
+				&copy; KIMBERLEY QUENON - Copyright 2023
+			</div>
+		</div>
+	</div>
+</footer>

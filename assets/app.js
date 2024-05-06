@@ -12,6 +12,7 @@ import './styles/artworks_show.scss';
 import './styles/auctions.scss';
 import './styles/conversations.scss';
 import './styles/errors.scss';
+import './styles/footer.scss';
 import './styles/form.scss';
 import './styles/gallery.scss';
 import './styles/individual_display.scss';
