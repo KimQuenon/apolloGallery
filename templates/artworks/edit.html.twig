@@ -10,11 +10,18 @@
 
 {% block form_section %}
     <div class="container margin-y">
-    	<div class="space">
-			<a href="{{ path('artworks_index') }}" class="subText">Gallery /</a>
-			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText">{{artwork.title}} /</a>
-			<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="subText weight">Edit</a>
-		</div>
+        <div class="d-flex justify-content-between align-items-center sm">
+            <div class="space">
+                <a href="{{ path('account_artworks') }}" class="subText">My Artworks /</a>
+                <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText">{{artwork.title}} /</a>
+                <a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="subText weight">Edit</a>
+            </div>
+            <div>
+                <a href="{{ path('artworks_cover', {'slug': artwork.slug}) }}" class="btn6 mt-0">
+                    <i class="fa-solid fa-pen"></i> Edit cover
+                </a>
+            </div>
+        </div>
         <h1 class="mb-4">{{artwork.title}}</h1>
         {{ form_start(myForm) }}
              {{form_widget(myForm)}}

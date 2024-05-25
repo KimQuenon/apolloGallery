@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Artwork;
 use App\Entity\Movement;
 use App\Form\ArtworkType;
+use App\Entity\CoverModify;
+use App\Form\CoverModifyType;
 use App\Service\PaginationService;
 use App\Repository\ArtworkRepository;
 use App\Repository\MovementRepository;
@@ -154,6 +156,7 @@ class ArtworkController extends AbstractController
     )]
     public function deleteArtworks(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, EntityManagerInterface $manager): Response
     {
+            unlink($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage()); 
             $manager->remove($artwork);
             $manager->flush();
 
@@ -166,11 +169,10 @@ class ArtworkController extends AbstractController
     }
 
     
-
     #[Route("/artworks/{slug}", name: "artworks_show")]
     public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, ArtworkRepository $artworkRepo): Response
     {
-
+        
         $movements = $artwork->getMovements();
         $author = $artwork->getAuthor();
         $currentDate = new \DateTime();
@@ -185,7 +187,7 @@ class ArtworkController extends AbstractController
         });
 
         $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($author);
-
+        
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
             'movements' => $movements,
@@ -198,20 +200,74 @@ class ArtworkController extends AbstractController
         ]);
     }
 
+    #[Route("artworks/{slug}/cover-modify", name:"artworks_cover")]
+    #[IsGranted('ROLE_USER')]
+    public function coverModify(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager):Response
+    {
+        $coverModify = new CoverModify();
+        $form = $this->createForm(CoverModifyType::class, $coverModify);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            if(!empty($artwork->getCoverImage()))
+            {
+                unlink($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage());
+            }
+
+            //gestion de l'image
+            $file = $form['newPicture']->getData();
+            if(!empty($file))
+            {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename); //enlève les caractères spéciaux
+                $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension();
+                try{
+                    $file->move(
+                        $this->getParameter('uploads_directory'),
+                        $newFilename
+                    );
+                }catch(FileException $e){
+                    return $e->getMessage();
+                }
+                $artwork->setCoverImage($newFilename);
+            }
+            $manager->persist($artwork);
+            $manager->flush();
+
+
+            $this->addFlash(
+                'success',
+                'La cover a été modifiée avec succès'    
+            );
+
+            return $this->redirectToRoute('artworks_show',[
+                'slug' => $artwork->getSlug()
+              ]);
+        }
+
+        return $this->render("artworks/cover.html.twig",[
+            'myForm'=>$form->createView(),
+            'artwork'=>$artwork,
+        ]);
+    }
+
     #[Route("artworks/{slug}/edit", name:"artworks_edit")]
     #[IsGranted(
         attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
         subject: new Expression('args["artwork"].getAuthor()'),
         message: "Cette annonce ne vous appartient pas, vous ne pouvez pas l'éditer"
-    )]
+        )]
     public function edit(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
     {
         if ($artwork->isArchived()) {
             $this->addFlash('danger', 'Impossible de modifier une oeuvre archivée.');
-            return $this->redirectToRoute('artworks_show', ['id' => $artwork->getSlug()]);
+            return $this->redirectToRoute('artworks_show', ['slug' => $artwork->getSlug()]);
         }
 
-        $form = $this->createForm(ArtworkType::class, $artwork);
+        $form = $this->createForm(ArtworkType::class, $artwork, [
+            'is_edit' => true
+        ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())

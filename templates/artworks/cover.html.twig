@@ -1,0 +1,41 @@
+{% extends 'form-layout.html.twig' %}
+
+{% block title %}Change the cover{% endblock %}
+
+{% form_theme myForm _self %}
+
+{% block img_section %}
+	<div class="pic-layout">
+        <img src="/uploads/{{artwork.coverImage}}" alt="old cover of {{artwork.title}}" class="img-layout">
+		{# <img src="../../images/avatar_modify.jpg" alt="cover_modify" class="img-layout"> #}
+	</div>
+{% endblock %}
+
+{% block form_section %}
+    <div class="container">
+        <div class="space">
+                <a href="{{ path('account_artworks') }}" class="subText">My Artworks /</a>
+                <a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="subText">{{artwork.title}} /</a>
+                <a href="{{ path('artworks_cover', {'slug': artwork.slug}) }}" class="subText weight">Edit cover</a>
+        </div>
+        <h1 class="space">Cover of {{artwork.title}}</h1>
+        {{form_start(myForm)}}
+            {{form_widget(myForm)}}
+            <button type="submit" class="btn4 align">Edit</button>
+        {{form_end(myForm)}}
+    </div>
+{% endblock %}
+
+{% block form_row %}
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
+                {{form_label(form)}}
+            </div>
+            <div class="col-8 space">
+                {{form_widget(form)}}
+                {{form_errors(form)}}
+            </div>
+        </div>
+    </div>
+{% endblock %}
