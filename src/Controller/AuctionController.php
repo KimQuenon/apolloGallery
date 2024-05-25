@@ -40,20 +40,6 @@ class AuctionController extends AbstractController
         ]);
     }
 
-    #[Route("/account/sales", name:"account_sales_index")]
-    #[IsGranted('ROLE_USER')]
-    public function indexSales(AuctionRepository $auctionRepo)
-    {
-        $user = $this->getUser(); // recup l'utilisateur connecté
-        $sales = $auctionRepo->findSales($user);
-        // $currentDate = new \DateTime();
-
-        return $this->render('profile/sales/index.html.twig', [
-            'sales' => $sales,
-            // 'currentDate' => $currentDate,
-        ]);
-    }
-
     #[Route("/account/sales/{slug}", name:"account_sales_show")]
     #[IsGranted('ROLE_USER')]
     public function showSales(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)

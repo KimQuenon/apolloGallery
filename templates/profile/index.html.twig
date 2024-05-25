@@ -19,6 +19,14 @@
 				<div class="profile-container">
 					<div class="profile-content">
 						<div class="profile-picture">
+							<div class="picture-actions icons-content">
+								<a href="{{ path('account_avatar') }}" class="icon icon-edit">
+									<i class="fa-solid fa-pen"></i>
+								</a>
+								<a href="{{ path('account_avatar_delete') }}" class="icon icon-delete-clear">
+									<i class="fa-solid fa-trash-can"></i>
+								</a>
+							</div>
 							{% if user.picture %}
 								<img src="/uploads/{{user.picture}}" alt="avatar of {{user.fullName}}">
 							{% else %}
@@ -32,9 +40,6 @@
 										<span class="weight">Name:
 										</span>
 										{{user.fullName}}</p>
-									<p>
-										<span class="weight">From:
-										</span>London, UK</p>
 									<p>
 										<span class="weight">User since:
 										</span>
@@ -93,7 +98,7 @@
 						{% if latestArtworks|length > i %}
 							<div class="grid-items">
 								<a href="{{ path('artworks_show', {'slug': latestArtworks[i].slug}) }}">
-									<img src="{{latestArtworks[i].coverImage}}" alt="{{latestArtworks[i].title}}">
+									<img src="/uploads/{{latestArtworks[i].coverImage}}" alt="{{latestArtworks[i].title}}">
 								</a>
 							</div>
 						{% endif %}

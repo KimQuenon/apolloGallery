@@ -29,7 +29,7 @@
         .active{
             .page-link{
                 background-color: $white!important;
-                color: $red;
+                color: $red!important;
                 transition: all 0.2s;
                 &:hover{
                     border:none;

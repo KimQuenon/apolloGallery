@@ -67,7 +67,8 @@ class Artwork
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Url(message:"Invalid URL")]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/webp'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou webp")]
+    #[Assert\File(maxSize:"4096k", maxSizeMessage: "La taille du fichier est trop grande")]
     private ?string $coverImage = null;
 
     #[ORM\ManyToMany(targetEntity: Movement::class, mappedBy: 'artwork')]

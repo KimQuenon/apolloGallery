@@ -26,6 +26,7 @@ Encore
     .addEntry('chrono', './assets/js/chrono.js')
     .addEntry('fadeIn', './assets/js/fadeIn.js')
     .addEntry('gsap', './assets/js/gsap.js')
+    .addEntry('plusRotation', './assets/js/plusRotation.js')
     .addEntry('scrollFade', './assets/js/scrollFade.js')
     .addEntry('shake', './assets/js/shake.js')
     .addEntry('shareLink', './assets/js/shareLink.js')

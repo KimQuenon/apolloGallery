@@ -40,7 +40,10 @@ class ArtworkType extends ApplicationType
             ->add('endDate', DateType::class, $this->getConfiguration("End date:","date fin",[
                 'widget' => 'single_text',
             ]))
-            ->add('coverImage', UrlType::class, $this->getConfiguration('Painting:', 'Insert a valid URL'))
+            ->add('coverImage', FileType::class, [
+                'label' => "Artwork's picture (jpg, png, webp)",
+                'required' => false
+            ])
             ->add('medium', ChoiceType::class, [
                 'choices'=>[
                     //options = visuel, valeur = dans la bdd

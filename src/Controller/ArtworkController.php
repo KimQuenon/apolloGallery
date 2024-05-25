@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ArtworkController extends AbstractController
 {
@@ -75,6 +76,25 @@ class ArtworkController extends AbstractController
         //form complet et valid -> envoi bdd + message et redirection
         if($form->isSubmitted() && $form->IsValid())
         {
+            $file = $form['coverImage']->getData();
+            if(!empty($file))
+            {
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
+                $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension();
+                try{
+                    $file->move(
+                        $this->getParameter('uploads_directory'),
+                        $newFilename
+                    );
+                }catch(FileException $e)
+                {
+                    return $e->getMessage();
+                }
+                $artwork->setCoverImage($newFilename);
+
+            }
+
             $artwork->setTitle(ucwords($artwork->getTitle()));
             $artwork->setArtistName(ucwords($artwork->getArtistName()));
             $artwork->setArtistSurname(ucwords($artwork->getArtistSurname()));

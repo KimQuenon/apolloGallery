@@ -56,28 +56,11 @@ footer {
             display: flex;
             order: -4;
         }
-        span{
-            color: $red; 
-        }
     }
 }
 
-
-
-
-// @media all and (max-width: 900px) {
-//     #footer1 #footertext {
-//         width: 100%;
-//         margin: 20px;
-
-//     }
-
-//     #footer2 {
-
-//         display: flex;
-//         order: -4;
-
-//     }
-
-
-// }
+.hidden{
+    @media all and (max-width: 1200px){
+        display: none;
+    }
+}

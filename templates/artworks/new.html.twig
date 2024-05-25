@@ -3,7 +3,6 @@
 {% block title %}New frame{% endblock %}
 
 {% block img_section %}
-    {# <div class="img-section" id="new_frame"></div> #}
     <img src="../../images/new_artwork.jpg" alt="new_artwork" class="img-layout" id="new_img">
 {% endblock %}
 
@@ -11,7 +10,7 @@
 
 {% block form_section %}
     <div class="container margin-y">
-        <div class="space">
+        <div class="space sm">
 			<a href="{{ path('account_profile') }}" class="subText">Profile /</a>
 			<a href="{{ path('account_artworks') }}" class="subText">Artworks /</a>
 			<a href="{{ path('artworks_create') }}" class="subText weight">New artwork</a>

@@ -99,6 +99,9 @@
                     }
                     #search-results ul li a, .dropdown-item{
                         color: $darkBrown!important;
+                        &:hover{
+                            color:$white!important;
+                        }
                     }
                     .btn-secondary{
                         width:50px!important;

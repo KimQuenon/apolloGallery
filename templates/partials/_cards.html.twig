@@ -2,7 +2,7 @@
 {% set url = path('artworks_show', {'slug':artwork.slug}) %}
 <div class="artworks-items">
     <a href="{{url}}">
-        <img src="{{artwork.coverImage}}" alt="{{artwork.title}}" class="cardsimg">
+        	<img src="/uploads/{{artwork.coverImage}}" alt="avatar of {{artwork.title}}" class="cardsimg">
     </a>
     <div class="artworks-text">
         <div class="artworks-infos">

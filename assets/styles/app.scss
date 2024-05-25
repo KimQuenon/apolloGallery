@@ -256,6 +256,18 @@ i{
     @include show(translateY(0));
 }
 
+@media (min-width: 1400px) {
+    .d-1400-none {
+        display: none !important;
+    }
+}
+
+.dropdown-item:hover{
+    background-color: $darkRed!important;
+}
+
+
+
 //  --------------------------HOMEPAGE-------------------------
 .header{
     position: fixed;
@@ -451,9 +463,12 @@ i{
                 color: $white!important;
                 border: none!important;
                 font-weight: 600;
-            }
-            .accordion-button::after{
-                background-image: none!important;
+                &::after{
+                    background-image: none!important;
+                }
+                .accordion-icon {
+                    transition: transform 0.3s;
+                }
             }
         }
         .accordion-body-custom {
@@ -461,6 +476,11 @@ i{
             border-top: 1px solid $white;
         }
     }
+}
+
+
+.accordion-icon.rotated {
+    transform: rotate(45deg);
 }
 
 .pendulum {
@@ -771,7 +791,7 @@ i{
                     }
                     #contact{
                         label{
-                            color:$brown;
+                            color:$brown!important;
                         }
                         input, textarea{
                             background-color: transparent;

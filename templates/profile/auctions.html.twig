@@ -22,7 +22,7 @@
 								{% if auction.sold == "yes" %}
 									<div class="auction-card">
 										<div class="preview-card">
-											<img src="{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
+											<img src="/uploads/{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
 										</div>
 										<div class="resume-card">
 											<p>
@@ -65,7 +65,7 @@
 								{% for auction in refusals %}
 									<div class="auction-card">
 										<div class="preview-mini">
-											<img src="{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
+											<img src="/uploads/{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
 										</div>
 										<div class="resume-mini">
 											<p>
@@ -97,7 +97,7 @@
 				{% for auction in ongoingAuctions %}
 					<div class="auction-card">
 						<div class="preview-mini">
-							<img src="{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
+							<img src="/uploads/{{auction.artwork.coverImage}}" alt="{{auction.artwork.title}}">
 						</div>
 						<div class="resume-mini">
 							<p>

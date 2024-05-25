@@ -6,164 +6,171 @@
 {% form_theme myForm _self %}
 
 {% block body %}
-<div class="slide">
-    <div class="social_media">
-        {% include "partials/_social-media.html.twig" %}
-    </div>
-    <div class="scroll">
-        <img src="./images/scroll.gif" alt="scroll_animation">
-    </div>
-    <div class="header">
-        <div class="letters flex flex-column">
-			<p>GALLERY</p>
-            <div>APOLLO</div>
-			<p>Welcome to Apollo Gallery, where secrecy meets the canvas! Dive into our clandestine world of art auctions, where masterpieces find new homes, and mystery adds an extra brushstroke of excitement.</p>
-            <a href="{{ path('artworks_index') }}" class="btn1">Browse it<i class="fa-solid fa-chevron-right"></i></a>
-        </div>
-    </div>
-    <div class="website-content">
-        <div class="img-holder">
-            <img src="./images/hero.jpg" alt="apollo_homepage_img">
-        </div>
-        <div class="slide-content" id="slide-faq">
-            <div class="container-content">
-                <div class="container-col">
-                    <div>
-                        <h2>Our concept</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quae ea fuga accusamus harum! Obcaecati laborum animi quam voluptatum dolor ut suscipit praesentium illo consequuntur excepturi.</p>
-                        <a href="{{ path('about') }}" class="btn1">Learn more<i class="fa-solid fa-chevron-right"></i></a>
-                    </div>
-                    <div class="accordion" id="accordionExample">
-                        {% for faq in faqs %}
-                            <div class="accordion-item">
-                                <div class="accordion-header" id="heading{{ loop.index }}">
-                                    <button class="accordion-button accordion-button-custom d-flex w-100" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
-                                        <p class="w-100">{{faq.question}}</p>
-                                        <i class="fa-solid fa-plus"></i>
-                                    </button>
-                                </div>
-                                <div id="collapse{{ loop.index }}" class="accordion-collapse collapse bg-transparent accordion-collapse-custom" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body accordion-body-custom">
-                                    {{faq.content}}
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                <div class="container-col">
-                    <div class="pendulum"></div>
-                </div>
-            </div>
+	<div class="slide">
+		<div class="social_media">
+			{% include "partials/_social-media.html.twig" %}
 		</div>
-        <div class="slide-content" id="slide-latest">
-            <div class="container-content">
-                <div class="first-frames">
-                    <div class="frame-title">
-                        <h2>Latest frames</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis iste tenetur consequatur et officiis distinctio sapiente quos!</p>
-                        <a href="{{ path('artworks_index') }}" class="btn1">Browse it<i class="fa-solid fa-chevron-right"></i></a>
-                    </div>
-                    <div class="first-frame">
-                        <a href="{{ path('artworks_show', {'slug': recentArtworks[0].slug}) }}" class="frame-overlay">
-                            <img src="{{recentArtworks[0].coverImage}}" alt="{{recentArtworks[0].title}}">
-                        </a>
-                        <p class="weight">{{ recentArtworks[0].title }}({{recentArtworks[0].year}})</p>
-                        <p>{{ recentArtworks[0].fullName }}</p>
-                    </div>
-                </div>
-                <div class="first-frames">
-                    <a href="{{ path('artworks_show', {'slug': recentArtworks[1].slug}) }}" class="second-frame">
-                        <div class="frame-overlay">
-                            <img src="{{recentArtworks[1].coverImage}}" alt="{{recentArtworks[1].title}}">
-                        </div>
-                        <p class="weight">{{ recentArtworks[1].title }}({{recentArtworks[1].year}})</p>
-                        <p>{{ recentArtworks[1].fullName }}</p>
-                    </a>
-                </div>
-                <div class="first-frames">
-                    <a href="{{ path('artworks_show', {'slug': recentArtworks[2].slug}) }}" class="third-frame">
-                        <div class="frame-overlay">
-                            <img src="{{recentArtworks[2].coverImage}}" alt="{{recentArtworks[2].title}}">
-                        </div>
-                        <p class="weight">{{ recentArtworks[2].title }}({{recentArtworks[2].year}})</p>
-                        <p>{{ recentArtworks[2].fullName }}</p>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="slide-content" id="slide-contact">
-            <div class="container-content">
-                <div class="container-col">
-                    <div class="second-col">
-                        <div class="form-paper">
-                            <h3>Keep in touch...</h3>
-                            {{form_start(myForm)}}
-                                {{form_widget(myForm)}}
-                                <button type="submit" class="btn2">Submit</button>
-                            {{form_end(myForm)}}
-                        </div>
-                    </div>
-                    <div class="second-col"></div>
-                </div>
-                <div class="container-col">
-                    <div class="contact_text">
-                        <h2>Contact us</h2>
-                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis quae saepe reprehenderit doloremque officia. Itaque quibusdam excepturi nostrum illo possimus.</p>
-                        <a href="{{ path('about') }}" class="btn1">Ask an expert<i class="fa-solid fa-chevron-right"></i></a>
-                    </div>
-                    <div class="contact_sm">
-                        <div class="icon_sm">
-                            <i class="fab fa-facebook"></i>
-                            <div>
-                                <p>Follow us on Facebook:</p>
-                                <p class="weight">@apollo_gallery</p>
-                            </div>
-                        </div>
-                        <div class="icon_sm">
-                            <i class="fa-brands fa-twitter"></i>
-                            <div>
-                                <p>Follow us on X:</p>
-                                <p class="weight">@apollo_gallery</p>
-                            </div>
-                        </div>
-                        <div class="icon_sm">
-                            <i class="fa-brands fa-instagram"></i>
-                            <div>
-                                <p>Follow us on Instagram:</p>
-                                <p class="weight">@apollo_gallery</p>
-                            </div>
-                        </div>
-                        <div class="icon_sm">
-                            <i class="fa-brands fa-tiktok"></i>
-                            <div>
-                                <p>Follow us on Tiktok:</p>
-                                <p class="weight">@apollo_gallery</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% include "partials/footer.html.twig" %}
-    </div>
-</div>
+		<div class="scroll">
+			<img src="./images/scroll.gif" alt="scroll_animation">
+		</div>
+		<div class="header">
+			<div class="letters flex flex-column">
+				<p>GALLERY</p>
+				<div>APOLLO</div>
+				<p>Welcome to Apollo Gallery, where secrecy meets the canvas! Dive into our clandestine world of art auctions, where masterpieces find new homes, and mystery adds an extra brushstroke of excitement.</p>
+				<a href="{{ path('artworks_index') }}" class="btn1">Browse it<i class="fa-solid fa-chevron-right"></i>
+				</a>
+			</div>
+		</div>
+		<div class="website-content">
+			<div class="img-holder">
+				<img src="./images/hero.jpg" alt="apollo_homepage_img">
+			</div>
+			<div class="slide-content" id="slide-faq">
+				<div class="container-content">
+					<div class="container-col">
+						<div>
+							<h2>Our concept</h2>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis quae ea fuga accusamus harum! Obcaecati laborum animi quam voluptatum dolor ut suscipit praesentium illo consequuntur excepturi.</p>
+							<a href="{{ path('about') }}" class="btn1">Learn more<i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</div>
+						<div class="accordion" id="accordionExample">
+							{% for faq in faqs %}
+								<div class="accordion-item">
+									<div class="accordion-header" id="heading{{ loop.index }}">
+										<button class="accordion-button accordion-button-custom" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+											<p class="w-100">{{faq.question}}</p>
+											<i class="fa-solid fa-plus accordion-icon"></i>
+										</button>
+									</div>
+									<div id="collapse{{ loop.index }}" class="accordion-collapse collapse bg-transparent accordion-collapse-custom" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#accordionExample">
+										<div class="accordion-body accordion-body-custom">
+											{{faq.content}}
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="container-col">
+						<div class="pendulum"></div>
+					</div>
+				</div>
+			</div>
+			<div class="slide-content" id="slide-latest">
+				<div class="container-content">
+					<div class="first-frames">
+						<div class="frame-title">
+							<h2>Latest frames</h2>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis iste tenetur consequatur et officiis distinctio sapiente quos!</p>
+							<a href="{{ path('artworks_index') }}" class="btn1">Browse it<i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</div>
+						<div class="first-frame">
+							<a href="{{ path('artworks_show', {'slug': recentArtworks[0].slug}) }}" class="frame-overlay space">
+								<img src="/uploads/{{recentArtworks[0].coverImage}}" alt="{{recentArtworks[0].title}}">
+							</a>
+							<p class="weight">{{ recentArtworks[0].title }}({{recentArtworks[0].year}})</p>
+							<p>{{ recentArtworks[0].fullName }}</p>
+						</div>
+					</div>
+					<div class="first-frames">
+						<a href="{{ path('artworks_show', {'slug': recentArtworks[1].slug}) }}" class="second-frame">
+							<div class="frame-overlay">
+								<img src="/uploads/{{recentArtworks[1].coverImage}}" alt="{{recentArtworks[1].title}}">
+							</div>
+							<p class="weight">{{ recentArtworks[1].title }}({{recentArtworks[1].year}})</p>
+							<p>{{ recentArtworks[1].fullName }}</p>
+						</a>
+					</div>
+					<div class="first-frames">
+						<a href="{{ path('artworks_show', {'slug': recentArtworks[2].slug}) }}" class="third-frame">
+							<div class="frame-overlay">
+								<img src="/uploads/{{recentArtworks[2].coverImage}}" alt="{{recentArtworks[2].title}}">
+							</div>
+							<p class="weight">{{ recentArtworks[2].title }}({{recentArtworks[2].year}})</p>
+							<p>{{ recentArtworks[2].fullName }}</p>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="slide-content" id="slide-contact">
+				<div class="container-content">
+					<div class="container-col">
+						<div class="second-col">
+							<div class="form-paper">
+								<h3>Keep in touch...</h3>
+								{{form_start(myForm)}}
+								{{form_widget(myForm)}}
+								<button type="submit" class="btn2">Submit</button>
+								{{form_end(myForm)}}
+							</div>
+						</div>
+						<div class="second-col"></div>
+					</div>
+					<div class="container-col">
+						<div class="contact_text">
+							<h2>Contact us</h2>
+							<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Perspiciatis quae saepe reprehenderit doloremque officia. Itaque quibusdam excepturi nostrum illo possimus.</p>
+							<a href="{{ path('about') }}" class="btn1">Ask an expert<i class="fa-solid fa-chevron-right"></i>
+							</a>
+						</div>
+						<div class="contact_sm">
+							<div class="icon_sm">
+								<i class="fab fa-facebook"></i>
+								<div>
+									<p>Follow us on Facebook:</p>
+									<p class="weight">@apollo_gallery</p>
+								</div>
+							</div>
+							<div class="icon_sm">
+								<i class="fa-brands fa-twitter"></i>
+								<div>
+									<p>Follow us on X:</p>
+									<p class="weight">@apollo_gallery</p>
+								</div>
+							</div>
+							<div class="icon_sm">
+								<i class="fa-brands fa-instagram"></i>
+								<div>
+									<p>Follow us on Instagram:</p>
+									<p class="weight">@apollo_gallery</p>
+								</div>
+							</div>
+							<div class="icon_sm">
+								<i class="fa-brands fa-tiktok"></i>
+								<div>
+									<p>Follow us on Tiktok:</p>
+									<p class="weight">@apollo_gallery</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="hidden">
+				{% include "partials/footer.html.twig" %}
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block form_row %}
-    <div class="form-group mt-3">
-        <div class="row">
-            <div class="col-3">
-                {{form_label(form)}}
-            </div>
-            <div class="col-9">
-                {{form_widget(form)}}
-                {{form_errors(form)}}
-            </div>
-        </div>
-    </div>
+	<div class="form-group mt-3">
+		<div class="row">
+			<div class="col-3">
+				{{form_label(form)}}
+			</div>
+			<div class="col-9">
+				{{form_widget(form)}}
+				{{form_errors(form)}}
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block javascripts %}
-    {{encore_entry_script_tags('gsap')}}
+	{{encore_entry_script_tags('gsap')}}
+	{{encore_entry_script_tags('plusRotation')}}
 {% endblock %}

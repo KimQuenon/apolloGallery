@@ -1,5 +1,5 @@
 <div class="slide-show">
-	<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}">
+	<img src="/uploads/{{artwork.coverImage}}" alt="avatar of {{artwork.title}}">
 	<div class="color-overlay"></div>
 	<div class="content-show ">
 		{% if context == 'artworks_show' %}
@@ -11,7 +11,7 @@
 		{% elseif context == 'account_sales_show' %}
 			<div>
 				<a href="{{ path('account_profile') }}">Profile /</a>
-				<a href="{{ path('account_sales_index') }}">Sales /</a>
+				<a href="{{ path('account_artworks') }}">My artworks /</a>
 				<a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="weight">{{artwork.title}}</a>
 			</div>
 		{% endif %}
@@ -19,7 +19,7 @@
 		{% set orientation_class = isVertical ? 'rotate-90' : '' %}
 		<div class="container-show">
 			<div class="img-show">
-				<img src="{{artwork.coverImage}}" alt="cover of {{artwork.title}}" class="{{ orientation_class }}">
+				<img src="/uploads/{{artwork.coverImage}}" alt="avatar of {{artwork.title}}" class="{{ orientation_class }}">
 				<div class="frame-overlay {{ orientation_class }}"></div>
 			</div>
 			<div class="info-show">
@@ -105,29 +105,30 @@
 								<div class="price">€
 									{{ artwork.priceInit | number_format(2, ',', '.') }}</div>
 							</div>
-							{% if app.user and artwork.endDate > currentDate and artwork.author != app.user %}
-								{% set userHasBid = false %}
+							{% if artwork.endDate > currentDate and artwork.author != app.user %}
+								<a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn1">Make a bid
+									<i class="fa-solid fa-gavel"></i>
+								</a>
+								{% if app.user and artwork.author != app.user %}
+									{% set userHasBid = false %}
 
-								{% for auction in artwork.auctions %}
-									{% if auction.user == app.user %}
-										{% set userHasBid = true %}
-									{% endif %}
-								{% endfor %}
+									{% for auction in artwork.auctions %}
+										{% if auction.user == app.user %}
+											{% set userHasBid = true %}
+										{% endif %}
+									{% endfor %}
 
-								{% if userHasBid %}
-									<div class="share-container">
-										<p>You have already placed a bed for this artwork.</p>
-										<div>
-											<div id="copyMessage" style="display: none; color: green;">Copied link!</div>
-											<button id="shareLinkButton" class="btn1">
-												<i class="fa-solid fa-up-right-from-square"></i>Share link
-											</button>
+									{% if userHasBid %}
+										<div class="share-container">
+											<p>You have already placed a bed for this artwork.</p>
+											<div>
+												<div id="copyMessage" style="display: none; color: green;">Copied link!</div>
+												<button id="shareLinkButton" class="btn1">
+													<i class="fa-solid fa-up-right-from-square"></i>Share link
+												</button>
+											</div>
 										</div>
-									</div>
-								{% else %}
-									<a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="btn1">Make a bid
-										<i class="fa-solid fa-gavel"></i>
-									</a>
+									{% endif %}
 								{% endif %}
 							{% endif %}
 						{% endif %}
