@@ -49,4 +49,13 @@ class HomeController extends AbstractController
             'myForm' => $form->createView()
         ]);
     }
+
+    #[Route('/private-policy', name: 'private_policy')]
+    public function policy()
+    {
+        return $this->render('policy.html.twig', [
+
+        ]);
+    }
+
 }

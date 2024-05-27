@@ -280,6 +280,15 @@ i{
 .card-body label, .card-body legend{
     color:$brown!important;
 }
+
+.mentions ul li, .mentions p{
+    color:$white!important;
+    font-size: 14px;
+}
+
+.mentions h3{
+    margin-top:25px;
+}
 //  --------------------------HOMEPAGE-------------------------
 .header{
     position: fixed;
