@@ -36,9 +36,12 @@
 				{% endfor %}
 			</div>
 		{% else %}
+			<div class="subtitle-artworks d-flex flex-column align-items-start">
+			
 			<h1>No artworks to sell.. yet !</h1>
 			<p>It is never too late to start this journey...</p>
 			<a href="{{ path('artworks_create') }}" class="btn1">Post artwork</a>
+			</div>
 		{% endif %}
 	</div>
 {% endblock %}

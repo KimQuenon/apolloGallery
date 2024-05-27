@@ -40,10 +40,7 @@ class ArtworkType extends ApplicationType
             ->add('endDate', DateType::class, $this->getConfiguration("End date:","date fin",[
                 'widget' => 'single_text',
             ]))
-            // ->add('coverImage', FileType::class, [
-            //     'label' => "Artwork's picture (jpg, png, webp)",
-            //     'required' => false
-            // ])
+
             ->add('medium', ChoiceType::class, [
                 'choices'=>[
                     //options = visuel, valeur = dans la bdd
@@ -69,7 +66,8 @@ class ArtworkType extends ApplicationType
         if (!$options['is_edit']) {
             $builder->add('coverImage', FileType::class, [
                 'label' => "Artwork's picture (jpg, png, webp)",
-                'required' => false
+                'required' => false,
+                'data' => $options['is_edit'] ? $artwork->getCoverImage() : null,
             ]);
         }
     }

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
@@ -39,6 +40,8 @@ class HomeController extends AbstractController
                 'success',
                 'Votre message nous est bien parvenu, nous ne manquerons pas de vous recontacter dans les plus bref délais.'    
             );
+            // return new RedirectResponse($this->generateUrl('homepage').'#slide-contact');
+            $this->redirect($this->generateUrl('homepage') . '#slide-contact');
         }
         return $this->render('home.html.twig', [
             'recentArtworks' => $recentArtworks,

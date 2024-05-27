@@ -8,21 +8,46 @@
                 <table class="table table-hover">
             <thead>
                 <tr>
-                    <th>Id</th>
-                    <th>Titre</th>
-                    <th>Auteur</th>
+                    <th>Preview</th>
+                    <th>Title</th>
+                    <th>Painter</th>
+                    <th>Seller</th>
+                    <th>Description</th>
+                    <th>Price</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for artwork in pagination.data %}
                     <tr>
-                        <td>{{artwork.id}}</td>
+                        <td><img src="/uploads/{{artwork.coverImage}}" alt="cover of {{artwork.title}}" class="admin-pic"></td>
                         <td>{{artwork.title}}</td>
+                        <td>{{artwork.fullName}}</td>
                         <td>{{artwork.author.fullName}}</td>
+                        <td>{{artwork.content | raw | striptags | slice(0, 20) }}...</td>
+                        <td>€ {{artwork.priceInit|number_format(2, ',', '.')}}</td>
                         <td class="text-center">
                             <a href="{{path("admin_artworks_edit",{"slug":artwork.slug})}}" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                            <a href="{{path("admin_artworks_delete",{"slug":artwork.slug})}}" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                            <a href="#deleteModal{{ artwork.slug }}" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ artwork.slug }}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                            <div class="modal fade" id="deleteModal{{ artwork.slug }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ artwork.slug }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ artwork.id }}">Delete confirmation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete this ?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancel</button>
+                                            <a href="{{ path('admin_artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Delete</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}

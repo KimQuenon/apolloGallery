@@ -37,7 +37,7 @@ class ReviewController extends AbstractController
         $isAuthorOfArtwork = ($user === $artwork->getAuthor());
 
         // si user = auteur de l'annonce ou n'a pas d'enchère = refus
-        if (!$isAuthorOfAuction || !$isAuthorOfArtwork) {
+        if (!$isAuthorOfAuction && !$isAuthorOfArtwork) {
             $this->addFlash(
                 'danger',
                 "Vous n'êtes pas autorisé à voter pour cette oeuvre."

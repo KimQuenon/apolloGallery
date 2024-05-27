@@ -10,7 +10,7 @@
 			<div class="won-container">
 				<div>
 					<a href="{{ path('account_profile') }}" class="subText">Profile /</a>
-					<a href="{{ path('account_sales_index') }}" class="subText weight">My auctions</a>
+					<a href="{{ path('account_auctions') }}" class="subText weight">My auctions</a>
 				</div>
 				<h1>My Auctions</h1>
 				<div class="won-img"></div>
@@ -41,7 +41,7 @@
 											<p class="weight">
 												<a href="mailto:{{ auction.artwork.author.email }}">{{ auction.artwork.author.email }}</a>
 											</p>
-											<a href="{{ path('artworks_show', {'slug': auction.artwork.slug}) }}" class="btn1">See more<i class="fa-solid fa-chevron-right"></i>
+											<a href="{{ path('artworks_review', {'slug': auction.artwork.slug}) }}" class="btn1">Review it<i class="fa-solid fa-chevron-right"></i>
 											</a>
 										</div>
 									</div>

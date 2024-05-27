@@ -1,25 +1,25 @@
 {% extends "admin/base.html.twig" %}
 
-{% block title %}Edition de l'annonce: {{artwork.title}}{% endblock %}
+{% block title %}Artwork Edit: {{artwork.title}}{% endblock %}
 
 {% form_theme myForm _self %}
 
 {% block body %}
-    <div class="container">
-        <h1>Modification de l'annonce {{artwork.title}}</h1>
-        <a href="{{path('admin_artworks_index')}}" class="btn btn-secondary my-3">Retour</a>
+    <div class="container my-5">
+        <h1>Edit of {{artwork.title}}</h1>
+        <a href="{{path('admin_artworks_index')}}" class="btn btn-primary my-3">Back</a>
         {{form_start(myForm)}}
         <div class="row">
             <div class="col">
                 <div class="card bg-light">
                     <div class="card-header">
-                        <h4 class="card-title">Corriger l'annonce?</h4>
+                        <h4 class="card-title">Edit it?</h4>
                     </div>
                     <div class="card-body">
                         {{form_widget(myForm)}}
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-check"></i>
-                            Sauver les Modifications
+                            Save
                         </button>
                     </div>
                 </div>
@@ -27,5 +27,22 @@
         </div>
         {{form_end(myForm)}}
     </div>
+{% endblock %}
 
+{% block form_row %}
+    <div class="container">
+        <div class="form-group row">
+            <div class="col-4">
+                {{form_label(form)}}
+            </div>
+            <div class="col-8 space">
+               {% if form.vars.name == 'endDate' or form.vars.name =='priceInit' %}
+                    {{form_widget(form, { 'attr': {'readonly': 'readonly' } })}}
+                {% else %}
+                    {{form_widget(form)}}
+                {% endif %}
+                {{form_errors(form)}}
+            </div>
+        </div>
+    </div>
 {% endblock %}

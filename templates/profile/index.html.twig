@@ -81,35 +81,37 @@
 		<div class="slide-profile" id="latest-frames">
 			<div class="slide-container">
 				<h2>Latest frames</h2>
-				<a href="{{ path('account_artworks')}}" class="btn1">Check all
-					<i class="fa-solid fa-chevron-right"></i>
-				</a>
-			</div>
-			<div class="lines">
-				<div class="line"></div>
-				<div class="line"></div>
-				<div class="line"></div>
-				<div class="line"></div>
-				<div class="line"></div>
-			</div>
-			{% if latestArtworks is not empty %}
-				<div class="frames-container">
-					{% for i in 0..3 %}
-						{% if latestArtworks|length > i %}
-							<div class="grid-items">
-								<a href="{{ path('artworks_show', {'slug': latestArtworks[i].slug}) }}">
-									<img src="/uploads/{{latestArtworks[i].coverImage}}" alt="{{latestArtworks[i].title}}">
-								</a>
-							</div>
-						{% endif %}
-					{% endfor %}
+					<a href="{{ path('account_artworks')}}" class="btn1">Check all
+						<i class="fa-solid fa-chevron-right"></i>
+					</a>
 				</div>
-			{% else %}
-				<p>No artworks posted yet...</p>
-				<a href="{{ path('artworks_create') }}" class="btn1">Post one
-					<i class="fa-solid fa-chevron-right"></i>
-				</a>
-			{% endif %}
+				{% if latestArtworks is not empty %}
+					<div class="lines">
+						<div class="line"></div>
+						<div class="line"></div>
+						<div class="line"></div>
+						<div class="line"></div>
+						<div class="line"></div>
+					</div>
+					<div class="frames-container">
+						{% for i in 0..3 %}
+							{% if latestArtworks|length > i %}
+								<div class="grid-items">
+									<a href="{{ path('artworks_show', {'slug': latestArtworks[i].slug}) }}">
+										<img src="/uploads/{{latestArtworks[i].coverImage}}" alt="{{latestArtworks[i].title}}">
+									</a>
+								</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				{% else %}
+					<div class="empty-container">
+						<p>No artworks posted yet...</p>
+						<a href="{{ path('artworks_create') }}" class="btn1">Post one
+							<i class="fa-solid fa-chevron-right"></i>
+						</a>
+					</div>
+				{% endif %}
 		</div>
 		<div class="slide-profile" id="reviews-user">
 			<div class="reviews-container">

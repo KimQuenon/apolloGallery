@@ -44,6 +44,6 @@ class AdminContactController extends AbstractController
                 "Le message de <strong>".$contact->getfirstName()." ".$contact->getLastName()."</strong> a bien été supprimé!"
             );
 
-        return $this->redirectToRoute('admin_contact_index');
+        return $this->redirectToRoute('admin_contacts_index');
     }
 }

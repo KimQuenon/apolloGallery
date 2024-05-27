@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\ExpressionLanguage\Expression;
@@ -265,13 +266,23 @@ class ArtworkController extends AbstractController
             return $this->redirectToRoute('artworks_show', ['slug' => $artwork->getSlug()]);
         }
 
+        $fileName = $artwork->getCoverImage();
+        if(!empty($fileName)){
+            $artwork->setCoverImage(
+                new File($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage())
+            );
+        }
+
         $form = $this->createForm(ArtworkType::class, $artwork, [
             'is_edit' => true
         ]);
+
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
+            $artwork->setCoverImage($fileName);
             $manager->persist($artwork);
             
             foreach ($artwork->getMovements() as $movement)
