@@ -194,10 +194,10 @@
         color: $white;
     }
     @media all and (max-width: 1200px) {
-        height:50vh;
-    }
-    @media all and (max-width: 1200px) {
         height:30vh;
+    }
+    @media all and (max-width: 768px) {
+        height:35vh;
     }
 }
 

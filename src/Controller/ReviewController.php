@@ -77,6 +77,7 @@ class ReviewController extends AbstractController
 
         return $this->render('artworks/review.html.twig', [
             'myForm' => $form->createView(),
+            'artwork'=> $artwork,
         ]);
     }
 }
