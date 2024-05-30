@@ -21,9 +21,20 @@
             width:100%;
             height:45vh;
             background-image: url(../../public/images/shelf.svg);
+            @media all and (max-width: 1200px){
+                width:1000px;
+                overflow-x: hidden;
+            }
+            @media all and (max-width: 768px){
+                width:800px;
+                overflow-x: hidden;
+            }
         }
         .desc-archives{
             width:50%;
+            @media all and (max-width: 768px){
+                width:100%;
+            }
         }
         .ladder-archives {
             @include imgCover(contain);
@@ -33,7 +44,16 @@
             right: 0;
             top: 10%;
             background-image: url(../../public/images/ladder.svg);
-        }
+            @media all and (max-width: 1200px){
+                width:60%;
+                top:15%;
+                right:-10%;
+                height:70vh;
+            }
+            @media all and (max-width: 768px){
+                display: none;
+            }
+        }   
         
     }
     .container-archived{
