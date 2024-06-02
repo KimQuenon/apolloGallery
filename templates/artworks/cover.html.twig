@@ -1,13 +1,12 @@
 {% extends 'form-layout.html.twig' %}
 
-{% block title %}Change the cover{% endblock %}
+{% block title %}Edit cover{% endblock %}
 
 {% form_theme myForm _self %}
 
 {% block img_section %}
 	<div class="pic-layout">
         <img src="/uploads/{{artwork.coverImage}}" alt="old cover of {{artwork.title}}" class="img-layout">
-		{# <img src="../../images/avatar_modify.jpg" alt="cover_modify" class="img-layout"> #}
 	</div>
 {% endblock %}
 

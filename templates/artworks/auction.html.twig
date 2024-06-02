@@ -18,7 +18,7 @@
 			<a href="{{ path('auctions_create', {'slug': artwork.slug}) }}" class="subText weight">Make a bid</a>
 		</div>
         <h1>How much do you want it ?</h1>
-        <p class="space">Lister les conditions</p>
+        <p class="space">Your price must be equal or greather than : <span class="weight">€ {{artwork.priceInit|number_format(2, ',', '.')}}</span></p>
         {{ form_start(myForm) }}
              {{form_widget(myForm)}}
             <button type="submit" class="btn4 align">Confirm</button>

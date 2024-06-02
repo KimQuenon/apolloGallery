@@ -13,6 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminContactController extends AbstractController
 {
+    /**
+     * Display msg from the contact form
+     *
+     * @param PaginationService $pagination
+     * @param integer $page
+     * @return Response
+     */
     #[Route('/admin/contacts/{page<\d+>?1}', name: 'admin_contacts_index')]
     public function contact(PaginationService $pagination, int $page): Response
     {
@@ -25,6 +32,12 @@ class AdminContactController extends AbstractController
         ]);
     }
 
+    /**
+     * Show message
+     *
+     * @param Contact $contact
+     * @return Response
+     */
     #[Route("/admin/contact/{id}", name: "admin_contact_show")]
     public function show(#[MapEntity(mapping: ['id' => 'id'])] Contact $contact): Response
     {
@@ -33,6 +46,13 @@ class AdminContactController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete message
+     *
+     * @param Contact $contact
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("contact/{id}/delete", name:"admin_contact_delete")]
     public function deleteContact(#[MapEntity(mapping: ['id' => 'id'])] Contact $contact, EntityManagerInterface $manager): Response
     {
@@ -41,7 +61,7 @@ class AdminContactController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Le message de <strong>".$contact->getfirstName()." ".$contact->getLastName()."</strong> a bien été supprimé!"
+                "Message <strong>".$contact->getfirstName()." ".$contact->getLastName()."</strong> deleted successfully !"
             );
 
         return $this->redirectToRoute('admin_contacts_index');

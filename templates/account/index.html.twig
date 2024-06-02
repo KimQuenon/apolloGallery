@@ -19,7 +19,7 @@
 		<div>
 			{% if hasError %}
 				<div class="alert alert-danger">
-					Une erreur est survenue, le nom d'utilisateur ou le mot de passe est invalide.
+					An error has occurred, the username or password is invalid.
 				</div>
 			{% endif %}
 			{% if loginError %}
@@ -31,7 +31,7 @@
 			<p class="weight space">No account yet ?
 				<a href="{{path('account_register')}}" class="text-decoration-underline">Sign up right here !</a>
 			</p>
-			<p class="space">Welcome to Apollo Gallery, et blablablablabla et blablabla et aussi un autre blabla pour que ça fasse deux lignes.</p>
+			<p class="space">Welcome back to Apollo Gallery! We’re delighted to have you return. Ready to unveil your masterpiece to the world? Let’s make this journey a spectacular success together!</p>
 			<form action="{{path('account_login')}}" method="POST">
 				<div class="form-group space">
 					<label for="email" class="weight">Mail</label>

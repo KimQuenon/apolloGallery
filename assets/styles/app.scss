@@ -782,10 +782,10 @@ i{
                     width:70%;
                     height:100%;
                     position: relative;
-                    background-image: url(../../public/images/paper.png);
+                    background-image: url(../../public/images/paper.svg);
                     @media all and (max-width: 768px){
                         width:100%;
-                        background-image: url(../../public/images/clipboard.png);
+                        background-image: url(../../public/images/clipboard.svg);
                         height:125%;
                     }
                     h3{
@@ -831,7 +831,7 @@ i{
                     @include imgCover(cover);
                     width:30%;
                     height:100%;
-                    background-image: url(../../public/images/pen.png);
+                    background-image: url(../../public/images/pen.svg);
                     @media all and (max-width: 768px){
                         display: none;
                     }

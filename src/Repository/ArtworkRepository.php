@@ -23,6 +23,12 @@ class ArtworkRepository extends ServiceEntityRepository
         parent::__construct($registry, Artwork::class);
     }
 
+    /**
+     * Determines the field which the search is based on
+     *
+     * @param string $term
+     * @return QueryBuilder
+     */
     public function findByTitleOrArtistQuery(string $term): QueryBuilder
     {
         return $this->createQueryBuilder('a')
@@ -30,6 +36,13 @@ class ArtworkRepository extends ServiceEntityRepository
             ->setParameter('term', '%' . $term . '%');
     }
     
+    /**
+     * Find latest artworks non archived by user (param limit)
+     *
+     * @param User $user
+     * @param integer $limit
+     * @return array
+     */
     public function findLatestArtworksByUser(User $user, int $limit = 4): array
     {
         return $this->createQueryBuilder('a')
@@ -42,6 +55,12 @@ class ArtworkRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Find all artworks non archived by user
+     *
+     * @param User $user
+     * @return array
+     */
     public function findArtworkUserDesc(User $user): array
     {
         return $this->createQueryBuilder('a')
@@ -53,6 +72,12 @@ class ArtworkRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Find archived artworks by user
+     *
+     * @param User $user
+     * @return void
+     */
     public function findArchivedArtworksByUser(User $user)
     {
         return $this->createQueryBuilder('a')

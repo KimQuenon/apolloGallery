@@ -29,8 +29,8 @@ class Message
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $timestamp = null;
 
-        /**
-     * datetime
+    /**
+     * set datetime to current datetime
      *
      * @return void
      */

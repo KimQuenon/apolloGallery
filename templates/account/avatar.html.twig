@@ -1,6 +1,6 @@
 {% extends 'form-layout.html.twig' %}
 
-{% block title %}Change your profile picture{% endblock %}
+{% block title %}Edit your profile picture{% endblock %}
 
 {% form_theme myForm _self %}
 
@@ -17,7 +17,7 @@
             <a href="{{ path('account_profile') }}" class="subText">Profile /</a>
             <a href="{{ path('account_avatar') }}" class="subText weight">Edit avatar</a>
         </div>
-        <h1 class="space">Change your profile picture</h1>
+        <h1 class="space">Edit your profile picture</h1>
         {% if app.user.picture %}
             <img src="/uploads/{{app.user.picture}}" alt="avatar de {{app.user.email}}">
         {% endif %}

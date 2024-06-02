@@ -78,7 +78,7 @@
 											<p class="weight">{{ auction.user.fullName }}</p>
 											{% include "partials/rating.html.twig" with {'rating': auction.user.averageRating} %}
 											<p>(based on
-												{{ auction.user.reviews | length}}
+												{{ auction.user.countReviews }}
 												reviews)</p>
 										</div>
 									</div>

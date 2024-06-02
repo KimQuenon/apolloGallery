@@ -10,16 +10,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ProfileController extends AbstractController
 {
-    //page du profil utilisateur
+    
+    /**
+     * Show profile
+     *
+     * @param ArtworkRepository $artworkRepo
+     * @return Response
+     */
     #[Route("/account/profile/", name:"account_profile")]
     #[IsGranted('ROLE_USER')]
     public function index(ArtworkRepository $artworkRepo): Response
     {
         $user = $this->getUser();
-
         $artworks = $user->getArtworks();
+        //get 4 latest artworks (param int)
         $latestArtworks = $artworkRepo->findLatestArtworksByUser($user, 4);
 
+        //get all reviews
         $reviews = [];
         foreach ($artworks as $artwork) {
             $review = $artwork->getReview();
@@ -28,25 +35,27 @@ class ProfileController extends AbstractController
             }
         }
         
-
         $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($user);
-        $avgRating = $user->getAverageRating();
 
         return $this->render("profile/index.html.twig",[
             'user'=>$user,
             'reviews' => $reviews,
             'archivedArtworks' => $archivedArtworks,
             'latestArtworks' => $latestArtworks,
-            'avgRating' => $avgRating
         ]);
     }
 
-    //oeuvres de l'utilisateur
+    /**
+     * Display user's artworks
+     *
+     * @param ArtworkRepository $artworkRepo
+     * @return void
+     */
     #[Route("/account/artworks", name:"account_artworks")]
     #[IsGranted('ROLE_USER')]
     public function displayArtworks(ArtworkRepository $artworkRepo)
     {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
+        $user = $this->getUser();
         $artworks = $artworkRepo->findArtworkUserDesc($user);
         $currentDate = new \DateTime();
 
@@ -56,6 +65,12 @@ class ProfileController extends AbstractController
         ]);
     }
 
+    /**
+     * Display user's archives (sold artworks)
+     *
+     * @param ArtworkRepository $artworkRepo
+     * @return void
+     */
     #[Route("/account/archives", name:"account_archives")]
     #[IsGranted('ROLE_USER')]
     public function displayArchivedArtworks(ArtworkRepository $artworkRepo)

@@ -16,7 +16,7 @@ class AuctionType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('amount', MoneyType::class, $this->getConfiguration("Make a bid:", 'Exemple : 100'))
+            ->add('amount', MoneyType::class, $this->getConfiguration("Make a bid:", 'Exemple : 10.000'))
         ;
     }
 

@@ -15,6 +15,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ReviewController extends AbstractController
 {
+    /**
+     * Write a review
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/artworks/{slug}/review', name: 'artworks_review')]
     #[IsGranted('ROLE_USER')]
     public function create(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
@@ -24,7 +32,7 @@ class ReviewController extends AbstractController
         // recup les enchères de l'artwork
         $auctions = $artwork->getAuctions();
 
-        // user connecté = auteur de l'enchère ?
+        // check if user connected = winner of the auction?
         $isAuthorOfAuction = false;
         foreach ($auctions as $auction) {
             if ($auction->getUser() === $user) {
@@ -33,30 +41,31 @@ class ReviewController extends AbstractController
             }
         }
 
-        // user = auteur de l'annonce?
+        // check user connected == owner of the artwork ?
         $isAuthorOfArtwork = ($user === $artwork->getAuthor());
 
-        // si user = auteur de l'annonce ou n'a pas d'enchère = refus
+        // if is owner of the artwork or not the winner of the auction
         if (!$isAuthorOfAuction && !$isAuthorOfArtwork) {
             $this->addFlash(
                 'danger',
-                "Vous n'êtes pas autorisé à voter pour cette oeuvre."
+                "You are not allowed to review this artworks"
             );
             return $this->redirectToRoute('artworks_index');
         }
 
+        //check if the artwork has been reviewed
         $existingReview = $artwork->getReview();
         if ($existingReview !== null) {
             $this->addFlash(
                 'danger',
-                "Cette oeuvre a déjà une review associée."
+                "This artwork has already been reviewed."
             );
             return $this->redirectToRoute('artworks_index');
         }
 
         $review = new Review();
         $form = $this->createform(ReviewType::class, $review);
-
+        //handle form
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->IsValid())
@@ -69,7 +78,7 @@ class ReviewController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "Merci pour votre avis !"
+                "Thank you for this feedback !"
             );
 
             return $this->redirectToRoute('artworks_index', []);

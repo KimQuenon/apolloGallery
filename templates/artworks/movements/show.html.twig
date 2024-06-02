@@ -14,7 +14,7 @@
 			<div class="other-movements">
 				<p class="weight space">Time machine:</p>
 				{% for movement in otherMovements %}
-					<p class="space">
+					<p class="weight space">
 						<a href="{{ path('movements_show', { 'slug': movement.slug }) }}">{{ movement.movementName }}</a>
 					</p>
 				{% endfor %}
@@ -34,7 +34,7 @@
 							{% endif %}
 						{% endfor %}
 					{% else %}
-						<p>Aucune oeuvre n'est liée à ce mouvement.</p>
+						<p>No artworks found... yet !</p>
 					{% endif %}
 				</div>
 			</div>

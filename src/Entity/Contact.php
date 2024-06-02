@@ -17,24 +17,29 @@ class Contact
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 2, max:50, minMessage:"Ce champs doit contenir plus de deux caractères.", maxMessage:"Ce champs doit contenir moins de 50 caractères")]
+    #[Assert\Length(min: 2, max:50, minMessage:"This field should be at least 2 characters long.", maxMessage:"This field cannot be longer than 50 characters.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 2, max:50, minMessage:"Ce champs doit contenir plus de deux caractères.", maxMessage:"Ce champs doit contenir moins de 50 caractères")]
+    #[Assert\Length(min: 2, max:50, minMessage:"This field should be at least 2 characters long.", maxMessage:"This field cannot be longer than 50 characters.")]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Email(message: "Veuillez renseigner une adresse e-mail valide")]
+    #[Assert\Email(message: "Invalid email address")]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Length(min: 10, minMessage:"Ce champs doit contenir plus de 10 caractères.")]
+    #[Assert\Length(min: 10, minMessage:"This field should be at least 2 characters long.")]
     private ?string $message = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
+    /**
+     * current datetime for creation date
+     *
+     * @return void
+     */
     #[ORM\PrePersist]
     public function prePersist(): void
     {
@@ -44,6 +49,11 @@ class Contact
         }
     }
 
+    /**
+     * get full name
+     *
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->firstName." ".$this->lastName;

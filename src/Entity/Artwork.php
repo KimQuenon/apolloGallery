@@ -67,8 +67,8 @@ class Artwork
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/webp'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou webp")]
-    #[Assert\File(maxSize:"4096k", maxSizeMessage: "La taille du fichier est trop grande")]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/webp'], mimeTypesMessage:"Upload a jpg, jpeg, png or webp file")]
+    #[Assert\File(maxSize:"4096k", maxSizeMessage: "This file is too large to be uploaded.")]
     private ?string $coverImage = null;
 
     #[ORM\ManyToMany(targetEntity: Movement::class, mappedBy: 'artwork')]
@@ -97,6 +97,11 @@ class Artwork
         $this->auctions = new ArrayCollection();
     }
 
+    /**
+     * init slug
+     *
+     * @return void
+     */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function initializeSlug(): void
@@ -113,7 +118,11 @@ class Artwork
         }
     }
 
-
+    /**
+     * add current datetime
+     *
+     * @return void
+     */
     #[ORM\PrePersist]
     public function prePersist(): void
     {
@@ -123,6 +132,11 @@ class Artwork
         }
     }
 
+    /**
+     * function to get full name of the artist
+     *
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->artistSurname." ".$this->artistName;

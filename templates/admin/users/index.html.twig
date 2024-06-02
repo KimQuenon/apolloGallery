@@ -1,16 +1,15 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Administration des users{% endblock %}
+{% block title %}Admin Users{% endblock %}
 
 {% block body %}
     <div class="container-fluid full">
-        <h1 class="my-5">Gestion des profils</h1>
+        <h1 class="my-5">Users Account</h1>
                 <table class="table table-hover">
             <thead>
                 <tr>
                     <th>Avatar</th>
                     <th>Name</th>
-                    <th>Surname</th>
                     <th>Description</th>
                     <th class="text-center">Artworks</th>
                     <th class="text-center">Action</th>
@@ -25,8 +24,7 @@
                         {% else %}
                             <img src="../../images/default.jpg" alt="default placeholder" class="admin-pic">
                         {% endif %}
-                        <td>{{user.firstName}}</td>
-                        <td>{{user.lastName}}</td>
+                        <td>{{user.fullName}}</td>
                         <td>{{user.description | raw | striptags | slice(0, 20)}}...</td>
                         <td class="text-center">
                             <span class="badge bg-primary rounded">{{user.artworks | length}}</span>

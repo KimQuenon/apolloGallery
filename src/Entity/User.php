@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[UniqueEntity(fields:['email'], message:"Un compte est déjà associé à cette adresse e-mail, merci de la modifier")]
+#[UniqueEntity(fields:['email'], message:"An account is already associated with this email address, please modify it.")]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -25,7 +25,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
-    #[Assert\Email(message: "Veuillez renseigner une adresse e-mail valide")]
+    #[Assert\Email(message: "Invalid email address")]
     private ?string $email = null;
 
     /**
@@ -38,20 +38,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\Length(min:6, max:255, minMessage: "Votre mot de passe doit faire plus de 6 caractères", maxMessage:"Votre mot de passe ne doit pas dépasser les 255 caractères")]
+    #[Assert\Length(min:6, max:255, minMessage: "Your password must be at least 6 characters.", maxMessage:"Your password should not be longer than 255 characters.")]
     private ?string $password = null;
 
-    #[Assert\EqualTo(propertyPath:"password", message:"Mot de passe non confirmé")]
+    #[Assert\EqualTo(propertyPath:"password", message:"Password not confirmed")]
     //pas d'orm pour ne pas l'enregistrer dans la bdd
     //pas privé sinon on doit faire un getter et un setter
     public ?string $passwordConfirm = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 2, max:50, minMessage:"The name must be at least 2 characters long.", maxMessage: "The name can't be longer than 50 characters.")]
+    #[Assert\Length(min: 2, max:50, minMessage:"This field must be at least 2 characters long.", maxMessage: "This file can't be longer than 50 characters.")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 2, max:50, minMessage:"The name of the artist must be at least 2 characters long.", maxMessage: "The name of the artist can't be longer than 50 characters.")]
+    #[Assert\Length(min: 2, max:50, minMessage:"This field must be at least 2 characters long.", maxMessage: "This file can't be longer than 50 characters.")]
     private ?string $lastName = null;
 
     #[ORM\Column(nullable: true)]
@@ -68,8 +68,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $slug = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/gif'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou gif")]
-    #[Assert\File(maxSize:"1024k", maxSizeMessage: "La taille du fichier est trop grande")]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/gif'], mimeTypesMessage:"Upload a jpg, jpeg, png or gif file")]
+    #[Assert\File(maxSize:"1024k", maxSizeMessage: "This file is too big to be uploaded.")]
     private ?string $picture = null;
 
     #[ORM\OneToMany(targetEntity: Auction::class, mappedBy: 'user', orphanRemoval: true)]
@@ -93,6 +93,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->messages = new ArrayCollection();
     }
 
+    /**
+     * init slug
+     *
+     * @return void
+     */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function initializeslug()
@@ -104,6 +109,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
+    /**
+     * set createdAt to current datetime
+     *
+     * @return void
+     */
     #[ORM\PrePersist]
     public function prePersist(): void
     {
@@ -113,21 +123,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
-    // public function getAvgRatings(): float
-    // {
-
-    //     $sum = array_reduce($this->reviews->toArray(), function ($total, $review) {
-    //         return $total + $review->getRating();
-    //     }, 0);
-    
-    //     $count = count($this->reviews);
-    
-    //     if ($count > 0) {
-    //         return round($sum / $count, 1); // Retourne la moyenne avec une décimale
-    //     }
-    
-    //     return 0.0;
-    // }
+    /**
+     * get average rating from reviews
+     *
+     * @return float
+     */
     public function getAverageRating(): float
     {
         $totalRating = 0;
@@ -144,6 +144,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0.0;
     }
 
+    /**
+     * Count the number of reviews
+     *
+     * @return int
+     */
+    public function countReviews(): int
+    {
+        $reviewCount = 0;
+
+        foreach ($this->artworks as $artwork) {
+            if ($artwork->getReview() !== null) {
+                $reviewCount++;
+            }
+        }
+
+        return $reviewCount;
+    }
+
+    /**
+     * get full name
+     *
+     * @return string
+     */
     public function getFullName(): string
     {
         return $this->firstName." ".$this->lastName;

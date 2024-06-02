@@ -23,7 +23,7 @@ class ConversationRepository extends ServiceEntityRepository
     }
 
     /**
-     * afficher les conversations par ordre de date du message le plus récent
+     * sort conversations based on the most recent messages
      *
      * @return array
      */
@@ -38,6 +38,12 @@ class ConversationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Display conversations (expert)
+     *
+     * @param User $expert
+     * @return array
+     */
     public function findConversationsByExpert(User $expert): array
     {
         return $this->createQueryBuilder('c')
@@ -49,6 +55,13 @@ class ConversationRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * Display conversations by user
+     *
+     * @param [type] $slug
+     * @param User $user
+     * @return void
+     */
     public function findConversationBySlugAndUser($slug, User $user)
     {
         return $this->createQueryBuilder('c')

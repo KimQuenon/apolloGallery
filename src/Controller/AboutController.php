@@ -9,6 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AboutController extends AbstractController
 {
+    /**
+     * About page + Experts display
+     *
+     * @param UserRepository $userRepo
+     * @return Response
+     */
     #[Route('/about', name: 'about')]
     public function index(UserRepository $userRepo): Response
     {

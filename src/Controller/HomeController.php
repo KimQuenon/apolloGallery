@@ -15,6 +15,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+    /**
+     * Homepage
+     *
+     * @param ArtworkRepository $artworkRepo
+     * @param FaqRepository $faqRepo
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/', name: 'homepage')]
     public function index(ArtworkRepository $artworkRepo, FaqRepository $faqRepo, Request $request, EntityManagerInterface $manager): Response
     {
@@ -27,6 +36,7 @@ class HomeController extends AbstractController
         //contact
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact);
+        //handle form
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -34,11 +44,11 @@ class HomeController extends AbstractController
             $manager->persist($contact);
             $manager->flush();
 
-            $form = $this->createForm(ContactType::class, new Contact());//init d'un nouveau form
+            $form = $this->createForm(ContactType::class, new Contact());//clear form with a new one
 
             $this->addFlash(
                 'success',
-                'Votre message nous est bien parvenu, nous ne manquerons pas de vous recontacter dans les plus bref délais.'    
+                'Thank you for your request ! We will get back to you as soon as possible !'    
             );
             // return new RedirectResponse($this->generateUrl('homepage').'#slide-contact');
             $this->redirect($this->generateUrl('homepage') . '#slide-contact');
@@ -50,6 +60,11 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * Legal mentions
+     *
+     * @return void
+     */
     #[Route('/private-policy', name: 'private_policy')]
     public function policy()
     {

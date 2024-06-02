@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
     private $passwordHasher;
 
     /**
-     * Hashage du mdp
+     * Hash password
      *
      * @param UserPasswordHasherInterface $passwordHasher
      */
@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
         //     $manager->persist($faq);
         // }
 
-        //mouvements artistiques
+        //movements
         // $movements = [];
         // for ($m = 1; $m <= 10; $m++) {
         //     $movement = new Movement();
@@ -52,7 +52,7 @@ class AppFixtures extends Fixture
         //     $movements[] = $movement;
         // }
 
-        // création d'un admin
+        // admin
         $admin = new User();
         $admin->setFirstName('Kim')
             ->setLastName('Quenon')
@@ -65,7 +65,7 @@ class AppFixtures extends Fixture
 
         $manager->persist($admin);
 
-        // Ajout des utilisateurs experts
+        // experts
         $experts = [];
         for ($e = 1; $e <= 4; $e++) {
             $expert = new User();
@@ -85,7 +85,7 @@ class AppFixtures extends Fixture
             $experts[] = $expert;
         }
 
-        $users = []; //init d'un tab pour recup des users pour les annonces
+        $users = []; //array to stock users
 
         for($u = 1; $u <= 10; $u++)
         {
@@ -137,7 +137,7 @@ class AppFixtures extends Fixture
 
 
 
-        // $artworks = []; //init d'un tab pour recup des artworks pour les enchères
+        // $artworks = [];
         // //artworks
         // for($a=1; $a<=30; $a++)
         // {

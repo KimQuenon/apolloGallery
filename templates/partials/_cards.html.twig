@@ -12,7 +12,7 @@
 		</div>
 		<p>{{artwork.fullName}}</p>
 		<div class="icons-container">
-			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="btn1">Voir plus<i class="fa-solid fa-chevron-right"></i>
+			<a href="{{ path('artworks_show', {'slug': artwork.slug}) }}" class="btn1">See more<i class="fa-solid fa-chevron-right"></i>
 			</a>
 			<div class="icons-content">
 				{% if not artwork.archived and app.user == artwork.author %}

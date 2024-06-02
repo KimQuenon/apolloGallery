@@ -23,27 +23,27 @@ class ArtworkType extends ApplicationType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        //integertype -> nombre entier
-        //numbertype -> nombre décimal
+        //integertype -> integer
+        //numbertype -> float
         $builder
-            ->add('title', TextType::class, $this->getConfiguration("Title of the frame:", 'Exemple : Giulia'))
-            ->add('artistName', TextType::class, $this->getConfiguration("Last Name:", 'Exemple : Verdi'))
-            ->add('artistSurname', TextType::class, $this->getConfiguration("First Name:", 'Exemple : Giulia'))
+            ->add('title', TextType::class, $this->getConfiguration("Title of the frame:", 'Exemple : Mona Lisa'))
+            ->add('artistName', TextType::class, $this->getConfiguration("Last Name:", 'Exemple : Da Vinci'))
+            ->add('artistSurname', TextType::class, $this->getConfiguration("First Name:", 'Exemple : Leonardo'))
             ->add('slug', TextType::class, $this->getConfiguration('Slug:', 'URL (generated automatically)',[
                 'required' => false
             ]))
             ->add('year', IntegerType::class, $this->getConfiguration("Year:", 'Exemple : 1999'))
-            ->add('canvaWidth', NumberType::class, $this->getConfiguration("Canva Width (cm):", 'Exemple : 200'))
             ->add('canvaHeight', NumberType::class, $this->getConfiguration("Canva Height (cm):", 'Exemple : 200'))
+            ->add('canvaWidth', NumberType::class, $this->getConfiguration("Canva Width (cm):", 'Exemple : 200'))
             ->add('content', TextareaType::class, $this->getConfiguration("Description:", 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.'))
-            ->add('priceInit', MoneyType::class, $this->getConfiguration("Initial price:", 'Exemple : 100'))
-            ->add('endDate', DateType::class, $this->getConfiguration("End date:","date fin",[
+            ->add('priceInit', MoneyType::class, $this->getConfiguration("Initial price:", 'Exemple : 10.000'))
+            ->add('endDate', DateType::class, $this->getConfiguration("End date:","End date",[
                 'widget' => 'single_text',
             ]))
 
             ->add('medium', ChoiceType::class, [
                 'choices'=>[
-                    //options = visuel, valeur = dans la bdd
+                    //options = label, value = database
                     'Oil on canvas'=>'Oil on canvas',
                     'Acrylic'=>'Acrylic',
                     'Watercolor'=>'Watercolor',
@@ -63,9 +63,10 @@ class ArtworkType extends ApplicationType
                 'expanded' => true,
             ])
         ;
+        //add this field except on edit mode
         if (!$options['is_edit']) {
             $builder->add('coverImage', FileType::class, [
-                'label' => "Artwork's picture (jpg, png, webp)",
+                'label' => "Artwork's cover (jpg, png, webp)",
                 'required' => false,
                 'data' => $options['is_edit'] ? $artwork->getCoverImage() : null,
             ]);

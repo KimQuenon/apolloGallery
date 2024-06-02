@@ -30,7 +30,12 @@ class Movement
     {
         $this->artwork = new ArrayCollection();
     }
-
+    
+    /**
+     * init slug
+     *
+     * @return void
+     */
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function initializeSlug(): void

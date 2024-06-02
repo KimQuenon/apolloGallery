@@ -19,12 +19,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ConversationController extends AbstractController
 {
+    /**
+     * Display all conversations by expert
+     *
+     * @param ConversationRepository $convRepo
+     * @return Response
+     */
     #[Route('/account/conversations', name: 'account_conversations')]
     #[IsGranted('ROLE_USER')]
     public function index(ConversationRepository $convRepo): Response
     {
         $user = $this->getUser();
 
+        //delayed by roles
         if ($this->isGranted('ROLE_EXPERT')) {
             $conversations = $convRepo->findConversationsByExpert($user);
         } else {
@@ -36,6 +43,16 @@ class ConversationController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Display single conversation
+     *
+     * @param string $slug
+     * @param ConversationRepository $convRepo
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route('/account/conversations/{slug}', name: 'conversation_show')]
     #[IsGranted('ROLE_USER')]
     public function show(string $slug, ConversationRepository $convRepo, Request $request, EntityManagerInterface $manager): Response
@@ -43,8 +60,9 @@ class ConversationController extends AbstractController
         $user = $this->getUser();
         $conversation = $convRepo->findConversationBySlugAndUser($slug, $user);
         
+        //conversation not found
         if (!$conversation) {
-            throw $this->createNotFoundException('La conversation n\'existe pas');
+            throw $this->createNotFoundException("Conversation not found.");
         }
         
         $conversations = $convRepo->sortConvByRecentMsg($user);
@@ -61,6 +79,7 @@ class ConversationController extends AbstractController
         $newMessage = new Message();
         $form = $this->createForm(MessageType::class, $newMessage);
     
+        //handle form
         $form->handleRequest($request);
     
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,7 +91,7 @@ class ConversationController extends AbstractController
     
             $this->addFlash(
                 'success',
-                "Message envoyé !"
+                "Message sent !"
             );
     
             return $this->redirectToRoute('conversation_show', [
@@ -88,35 +107,44 @@ class ConversationController extends AbstractController
         ]);
     }
 
+    /**
+     * UCreate conversation with expert
+     *
+     * @param string $expertSlug
+     * @param UserRepository $userRepo
+     * @param ConversationRepository $convRepo
+     * @param EntityManagerInterface $entityManager
+     * @return RedirectResponse
+     */
     #[Route('/account/conversations/create/{expertSlug}', name: 'create_conversation')]
     #[IsGranted('ROLE_USER')]
     public function createConversationWithExpert(string $expertSlug, UserRepository $userRepo, ConversationRepository $convRepo, EntityManagerInterface $entityManager): RedirectResponse
     {
         $user = $this->getUser();
-        //trouver l'expert par son slug
+        //get expert' slug
         $expert = $userRepo->findOneBy(['slug' => $expertSlug]);
 
-        //si l'expert n'existe pas 
+        //expert not found
         if (!$expert) {
-            $this->addFlash('danger', 'Cet utilisateur n\'existe pas.');
+            $this->addFlash('danger', "This expert doesn't exist... yet ?");
             return $this->redirectToRoute('about');
         }
 
-        // verif que l'user est expert
+        // check if the contacted person === role_expert
         if (!in_array('ROLE_EXPERT', $expert->getRoles())) {
-            $this->addFlash('warning', "Vous n'êtes pas autorisé à parler à cet utilisateur.");
+            $this->addFlash('warning', "You are not allowed to talk with this user.");
             return $this->redirectToRoute('about');
         }
     
-        //si conv existante => renvoi vers celle-ci
+        //if a conversation exists with this expert -> redirect to that one
         $existingConversation = $convRepo->findOneBy(['user' => $user, 'expert' => $expert]);
 
         if ($existingConversation) {
-            $this->addFlash('warning', 'Vous êtes déjà en conversation avec cet expert.');
+            $this->addFlash('warning', "You have already a conversation going on with this user.");
             return $this->redirectToRoute('conversation_show', ['slug' => $expertSlug]);
         }
 
-        // Créer une nouvelle conversation
+        // create a conversation + set both contributors
         $conversation = new Conversation();
         $conversation->setUser($user);
         $conversation->setExpert($expert);
@@ -124,7 +152,7 @@ class ConversationController extends AbstractController
         $entityManager->persist($conversation);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Nouvelle conversation créée avec succès, dites bonjour !');
+        $this->addFlash('success', "New conversation created ! Don't forget to say hi !");
 
         return $this->redirectToRoute('conversation_show', ['slug' => $expertSlug]);
     }

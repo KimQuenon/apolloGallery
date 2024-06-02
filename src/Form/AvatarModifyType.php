@@ -13,7 +13,7 @@ class AvatarModifyType extends AbstractType
     {
         $builder
             ->add('newPicture', FileType::class,[
-                'label'=>'Avatar(jpg, png, gif)'
+                'label'=>'Avatar (jpg, png, gif)'
             ])
         ;
     }

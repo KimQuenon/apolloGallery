@@ -1,24 +1,22 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Messagerie{% endblock %}
+{% block title %}Admin Contact{% endblock %}
 
 {% block body %}
     <div class="container mt-4 ">
         <div class="row">
-            <h1 class="mb-3">Messagerie</h1>
+            <h1 class="mb-3">Contact</h1>
             <table class="table table-striped">
                 <thead>
                     <tr class="table-active">
-                        <th class="text-center">Nom</th>
-                        <th class="text-center">Prénom</th>
+                        <th class="text-center">Name</th>
                         <th class="text-center">Mail</th>
                         <th class="text-center">Message</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 {% for contact in pagination.data %}
                     <tr>
-                        <td class="align-middle">{{contact.firstName}}</td>
-                        <td class="align-middle">{{contact.lastName}}</td>
+                        <td class="align-middle">{{contact.fullName}}</td>
                         <td class="align-middle">{{contact.email}}</td>
                         <td class="align-middle">{{contact.message | raw | striptags | slice(0, 50)}}...</td>
                         <td class="align-middle text-center">

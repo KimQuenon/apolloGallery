@@ -16,7 +16,7 @@ class MessageType extends ApplicationType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('content', TextareaType::class, $this->getConfiguration("Message", "Commencez à écrire..."))
+            ->add('content', TextareaType::class, $this->getConfiguration("Message", "Start to write here..."))
         ;
     }
 

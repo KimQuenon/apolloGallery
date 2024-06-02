@@ -5,9 +5,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 class CoverModify
 {
-    #[Assert\NotBlank(message:"Veuillez ajouter un image")]
-    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/webp'], mimeTypesMessage:"Vous devez upload un fichier jpg, jpeg, png ou webp")]
-    #[Assert\File(maxSize:"4096k", maxSizeMessage: "La taille du fichier est trop grande")]
+    #[Assert\NotBlank(message:"Upload a file")]
+    #[Assert\Image(mimeTypes:['image/png','image/jpeg', 'image/jpg', 'image/webp'], mimeTypesMessage:"Upload a jpg, jpeg, png or webp file")]
+    #[Assert\File(maxSize:"4096k", maxSizeMessage: "This file is too big to be uploaded.")]
     private $newPicture;
 
     public function getNewPicture(): ?string

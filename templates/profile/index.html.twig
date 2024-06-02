@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Profil
+{% block title %}Profile
 {% endblock %}
 
 {% block body %}
@@ -117,7 +117,7 @@
 			<div class="reviews-container">
 				<div>
 					<h2>Reviews</h2>
-					<p class="space">Mauris imperdiet velit risus, in accumsan velit vehicula vel. Proin  malesuada tortor vitae convallis aliquet. Nunc interdum augue ac nibh  lacinia, id vulputate purus semper. In ultricies arcu a elit faucibus  scelerisque. Vestibulum vel imperdiet odio..</p>
+					<p class="space">Here, you'll find feedback from those who have purchased your artworks, reflecting their experiences and appreciation. Dive in to see how your pieces have touched the lives of others!</p>
 				</div>
 				<div>
 					{% if reviews | length > 0 %}
@@ -150,7 +150,7 @@
 				<div class="medals">
 					<div class="first-ring">
 						<div class="second-ring">
-							<h2>{{avgRating}}</h2>
+							<h2>{{user.averageRating}}</h2>
 						</div>
 					</div>
 					<div class="ribbons"></div>

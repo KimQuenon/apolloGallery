@@ -1,50 +1,55 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    {{ encore_entry_link_tags('app') }}
-    {{ encore_entry_script_tags('app') }}
-    <title>Apollo Gallery - Connexion à l'administration</title>
-</head>
-<body>
-    {% include "partials/header.html.twig" %}
-   <div class="col-md-4 offset-md-4 full pt-5">
-     <div class="card bg-light mt-5">
-            <div class="card-header">
-                <h4 class="card-title">
-                    <i class="fas fa-lock"></i>
-                    Connexion à l'administration
-                </h4>
-            </div>
-            <div class="card-body text-dark">
-                {% if hasError %}
-                    <div class="alert alert-error">
-                        <p>Votre login ou votre mot de passe est incorrect</p>
-                    </div>
-                {% endif %}
-                {% if loginError %}
-                    <div class="alert alert-danger">
-                        {{ loginError }}
-                    </div>
-                {% endif %}
-                <form method="POST">
-                    <div class="form-group my-3"><label for="username" class="text-dark">Email</label><input type="text" class="form-control" placeholder="Adresse email..." name="_username" id="username" value={{username}}></div>
-                    <div class="form-group my-3"><label for="password" class="text-dark">Password</label><input type="password" class="form-control" placeholder="Mot de passe..." name="_password" id="password"></div>
-                    <div class="form-group d-flex align-items-center justify-content-between">
-                        <button type="submit" class="btn btn-primary my-3"><i class="fas fa-lock-open"></i> Connexion</button>
-                        <a href="{{ path('homepage')}}" class="btn btn-link text-dark">
-                            <i class="fas fa-arrow-circle-left"></i>
-                            Retour au site
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+		{{ encore_entry_link_tags('app') }}
+		{{ encore_entry_script_tags('app') }}
+		<title>Apollo Gallery - Admin Login
+		</title>
+	</head>
+	<body>
+		{% include "partials/header.html.twig" %}
+		<div class="col-md-4 offset-md-4 full pt-5">
+			<div class="card bg-light mt-5">
+				<div class="card-header">
+					<h4 class="card-title">
+						<i class="fas fa-lock"></i>
+						Admin Login
+					</h4>
+				</div>
+				<div class="card-body text-dark">
+					{% if hasError %}
+						<div class="alert alert-error">
+							<p>Incorrect email or password</p>
+						</div>
+					{% endif %}
+					{% if loginError %}
+						<div class="alert alert-danger">
+							{{ loginError }}
+						</div>
+					{% endif %}
+					<form method="POST">
+						<div class="form-group my-3">
+							<label for="username" class="text-dark">Email</label><input type="text" class="form-control" placeholder="Adresse email..." name="_username" id="username" value={{username}}></div>
+						<div class="form-group my-3">
+							<label for="password" class="text-dark">Password</label><input type="password" class="form-control" placeholder="Mot de passe..." name="_password" id="password"></div>
+						<div class="form-group d-flex align-items-center justify-content-between">
+							<button type="submit" class="btn btn-primary my-3">
+								<i class="fas fa-lock-open"></i>
+								Log in</button>
+							<a href="{{ path('homepage')}}" class="btn btn-link text-dark">
+								<i class="fas fa-arrow-circle-left"></i>
+								Back
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
 
-   </div>
-   {% include "partials/footer.html.twig" %}
-</body>
+		</div>
+		{% include "partials/footer.html.twig" %}
+	</body>
 </html>

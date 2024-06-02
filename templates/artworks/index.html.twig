@@ -14,15 +14,15 @@
 					</div>
 					<div>
 						<h2>OUR GALLERY</h2>
-						<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-							<strong>Quia dolor dolores ea.</strong>
-							Odio voluptas provident minima deserunt excepturi explicabo ratione fuga, beatae enim placeat accusamus, maiores vel,
-							<strong>at mollitia voluptates reiciendis sit illo pariatur voluptate inventore velit eius.</strong>
-							Quam id sequi culpa illum itaque. Molestiae temporibus natus reiciendis maiores doloremque incidunt suscipit! Quisquam, ex quod.</p>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto, eos voluptatum veritatis dolor tempora expedita.</p>
-						<div class="social_media_all">
-							{% include "partials/_social-media.html.twig" %}
-						</div>
+						<p>Immerse yourself in a curated
+							<strong>collection of stunning masterpieces</strong>. Our gallery features an advanced filtering system, allowing you to effortlessly explore artworks by various artistic movements. Whether you're passionate about
+							<strong>Impressionism</strong>, captivated by
+							<strong>Academism</strong>, or intrigued by
+							<strong>Cubism</strong>, you'll find a wealth of inspiration here.
+						<p>Dive into the world of art like never before...</p>
+							<div class="social_media_all">
+								{% include "partials/_social-media.html.twig" %}</div>
+						</p>
 					</div>
 				</div>
 			</div>
@@ -101,7 +101,7 @@ link.textContent = `${
 result.title
 } - ${
 result.artist
-}`; 
+}`;
 item.appendChild(link);
 resultsList.appendChild(item);
 });
@@ -120,6 +120,5 @@ searchResults.style.display = 'none';
 }, 200);
 });
 });
-
 	</script>
 {% endblock %}

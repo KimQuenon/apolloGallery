@@ -24,6 +24,15 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ArtworkController extends AbstractController
 {
+
+    /**
+     * Display all artworks
+     *
+     * @param PaginationService $pagination
+     * @param integer $page
+     * @param MovementRepository $movementRepo
+     * @return Response
+     */
     #[Route('/artworks/{page<\d+>?1}', name: 'artworks_index')]
     public function index(PaginationService $pagination, int $page, MovementRepository $movementRepo): Response
     {
@@ -32,7 +41,9 @@ class ArtworkController extends AbstractController
         ->setPage($page)
         ->setLimit(9);
 
+        //display all movements (filters)
         $movements = $movementRepo->findAll();
+        //get actual dateTime (compare with artwork.endDate)
         $currentDate = new \DateTime();
 
         return $this->render('artworks/index.html.twig', [
@@ -42,20 +53,29 @@ class ArtworkController extends AbstractController
         ]);
     }
 
+    /**
+     * Search bar
+     *
+     * @param Request $request
+     * @param ArtworkRepository $artworkRepo
+     * @return JsonResponse
+     */
     #[Route('/artworks/search/ajax', name: 'artworks_search_ajax', methods: ['GET'])]
     public function searchAjax(Request $request, ArtworkRepository $artworkRepo): JsonResponse
     {
         $query = $request->query->get('query', '');
 
         if (empty($query)) {
-            return new JsonResponse([]); // Renvoie un tableau vide si aucun terme
+            return new JsonResponse([]); // empty array if 0 result found
         }
 
+        //call to the function that determines which fields the search is based on
         $results = $artworkRepo->findByTitleOrArtistQuery($query)
-            ->setMaxResults(10)
+            ->setMaxResults(10) //limit of results to display
             ->getQuery()
             ->getResult();
 
+        //create array with fields required in twig
         $jsonResults = array_map(function ($artwork) {
             return [
                 'title' => $artwork->getTitle(),
@@ -68,6 +88,13 @@ class ArtworkController extends AbstractController
     }
 
     
+    /**
+     * Submit a new artwork
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/artworks/new", name:"artworks_create")]
     #[IsGranted('ROLE_USER')]
     public function create(Request $request, EntityManagerInterface $manager): Response
@@ -75,12 +102,13 @@ class ArtworkController extends AbstractController
         $artwork = new Artwork();
         $form = $this->createform(ArtworkType::class, $artwork);
 
-        //traitement des données - associations aux champs respectifs - validation
+        //handle form + relation with movement table
         $form->handleRequest($request);
 
-        //form complet et valid -> envoi bdd + message et redirection
+        //handle form
         if($form->isSubmitted() && $form->IsValid())
         {
+            //handle cover
             $file = $form['coverImage']->getData();
             if(!empty($file))
             {
@@ -100,14 +128,18 @@ class ArtworkController extends AbstractController
 
             }
 
+            //ucword = capitalize each word
             $artwork->setTitle(ucwords($artwork->getTitle()));
             $artwork->setArtistName(ucwords($artwork->getArtistName()));
             $artwork->setArtistSurname(ucwords($artwork->getArtistSurname()));
+            //set author with connected user
             $artwork->setAuthor($this->getUser());
+            //boolean true : cannot archived a newly submitted artwork
             $artwork->setArchived(false);
 
             $manager->persist($artwork);
             
+            //associate artwork to each of its movement
             foreach ($artwork->getMovements() as $movement)
             {
                 $movement->addArtwork($artwork);
@@ -118,7 +150,7 @@ class ArtworkController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "La fiche de <strong>".$artwork->getTitle()."</strong> a bien été enregistrée."
+                "<strong>".$artwork->getTitle()."</strong> is ready to be sold ! Now wait and see..."
             );
         
             return $this->redirectToRoute('artworks_show', [
@@ -132,17 +164,28 @@ class ArtworkController extends AbstractController
         ]);
         
     }
-
+    /**
+     * Filter artworks by movement
+     *
+     * @param Movement $movement
+     * @param ArtworkRepository $repo
+     * @param MovementRepository $movementRepo
+     * @return Response
+     */
     #[Route("artworks/movements/{slug}", name: "movements_show")]
     public function showMovement(#[MapEntity(mapping: ['slug' => 'slug'])] Movement $movement, ArtworkRepository $repo, MovementRepository $movementRepo): Response
     {
+        //get artworks from the movement
         $artworks = $movement->getArtwork();
+        //get all movements
         $movements = $movementRepo->findAll();
 
+        //display all the others movement except the one displayed
         $otherMovements = array_filter($movements, function ($m) use ($movement) {
             return $m->getSlug() !== $movement->getSlug();
         });
 
+        //get actual datetime to compare with artwork.endDate
         $currentDate = new \DateTime();
         return $this->render('artworks/movements/show.html.twig', [
             'movement' => $movement,
@@ -153,45 +196,33 @@ class ArtworkController extends AbstractController
 
     }
 
-    #[Route("artworks/{slug}/delete", name:"artworks_delete")]
-    #[IsGranted(
-        attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
-        subject: new Expression('args["artwork"].getAuthor()'),
-        message: "Cette annonce ne vous appartient pas, vous ne pouvez pas la supprimer"
-    )]
-    public function deleteArtworks(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, EntityManagerInterface $manager): Response
-    {
-            unlink($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage()); 
-            $manager->remove($artwork);
-            $manager->flush();
-
-            $this->addFlash(
-                'success',
-                "L'annonce <strong>".$artwork->getTitle()."</strong> a bien été supprimée!"
-            );
-
-        return $this->redirectToRoute('account_artworks');
-    }
-
-    
+    /**
+     * Display single artwork
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/artworks/{slug}", name: "artworks_show")]
     public function show(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, ArtworkRepository $artworkRepo): Response
     {
-        
+        //display all movements associated with
         $movements = $artwork->getMovements();
         $author = $artwork->getAuthor();
         $currentDate = new \DateTime();
 
-        //recup l'auteur de l'annonce
-        $seller = $artwork->getAuthor();
-        //recup les autres voitures de ce même auteur et les mettre dans un tab
-        $otherArtworks = $seller->getArtworks()->toArray(); 
-        //évite que la voiture de l'annonce apparaisse dans les suggestions
+        //get all artworks of the same author
+        $otherArtworks = $author->getArtworks()->toArray(); 
+        //except the one displayed
         $otherArtworks = array_filter($otherArtworks, function ($otherArtwork) use ($artwork) {
             return $otherArtwork !== $artwork;
         });
 
+        //filter on the archived artworks
         $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($author);
+
+        //get seller's rating
         $avgRating = $author->getAverageRating();
 
         return $this->render("artworks/show.html.twig", [
@@ -199,14 +230,51 @@ class ArtworkController extends AbstractController
             'movements' => $movements,
             'author' => $author,
             'currentDate' => $currentDate,
-            'seller' => $seller,
             'otherArtworks' => $otherArtworks,
             'archivedArtworks' => $archivedArtworks,
+            'avgRating' => $avgRating,
+            //context for _display.html.twig (delayed display)
             'context' => 'artworks_show',
-            'avgRating' => $avgRating
         ]);
     }
 
+    /**
+     * Delete artwork
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[Route("artworks/{slug}/delete", name:"artworks_delete")]
+    #[IsGranted(
+        attribute: new Expression('(user === subject and is_granted("ROLE_USER"))'),
+        subject: new Expression('args["artwork"].getAuthor()'),
+        message: "You are not allowed to delete someone else's artwork."
+    )]
+    public function deleteArtworks(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, EntityManagerInterface $manager): Response
+    {       
+            //delete cover
+            unlink($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage()); 
+            $manager->remove($artwork);
+            $manager->flush();
+
+            $this->addFlash(
+                'success',
+                "<strong>".$artwork->getTitle()."</strong> deleted successfully !"
+            );
+
+        return $this->redirectToRoute('account_artworks');
+    }
+
+    /**
+     * Edit artwork's cover
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("artworks/{slug}/cover-modify", name:"artworks_cover")]
     #[IsGranted('ROLE_USER')]
     public function coverModify(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager):Response
@@ -222,7 +290,7 @@ class ArtworkController extends AbstractController
                 unlink($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage());
             }
 
-            //gestion de l'image
+            //handle img
             $file = $form['newPicture']->getData();
             if(!empty($file))
             {
@@ -245,7 +313,7 @@ class ArtworkController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'La cover a été modifiée avec succès'    
+                'Cover of '.$artwork->getTitle().' edited successfully'    
             );
 
             return $this->redirectToRoute('artworks_show',[
@@ -259,19 +327,29 @@ class ArtworkController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit artwork
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("artworks/{slug}/edit", name:"artworks_edit")]
     #[IsGranted(
-        attribute: new Expression('(user === subject and is_granted("ROLE_USER")) or is_granted("ROLE_ADMIN")'),
+        attribute: new Expression('(user === subject and is_granted("ROLE_USER"))'),
         subject: new Expression('args["artwork"].getAuthor()'),
-        message: "Cette annonce ne vous appartient pas, vous ne pouvez pas l'éditer"
+        message: "You are not allowed to edit someone else's artwork."
         )]
     public function edit(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
     {
+        //cannot edit archived artwork
         if ($artwork->isArchived()) {
-            $this->addFlash('danger', 'Impossible de modifier une oeuvre archivée.');
+            $this->addFlash('danger', "You can't edit an archived artwork.");
             return $this->redirectToRoute('artworks_show', ['slug' => $artwork->getSlug()]);
         }
 
+        //get img data
         $fileName = $artwork->getCoverImage();
         if(!empty($fileName)){
             $artwork->setCoverImage(
@@ -279,11 +357,13 @@ class ArtworkController extends AbstractController
             );
         }
 
+        //boolean set to true to use ArtworkType edit version
         $form = $this->createForm(ArtworkType::class, $artwork, [
             'is_edit' => true
         ]);
 
 
+        //handle form
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -301,7 +381,7 @@ class ArtworkController extends AbstractController
 
               $this->addFlash(
                 'success',
-                "L'oeuvre <strong>".$artwork->getTitle()."</strong> a bien été modifiée!"
+                "<strong>".$artwork->getTitle()."</strong> edited successfully !"
               );
 
               return $this->redirectToRoute('artworks_show',[
@@ -309,8 +389,6 @@ class ArtworkController extends AbstractController
               ]);
 
         }
-
-
 
         return $this->render("artworks/edit.html.twig",[
             "artwork"=> $artwork,

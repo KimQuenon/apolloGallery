@@ -25,33 +25,52 @@ use Symfony\Component\Security\Core\Exception\TooManyLoginAttemptsAuthentication
 
 class AccountController extends AbstractController
 {
+    /**
+     * Log in Page
+     *
+     * @param AuthenticationUtils $utils
+     * @return Response
+     */
     #[Route('/login', name: 'account_login')]
     public function index(AuthenticationUtils $utils): Response
     {
-        $error = $utils->getLastAuthenticationError(); //récupérer la dernière erreur engendrée
-        $username = $utils->getLastUsername(); //récupérer le dernier username à s'être connecté
+        $error = $utils->getLastAuthenticationError(); //last error
+        $username = $utils->getLastUsername(); //last user connected
 
-        $loginError = null; //init la var pour toomanyattempts
+        $loginError = null; //var for toomanyattempts
 
         if($error instanceof TooManyLoginAttemptsAuthenticationException)
         {
-            //l'erreur est due à la limitation de tentative de connexion
-            $loginError= "Trop de tentatives de connexion, réessayez plus tard...";
+            //limited number of login attempts
+            $loginError= "Too many attemps, try again later..";
 
         }
 
         return $this->render('account/index.html.twig', [
-            'hasError' => $error !== null, //pas nul => afficher erreur
+            'hasError' => $error !== null, //if not null => display error
             'username'=> $username,
             'loginError'=> $loginError
         ]);
     }
     
+    /**
+     * Log out
+     *
+     * @return Void
+     */
     #[Route('/logout', name: 'account_logout')]
     public function logout(): Void
     {
     }
 
+    /**
+     * Create an account
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route("/register", name:"account_register")]
     public function register(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher): Response
     {
@@ -62,18 +81,18 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-            //gestion de l'image
-            $file = $form['picture']->getData(); //recup données dans le form
+            //img handle
+            $file = $form['picture']->getData(); //data of the pic
 
-            //si champs rempli
+            //if field completed
             if(!empty($file))
             {
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); //recup nom du fichier sans l'extension
-                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename); //enlève les caractères spéciaux
-                $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension(); //nom unique
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME); //filename without extension
+                $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename); //get rid of special caracters
+                $newFilename = $safeFilename."-".uniqid().'.'.$file->guessExtension(); //unique name
                 try{
                     $file->move(
-                        $this->getParameter('uploads_directory'), //déplacement du fichier
+                        $this->getParameter('uploads_directory'), //moving the file
                         $newFilename
                     );
                 }catch(FileException $e){
@@ -82,6 +101,7 @@ class AccountController extends AbstractController
                 $user->setPicture($newFilename);
             }
 
+            //hash password
             $hash = $hasher->hashPassword($user, $user->getPassword());
             $user->setPassword($hash);
 
@@ -97,19 +117,29 @@ class AccountController extends AbstractController
         ]);
     }
     
+    /**
+     * Edit profile
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/account/edit", name:"account_edit")]
     #[IsGranted('ROLE_USER')]
     public function edit(Request $request, EntityManagerInterface $manager): Response
     {
-        $user = $this->getUser(); //récupère l'user connecté
+        $user = $this->getUser(); //get connected user
 
         $filename = $user->getPicture();
+
+        //handle img
         if(!empty($filename)){
             $user->setPicture(
                 new File($this->getParameter('uploads_directory').'/'.$user->getPicture())
             );
         }
         
+        //edit form
         $form = $this->createForm(AccountModifyType::class, $user);
         $form->handleRequest($request);
 
@@ -123,7 +153,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
             'success',
-            'Les données ont été enregistrées avec succès'    
+            'Data has been saved successfully'    
             );
         }
 
@@ -132,6 +162,15 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete account
+     *
+     * @param Request $request
+     * @param UserPasswordHasherInterface $hasher
+     * @param EntityManagerInterface $manager
+     * @param TokenStorageInterface $tokenStorage
+     * @return Response
+     */
     #[Route("/account/delete", name: "account_delete")]
     #[IsGranted('ROLE_USER')]
     public function deleteAccount(Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager, TokenStorageInterface $tokenStorage): Response
@@ -139,12 +178,12 @@ class AccountController extends AbstractController
         $user = $this->getUser();
         $form = $this->createForm(DeleteType::class);
 
-        //si l'user n'est pas connecté, renvoi vers connexion
+        //if user not logged in -> redirect to login page
         if (!$user) {
 
             $this->addFlash(
                 'danger',
-                'Connectez-vous à votre compte avant de le supprimer.'
+                'You must be logged in first.'
             );
             return $this->redirectToRoute('account_login');
         }
@@ -156,14 +195,16 @@ class AccountController extends AbstractController
             $submittedEmail = $data['email'];
             $submittedPassword = $data['password'];
 
-            //verif si email est dans bdd
+            //email address in db?
             if ($user->getEmail() === $submittedEmail) {
                 $isPasswordValid = $hasher->isPasswordValid($user, $submittedPassword);
 
-                //verif mdp
+                //password verify
                 if ($isPasswordValid) {
 
                     $avatarFilename = $user->getPicture();
+
+                    //avatar deleted
                     if ($avatarFilename) {
                         $avatarFilePath = $this->getParameter('uploads_directory') . '/' . $avatarFilename;
                         if (file_exists($avatarFilePath)) {
@@ -171,15 +212,15 @@ class AccountController extends AbstractController
                         }
                     }
 
-                    //forcer la déconnexion
+                    //set connexion token to null
                     $tokenStorage->setToken(null);
-                    //remove si tout est ok
+                    //remove
                     $manager->remove($user);
                     $manager->flush();
 
                     $this->addFlash(
                         'success',
-                        'Votre compte a été supprimé avec succès.'
+                        'Account deleted, see you soon maybe ?'
                     );
 
                     return $this->redirectToRoute('homepage');
@@ -188,7 +229,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'danger',
-                'L\'adresse e-mail ou le mot de passe est incorrect.'
+                'Incorrect email address and/or password.'
             );
         }
 
@@ -197,6 +238,14 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit password
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route("/account/password-modify", name:"account_password")]
     #[IsGranted('ROLE_USER')]
     public function modifyPassword(Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $hasher):Response
@@ -207,15 +256,15 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //verif mdp bdd & mdp du form
+            //compare given password & db password
             if (!password_verify($passwordModify->getOldPassword(), $user->getPassword())) {
-                $form->get('oldPassword')->addError(new FormError("Le mot de passe que vous avez renseigné n'est pas votre mot de passe actuel"));
+                $form->get('oldPassword')->addError(new FormError("This doesn't seem to be your current password..."));
             }else{
                 $newPassword = $passwordModify->getNewPassword();
 
-                // verif si new mdp == old mdp
+                // new password = old password?
                 if ($newPassword === $passwordModify->getOldPassword()) {
-                    $form->get('newPassword')->addError(new FormError("Le nouveau mot de passe ne peut être identique à l'ancien mot de passe"));
+                    $form->get('newPassword')->addError(new FormError("The new password can't be the old one..."));
                 } else {
                     $hash = $hasher->hashPassword($user, $newPassword);
 
@@ -225,7 +274,7 @@ class AccountController extends AbstractController
 
                     $this->addFlash(
                         'success',
-                        'Le nouveau mot de passe a été modifié avec succès'
+                        'Password edited successfully !'
                     );
 
                     return $this->redirectToRoute('homepage');
@@ -238,6 +287,13 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Edit avatar
+     *
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("account/avatar-modify", name:"account_avatar")]
     #[IsGranted('ROLE_USER')]
     public function avatarModify(Request $request, EntityManagerInterface $manager):Response
@@ -249,13 +305,13 @@ class AccountController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
-
+            //get rid of the old avatar
             if(!empty($user->getPicture()))
             {
                 unlink($this->getParameter('uploads_directory').'/'.$user->getPicture());
             }
 
-            //gestion de l'image
+            //handle img
             $file = $form['newPicture']->getData();
             if(!empty($file))
             {
@@ -278,7 +334,7 @@ class AccountController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'Votre avatar a été modifié avec succès'    
+                'Avatar edited successfully !'    
             );
 
             return $this->redirectToRoute('account_profile');
@@ -291,20 +347,28 @@ class AccountController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete avatar
+     *
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("account/avatar-delete", name:"account_avatar_delete")]
     #[IsGranted('ROLE_USER')]
     public function deleteAvatar(EntityManagerInterface $manager):Response
     {
-        $user = $this->getUser(); //recup user
-        if(!empty($user->getPicture())) //si champs rempli
+        $user = $this->getUser();
+
+        //get rid of the avatar + delete it from the database
+        if(!empty($user->getPicture()))
         {
-            unlink($this->getParameter('uploads_directory').'/'.$user->getPicture()); //supp du dossier
-            $user->setPicture(''); //img vide
-            $manager->persist($user); //save bdd
+            unlink($this->getParameter('uploads_directory').'/'.$user->getPicture());
+            $user->setPicture(''); //this field can be null
+            $manager->persist($user);
             $manager->flush();
             $this->addFlash(
                 'success',
-                'Votre avatar a bien été supprimé'
+                'Avatar deleted !'
             );
         }
         return $this->redirectToRoute('account_profile');

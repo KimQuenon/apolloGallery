@@ -16,9 +16,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminArtworkController extends AbstractController
 {
+
+    /**
+     * Display all artworks
+     *
+     * @param PaginationService $pagination
+     * @param integer $page
+     * @return Response
+     */
     #[Route('/admin/artworks/{page<\d+>?1}', name: 'admin_artworks_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
+        //pagination
         $pagination->setEntityClass(Artwork::class)
         ->setPage($page)
         ->setLimit(10);
@@ -29,15 +38,24 @@ class AdminArtworkController extends AbstractController
     }
 
 
-
+    /**
+     * Edit artwork
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/admin/artworks/{slug}/edit", name: "admin_artworks_edit")]
     public function edit(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager): Response
     {
+        //can't edit archived artworks
         if ($artwork->isArchived()) {
             $this->addFlash('danger', 'Impossible de modifier une oeuvre archivée.');
             return $this->redirectToRoute('artworks_show', ['slug' => $artwork->getSlug()]);
         }
 
+        //get img data (not handle here)
         $fileName = $artwork->getCoverImage();
         if(!empty($fileName)){
             $artwork->setCoverImage(
@@ -45,6 +63,7 @@ class AdminArtworkController extends AbstractController
             );
         }
 
+        //boolean set true to get the edit version of ArtworkType
         $form = $this->createForm(ArtworkType::class, $artwork, [
             'is_edit' => true
         ]);
@@ -52,10 +71,12 @@ class AdminArtworkController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+            //get back img data (err: "this file can be found.")
             $artwork->setCoverImage($fileName);
 
             $manager->persist($artwork);
 
+            // movements handle
             foreach ($artwork->getMovements() as $movement)
             {
                 $movement->addArtwork($artwork);
@@ -66,7 +87,7 @@ class AdminArtworkController extends AbstractController
 
             $this->addFlash(
                 'success',
-                "L'annonce <strong>".$artwork->getTitle()."</strong> a bien été modifiée"
+                "<strong>".$artwork->getTitle()."</strong> edited successfully"
             );
 
         }
@@ -78,16 +99,25 @@ class AdminArtworkController extends AbstractController
 
     }
 
+
+    /**
+     * Delete artwork
+     *
+     * @param Artwork $artwork
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/admin/artworks/{slug}/delete", name: "admin_artworks_delete")]
     public function delete(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, EntityManagerInterface $manager): Response
     {
+        //delete cover img
         unlink($this->getParameter('uploads_directory').'/'.$artwork->getCoverImage()); 
         $manager->remove($artwork);
         $manager->flush();
 
         $this->addFlash(
             'success',
-            "L'annonce <strong>".$artwork->getTitle()."</strong> a bien été supprimée!"
+            "<strong>".$artwork->getTitle()."</strong> deleted successfully !"
         );
 
         return $this->redirectToRoute('admin_artworks_index');

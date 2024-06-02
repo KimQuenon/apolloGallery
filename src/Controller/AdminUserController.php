@@ -14,6 +14,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminUserController extends AbstractController
 {
+    /**
+     * Display all users
+     *
+     * @param PaginationService $pagination
+     * @param integer $page
+     * @return Response
+     */
     #[Route('/admin/users/{page<\d+>?1}', name: 'admin_users_index')]
     public function index(PaginationService $pagination, int $page): Response
     {
@@ -26,15 +33,24 @@ class AdminUserController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete user
+     *
+     * @param User $user
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/admin/users/{id}/delete", name: "admin_users_delete")]
     public function delete(#[MapEntity(mapping: ['id' => 'id'])] User $user, EntityManagerInterface $manager): Response
     {
+        //delete user's avatar
+        unlink($this->getParameter('uploads_directory').'/'.$user->getPicture()); 
         $manager->remove($user);
         $manager->flush();
 
         $this->addFlash(
             'success',
-            "Le profil n° <strong>".$user->getId()."</strong> a bien été supprimé!"
+            "Profl of <strong>".$user->getFullName()."</strong> deleted successfully !"
         );
 
         return $this->redirectToRoute('admin_users_index');

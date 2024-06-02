@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 class ApplicationType extends AbstractType
 {
     /**
-     * Fusion récursive de tableau - protected car héritage
+     * Recursive array merge - protected because inheritance
      *
      * @param string $label
      * @param string $placeholder

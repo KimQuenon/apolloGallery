@@ -20,11 +20,11 @@ class Review
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column]
-    #[Assert\Range(min:1, max:5, notInRangeMessage:"Veuillez donner une note entre 1 et 5")]
+    #[Assert\Range(min:1, max:5, notInRangeMessage:"Enter your rating (1-5)")]
     private ?int $rating = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Length(min:5, minMessage:'Votre commentaire doit faire au moins 5 caractères')]
+    #[Assert\Length(min:5, minMessage:'Your feedback must be at least 5 characters long.')]
     private ?string $content = null;
 
     #[ORM\OneToOne(inversedBy: 'review', cascade: ['persist', 'remove'])]
@@ -36,7 +36,7 @@ class Review
     private ?User $author = null;
 
     /**
-     * datetime
+     * set datetime to current date
      *
      * @return void
      */

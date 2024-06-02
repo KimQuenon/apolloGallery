@@ -31,18 +31,23 @@ class Conversation
         $this->messages = new ArrayCollection();
     }
 
+    /**
+     * get last message (recent timestamp)
+     *
+     * @return Message|null
+     */
     public function getLastMessage(): ?Message
     {
-        // tri par timestamp décroissant
+        // sort by descending timestamp
         $messages = $this->getMessages()->toArray();
         usort($messages, function($a, $b) {
             return $b->getTimestamp() <=> $a->getTimestamp();
         });
 
-        // dernier message
         return count($messages) > 0 ? $messages[0] : null;
     }
 
+    //sort conversations
     public function getMessagesSorted(): array
     {
         $messages = $this->getMessages()->toArray();

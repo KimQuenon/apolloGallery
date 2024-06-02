@@ -18,19 +18,27 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AuctionController extends AbstractController
 {
+    /**
+     * Display auctions
+     *
+     * @param AuctionRepository $auctionRepo
+     * @return void
+     */
     #[Route("/account/auctions", name:"account_auctions")]
     #[IsGranted('ROLE_USER')]
     public function displayAuctions(AuctionRepository $auctionRepo)
     {
-        $user = $this->getUser(); // Récupérer l'utilisateur connecté
-        $auctions = $auctionRepo->findAuctionsByUser($user);
+        $user = $this->getUser(); // get connected user
+        $auctions = $auctionRepo->findAuctionsByUser($user); //get auctions made by user
 
+        //get all refused auctions
         $refusedAuctions = [];
         foreach ($auctions as $auction) {
             $artwork = $auction->getArtwork();
             $refusedAuctions[$artwork->getId()] = $auctionRepo->findRefusedAuctionsByUser($artwork, $user);
         }
 
+        //get current auctions
         $ongoingAuctions = $auctionRepo->findOngoingAuctionsByUser($user);
 
         return $this->render('profile/auctions.html.twig', [
@@ -40,34 +48,38 @@ class AuctionController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Display auctions for a single artwork
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
     #[Route("/account/sales/{slug}", name:"account_sales_show")]
     #[IsGranted('ROLE_USER')]
     public function showSales(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo)
     {
         $user = $this->getUser();
         $artworkOwner = $artwork->getAuthor();
-        $currentDate = new \DateTime();
-        $movements = $artwork->getMovements();
         
-        //recup l'enchère acceptée
-        $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
-        
-        //3 plus grandes enchères
-        $topThree = $auctionRepo->topThree($artwork);
-
-        // Recup les enchères liées à l'artwork
-        $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
-
-
-        foreach ($auctions as $auction) {
-            $avgRating = $auction->getUser()->getAverageRating();
-        }
-        
-        
-        // verif si user connecté = user artwork
+        // check if connected user == artwork's author -> if not, redirection
         if ($user === $artworkOwner) {
+            //current datetime to compare with artwork.endDate
+            $currentDate = new \DateTime();
+
+            //display artwork's movements
+            $movements = $artwork->getMovements();
+
             // recup les enchères liées à l'artwork
             $auctions = $auctionRepo->findAuctionsByArtwork($artwork);
+
+            //get the winning auction
+            $auctionAccepted = $auctionRepo->findAcceptedAuction($artwork);
+    
+            //3 biggest auctions
+            $topThree = $auctionRepo->topThree($artwork);
 
             return $this->render('profile/sales/show.html.twig', [
                 'artwork' => $artwork,
@@ -75,12 +87,12 @@ class AuctionController extends AbstractController
                 'currentDate' => $currentDate,
                 'auctionAccepted' => $auctionAccepted,
                 'topThree' => $topThree,
-                // 'avgRating' => $avgRating,
-                'context' => 'account_sales_show',
                 'movements' => $movements,
+                //context for _display.html.twig (delayed display)
+                'context' => 'account_sales_show',
             ]);
         } else {
-            $this->addFlash('danger', 'Vous ne pouvez pas voir les enchères d\'autres utilisateurs');
+            $this->addFlash('danger', "You are not allowed to see this artwork's auctions.");
 
             return $this->redirectToRoute('artworks_show', [
                 'slug'=> $artwork->getSlug(),
@@ -88,19 +100,27 @@ class AuctionController extends AbstractController
         }
     }
 
+    /**
+     * Accept an auction
+     *
+     * @param Auction $auction
+     * @param AuctionRepository $auctionRespo
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse
+     */
     #[Route("/account/sales/{id}/accept", name:"account_sales_accept")]
     #[IsGranted('ROLE_USER')]
-    public function acceptAuction(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
+    public function acceptAuction(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager): RedirectResponse
     {
         $artwork = $auction->getArtwork();
     
-        // verif si une enchère a déjà été acceptée pour l'œuvre
+        //if an auction as already been accepted
         $existingSoldAuction = $auctionRepo->findAcceptedAuction($artwork);
     
         if ($existingSoldAuction !== null) {
             $this->addFlash(
                 'warning',
-                "Une enchère pour cette œuvre a déjà été acceptée."
+                "This artwork has already been sold."
             );
     
             return $this->redirectToRoute('account_sales_show', [
@@ -109,7 +129,7 @@ class AuctionController extends AbstractController
         }
         
         
-        //enchère acceptée + archivage
+        //set auction to accepted + artwork archived
         $auction->setSold('yes');
         $artwork->setArchived(true);
         $manager->persist($auction);
@@ -117,7 +137,7 @@ class AuctionController extends AbstractController
         
         $this->addFlash(
             'success',
-            "L'offre de <strong>".$auction->getUser()->getFullName()."</strong> a bien été acceptée."
+            "The offer of <strong>".$auction->getUser()->getFullName()."</strong> has been accepted !"
         );
         
         return $this->redirectToRoute('account_sales_show', [
@@ -125,17 +145,25 @@ class AuctionController extends AbstractController
         ]);
     }
 
+    /**
+     * Refuse an auction
+     *
+     * @param Auction $auction
+     * @param AuctionRepository $auctionRespo
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse
+     */
     #[Route("/account/sales/{id}/refuse", name:"account_sales_refuse")]
     #[IsGranted('ROLE_USER')]
-    public function refuseAuction(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager)
+    public function refuseAuction(#[MapEntity(mapping: ['id' => 'id'])] Auction $auction, AuctionRepository $auctionRepo, EntityManagerInterface $manager): RedirectResponse
     {
-
+        //delete it from database
         $manager->remove($auction);
         $manager->flush();
 
         $this->addFlash(
             'danger',
-            "L'enchère de <strong>".$auction->getUser()->getFullName()."</strong> a été refusée."
+            "The offer of <strong>".$auction->getUser()->getFullName()."</strong> has been refused."
         );
 
         return $this->redirectToRoute('account_sales_show', [
@@ -143,6 +171,14 @@ class AuctionController extends AbstractController
         ]);
     }
 
+    /**
+     * Relaunch the chrono for a week
+     *
+     * @param Artwork $artwork
+     * @param AuctionRepository $auctionRespo
+     * @param EntityManagerInterface $manager
+     * @return RedirectResponse
+     */
     #[Route("/account/sales/{slug}/relaunch", name:"account_sales_relaunch")]
     #[IsGranted('ROLE_USER')]
     public function relaunchAuction(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, AuctionRepository $auctionRepo, EntityManagerInterface $manager): RedirectResponse
@@ -150,7 +186,7 @@ class AuctionController extends AbstractController
         $currentDate = new \DateTime();
         $endDate = $artwork->getEndDate();
 
-        // si pas d'offres au temps écoulé => relancer une semaine
+        // if time is up and auctions count == 0, relaunch for a week
         if ($endDate <= $currentDate && $auctionRepo->countAuctionsByArtwork($artwork) === 0) {
             $newEndDate = $currentDate->modify('+1 week');
             $artwork->setEndDate($newEndDate);
@@ -158,13 +194,13 @@ class AuctionController extends AbstractController
             $manager->persist($artwork);
             $manager->flush();
 
-            $this->addFlash('success', 'La date de fin de l\'enchère a été prolongée d\'une semaine.');
+            $this->addFlash('success', "Countdown relaunched for a week");
 
             return $this->redirectToRoute('account_sales_show', [
                 'slug'=> $artwork->getSlug(),
             ]);
         } else {
-            $this->addFlash('danger', 'Cette enchère ne peut pas être prolongée.');
+            $this->addFlash('danger', 'We cannot restart a countdown for this artwork.');
 
             return $this->redirectToRoute('account_sales_show', [
                 'slug'=> $artwork->getSlug(),
@@ -173,6 +209,15 @@ class AuctionController extends AbstractController
     }
 
 
+    /**
+     * Make a bid
+     *
+     * @param Artwork $artwork
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @param AuctionRepository $auctionRespo
+     * @return Response
+     */
     #[Route("/artworks/{slug}/make-a-bid", name: "auctions_create")]
     #[IsGranted('ROLE_USER')]
     public function create(#[MapEntity(mapping: ['slug' => 'slug'])] Artwork $artwork, Request $request, EntityManagerInterface $manager, AuctionRepository $auctionRepo): Response
@@ -180,8 +225,9 @@ class AuctionController extends AbstractController
         $user = $this->getUser();
         $artworkOwner = $artwork->getAuthor();
 
+        //a user cannot make a bid on his own artwork
         if ($user === $artworkOwner) {
-            $this->addFlash('danger', 'Vous ne pouvez pas faire d\'enchère sur votre propre œuvre.');
+            $this->addFlash('danger', "You are not allowed to place a bid on your own artwork.");
             
             return $this->redirectToRoute('artworks_show', [
                 'slug'=> $artwork->getSlug()
@@ -190,18 +236,19 @@ class AuctionController extends AbstractController
 
         $endDate = $artwork->getEndDate();
 
+        //check if time is up
         if ($endDate <= new \DateTime()) {
-            $this->addFlash('danger', "L'enchère pour cette œuvre est terminée.");
+            $this->addFlash('danger', "The auctions for this artwork are closed");
             
             return $this->redirectToRoute('artworks_show', [
                 'slug'=> $artwork->getSlug()
             ]);
         }
 
-        // Vérifier si l'utilisateur a déjà fait une enchère sur cet artwork
+        // check if the auctionner has already placed a bid on this artwork
         $existingAuction = $auctionRepo->findOneBy(['user' => $user, 'artwork' => $artwork]);
         if ($existingAuction !== null) {
-            $this->addFlash('danger', "Vous avez déjà fait une enchère sur cette œuvre.");
+            $this->addFlash('danger', "You have already placed a bid on this artwork.");
             
             return $this->redirectToRoute('artworks_show', [
                 'slug'=> $artwork->getSlug()
@@ -211,18 +258,16 @@ class AuctionController extends AbstractController
         $auction = new Auction();
         $form = $this->createform(AuctionType::class, $auction);
 
-        //traitement des données - associations aux champs respectifs - validation
+        //handle form
         $form->handleRequest($request);
-
-        //form complet et valid -> envoi bdd + message et redirection
         if($form->isSubmitted() && $form->IsValid())
         {
             $amount = $form->get('amount')->getData();
             $priceInit = $artwork->getPriceInit();
 
-            //verif si montant proposé >= prix initial
+            //check if the amount is at least equal to the initial price
             if ($amount < $priceInit) {
-                $form->addError(new FormError("Le montant proposé ne peut pas être inférieur au prix initial de l'œuvre."));
+                $form->addError(new FormError("Your bid must be equal or greather than the initial price."));
             } else {
                 $auction->setUser($user);
                 $auction->setArtwork($artwork);
@@ -234,7 +279,7 @@ class AuctionController extends AbstractController
     
                 $this->addFlash(
                     'success',
-                    "Votre enchère pour <strong>".$artwork->getTitle()."</strong> a bien été enregistrée."
+                    "Your bid for <strong>".$artwork->getTitle()."</strong> has been registered. Good luck !"
                 );
             
                 return $this->redirectToRoute('artworks_show', [
