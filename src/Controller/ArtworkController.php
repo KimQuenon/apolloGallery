@@ -33,10 +33,12 @@ class ArtworkController extends AbstractController
         ->setLimit(9);
 
         $movements = $movementRepo->findAll();
+        $currentDate = new \DateTime();
 
         return $this->render('artworks/index.html.twig', [
             'pagination' => $pagination,
             'movements' => $movements,
+            'currentDate'=> $currentDate
         ]);
     }
 
@@ -141,10 +143,12 @@ class ArtworkController extends AbstractController
             return $m->getSlug() !== $movement->getSlug();
         });
 
+        $currentDate = new \DateTime();
         return $this->render('artworks/movements/show.html.twig', [
             'movement' => $movement,
             'otherMovements' => $otherMovements,
             'artworks' => $artworks,
+            'currentDate' => $currentDate
         ]);
 
     }
@@ -188,7 +192,8 @@ class ArtworkController extends AbstractController
         });
 
         $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($author);
-        
+        $avgRating = $author->getAverageRating();
+
         return $this->render("artworks/show.html.twig", [
             'artwork' => $artwork,
             'movements' => $movements,
@@ -198,6 +203,7 @@ class ArtworkController extends AbstractController
             'otherArtworks' => $otherArtworks,
             'archivedArtworks' => $archivedArtworks,
             'context' => 'artworks_show',
+            'avgRating' => $avgRating
         ]);
     }
 

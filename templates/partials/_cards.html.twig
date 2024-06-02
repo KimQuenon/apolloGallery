@@ -16,14 +16,18 @@
 			</a>
 			<div class="icons-content">
 				{% if not artwork.archived and app.user == artwork.author %}
+					{% if artwork.endDate > currentDate %}
+						<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit">
+							<i class="fa-solid fa-pen"></i>
+						</a>
+					{% else %}
+						<span class="badge bg-success">Closed</span>
+					{% endif %}
 					<a href="{{ path('account_sales_show', {'slug': artwork.slug}) }}" class="icon icon-sales">
 						<i class="fa-solid fa-gavel"></i>
 					</a>
 				{% endif %}
 				{% if app.user == artwork.author or is_granted('ROLE_ADMIN') %}
-					<a href="{{ path('artworks_edit', {'slug': artwork.slug}) }}" class="icon icon-edit">
-						<i class="fa-solid fa-pen"></i>
-					</a>
 					<a href="#deleteModal{{ artwork.slug }}" data-bs-toggle="modal" data-bs-target="#deleteModal{{ artwork.slug }}" class="icon icon-delete">
 						<i class="fas fa-trash"></i>
 					</a>

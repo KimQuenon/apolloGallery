@@ -113,19 +113,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
-    public function getAvgRatings(): float
+    // public function getAvgRatings(): float
+    // {
+
+    //     $sum = array_reduce($this->reviews->toArray(), function ($total, $review) {
+    //         return $total + $review->getRating();
+    //     }, 0);
+    
+    //     $count = count($this->reviews);
+    
+    //     if ($count > 0) {
+    //         return round($sum / $count, 1); // Retourne la moyenne avec une décimale
+    //     }
+    
+    //     return 0.0;
+    // }
+    public function getAverageRating(): float
     {
-        $sum = array_reduce($this->reviews->toArray(), function ($total, $review) {
-            return $total + $review->getRating();
-        }, 0);
-    
-        $count = count($this->reviews);
-    
-        if ($count > 0) {
-            return round($sum / $count, 1); // Retourne la moyenne avec une décimale
+        $totalRating = 0;
+        $reviewCount = 0;
+
+        foreach ($this->artworks as $artwork) {
+            $review = $artwork->getReview();
+            if ($review !== null) {
+                $totalRating += $review->getRating();
+                $reviewCount++;
+            }
         }
-    
-        return 0.0;
+
+        return $reviewCount > 0 ? round($totalRating / $reviewCount, 1) : 0.0;
     }
 
     public function getFullName(): string

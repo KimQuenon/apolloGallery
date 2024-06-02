@@ -26,7 +26,7 @@
 												{% endif %}
 											</div>
 											<div class="desc-item">
-												{% include "partials/rating.html.twig" with {'rating': topThree[index].user.avgRatings} %}
+												{% include "partials/rating.html.twig" with {'rating': topThree[index].user.averageRating} %}
 												<p class="weight">{{ topThree[index].user.fullName }}</p>
 												<p>€
 													{{ topThree[index].amount | number_format(2, ',', '.') }}</p>
@@ -51,7 +51,7 @@
 					</a>
 				</div>
 			{% else %}
-				<div>
+				<div class="mt-4">
 					<p>Une offre a déjà été acceptée.</p>
 				</div>
 			{% endif %}
@@ -60,50 +60,58 @@
 	<div class="slide-sales">
 		<h2>History</h2>
 		<div class="container-history">
-			{% if auctions|length > 0 %}
-				{% for auction in auctions %}
-					<div class="item-history">
-						<div class="content-history">
-							<div class="content-offer">
-								<div class="item">
-									<div class="img-item">
-										{% if auction.user.picture %}
-											<img src="/uploads/{{ auction.user.picture }}" alt="avatar of {{ auction.user.fullName }}" class="avatar-medium">
-										{% else %}
-											<img src="../../images/default.jpg" alt="default placeholder">
-										{% endif %}
+			{% if not auctionAccepted %}
+				{% if auctions|length > 0 %}
+					{% for auction in auctions %}
+						<div class="item-history">
+							<div class="content-history">
+								<div class="content-offer">
+									<div class="item">
+										<div class="img-item">
+											{% if auction.user.picture %}
+												<img src="/uploads/{{ auction.user.picture }}" alt="avatar of {{ auction.user.fullName }}" class="avatar-medium">
+											{% else %}
+												<img src="../../images/default.jpg" alt="default placeholder">
+											{% endif %}
+										</div>
+										<div class="desc-item">
+											<p class="weight">{{ auction.user.fullName }}</p>
+											{% include "partials/rating.html.twig" with {'rating': auction.user.averageRating} %}
+											<p>(based on
+												{{ auction.user.reviews | length}}
+												reviews)</p>
+										</div>
 									</div>
-									<div class="desc-item">
-										<p class="weight">{{ auction.user.fullName }}</p>
-										{% include "partials/rating.html.twig" with {'rating': auction.user.avgRatings} %}
-										<p>(based on
-											{{ auction.user.reviews | length}}
-											reviews)</p>
+									<div class="content-bid">
+										<p>made a bid of
+										</p>
+										<p class="weight">{{ auction.amount | number_format(2, ',', '.') }}
+											€</p>
 									</div>
 								</div>
-								<div class="content-bid">
-									<p>made a bid of </p>
-									<p class="weight">{{ auction.amount | number_format(2, ',', '.') }} €</p>
+								<div class="actions-history">
+									{% if artwork.endDate < currentDate  %}
+										<a href="{{ path('account_sales_accept', {'id': auction.id}) }}" class="btn6">Accepter</a>
+										<a href="{{ path('account_sales_refuse', {'id': auction.id}) }}" class="btn4">Refuser</a>
+									{% endif %}
 								</div>
 							</div>
-                            <div class="actions-history">
-								{% if artwork.endDate < currentDate  %}
-                                    <a href="{{ path('account_sales_accept', {'id': auction.id}) }}" class="btn6">Accepter</a>
-                                    <a href="{{ path('account_sales_refuse', {'id': auction.id}) }}" class="btn4">Refuser</a>
-                                {% endif %}
-                            </div>
 						</div>
+					{% endfor %}
+				{% else %}
+					<div>
+						{% if artwork.endDate < currentDate %}
+							<p>Aucune enchère n'a été faite pour cette oeuvre.</p>
+							<a href="{{ path('account_sales_relaunch', {'slug': artwork.slug}) }}" class="btn btn-warning">Relancer</a>
+							<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
+						{% else %}
+							<p>Les enchères sont en cours...</p>
+						{% endif %}
 					</div>
-				{% endfor %}
+				{% endif %}
 			{% else %}
 				<div>
-					{% if artwork.endDate < currentDate %}
-						<p>Aucune enchère n'a été faite pour cette oeuvre.</p>
-						<a href="{{ path('account_sales_relaunch', {'slug': artwork.slug}) }}" class="btn btn-warning">Relancer</a>
-						<a href="{{ path('artworks_delete', {'slug': artwork.slug}) }}" class="btn btn-danger">Supprimer</a>
-					{% else %}
-						<p>Les enchères sont en cours...</p>
-					{% endif %}
+					<p>Une offre a déjà été acceptée.</p>
 				</div>
 			{% endif %}
 		</div>

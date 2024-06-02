@@ -60,7 +60,7 @@ class AuctionController extends AbstractController
 
 
         foreach ($auctions as $auction) {
-            $avgRating = $auction->getUser()->getAvgRatings();
+            $avgRating = $auction->getUser()->getAverageRating();
         }
         
         

@@ -196,12 +196,13 @@
 
 #reviews-user {
     @include flex(row, space-between);
-    width: 90%;
+    width: 90.1%;
     min-height: 100vh;
     margin: 0 auto;
     gap: 50px;
     align-items: start;
     padding-bottom: 50px;
+    padding-top: 50px;
     @media all and (max-width: 768px){
         flex-direction: column;
     }
@@ -239,10 +240,12 @@
                 }
             }
         }
-
-        .review-rating {
-            @include flex(row, space-between);
-            
+        .review-container{
+            width:100%;
+            .review-rating {
+                @include flex(row, space-between);
+                
+            }
         }
     }
 

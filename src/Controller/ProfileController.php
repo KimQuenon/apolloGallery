@@ -27,14 +27,17 @@ class ProfileController extends AbstractController
                 $reviews[] = $review;
             }
         }
+        
 
         $archivedArtworks = $artworkRepo->findArchivedArtworksByUser($user);
+        $avgRating = $user->getAverageRating();
 
         return $this->render("profile/index.html.twig",[
             'user'=>$user,
             'reviews' => $reviews,
             'archivedArtworks' => $archivedArtworks,
-            'latestArtworks' => $latestArtworks
+            'latestArtworks' => $latestArtworks,
+            'avgRating' => $avgRating
         ]);
     }
 

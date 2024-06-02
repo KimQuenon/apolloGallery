@@ -142,7 +142,7 @@
 							</div>
 						{% endfor %}
 					{% else %}
-						<small>Pas encore noté</small>
+						<p class="weight">Not reviewed yet</p>
 					{% endif %}
 				</div>
 			</div>
@@ -150,7 +150,7 @@
 				<div class="medals">
 					<div class="first-ring">
 						<div class="second-ring">
-							<h2>{{user.avgRatings}}</h2>
+							<h2>{{avgRating}}</h2>
 						</div>
 					</div>
 					<div class="ribbons"></div>

@@ -36,54 +36,34 @@ class AppFixtures extends Fixture
         $faker = Factory::create('fr_FR');
 
         //faq
-        for ($f =1; $f <= 5; $f++){
-            $faq = new Faq();
-            $faq->setQuestion($faker->sentence())
-                ->setContent($faker->paragraph());
-            $manager->persist($faq);
-        }
+        // for ($f =1; $f <= 5; $f++){
+        //     $faq = new Faq();
+        //     $faq->setQuestion($faker->sentence())
+        //         ->setContent($faker->paragraph());
+        //     $manager->persist($faq);
+        // }
 
         //mouvements artistiques
-        $movements = [];
-        for ($m = 1; $m <= 10; $m++) {
-            $movement = new Movement();
-            $movement->setMovementName($faker->word());
-            $manager->persist($movement);
-            $movements[] = $movement;
-        }
+        // $movements = [];
+        // for ($m = 1; $m <= 10; $m++) {
+        //     $movement = new Movement();
+        //     $movement->setMovementName($faker->word());
+        //     $manager->persist($movement);
+        //     $movements[] = $movement;
+        // }
 
         // création d'un admin
         $admin = new User();
         $admin->setFirstName('Kim')
-            ->setLastName('Possible')
+            ->setLastName('Quenon')
             ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
-            ->setEmail('admin@epse.be')
-            ->setPassword($this->passwordHasher->hashPassword($admin, 'password'))
+            ->setEmail('admin@apollo.be')
+            ->setPassword($this->passwordHasher->hashPassword($admin, 'gallery'))
             ->setDescription('<p>'.join('</p><p>',$faker->paragraphs(1)).'</p>')
             ->setRoles(['ROLE_ADMIN'])
             ->setPicture('');
 
         $manager->persist($admin);
-
-        $users = []; //init d'un tab pour recup des users pour les annonces
-
-        for($u = 1; $u <= 10; $u++)
-        {
-            $user = new User();
-            $hash = $this->passwordHasher->hashPassword($user, 'password');
-
-            $user->setFirstName($faker->firstName())
-                ->setLastName($faker->lastName())
-                ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
-                ->setEmail($faker->email())
-                ->setPassword($hash)
-                ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(1)).'</p>')
-                ->setPicture('');
-
-                $manager->persist($user);
-
-                $users[] = $user; //ajouter un user au tableau pour les annonces
-        }
 
         // Ajout des utilisateurs experts
         $experts = [];
@@ -105,102 +85,124 @@ class AppFixtures extends Fixture
             $experts[] = $expert;
         }
 
-        //conversation & messages
-        for ($dm = 1; $dm <= 20; $dm++) {
-            $conversation = new Conversation();
-        
-            $user = $users[rand(0, count($users) - 1)];
-            $expert = $experts[rand(0, count($experts) - 1)];
-        
-            $conversation->setUser($user)
-                         ->setExpert($expert);
-        
-            $manager->persist($conversation);
-        
-        
-            for ($m = 1; $m <= 10; $m++) {
-                //alterne entre l'user et l'expert 
-                $sendBy = rand(0, 1) ? $user : $expert;
+        $users = []; //init d'un tab pour recup des users pour les annonces
 
-                $message = new Message();
-                $message->setContent($faker->paragraph())
-                        ->setSendBy($sendBy)
-                        ->setTimestamp($faker->dateTimeBetween('-1 year', '-1 month'))
-                        ->setConversation($conversation);
-        
-                $manager->persist($message);
-            }
-        }
-        
-
-
-
-        $artworks = []; //init d'un tab pour recup des artworks pour les enchères
-        //artworks
-        for($a=1; $a<=30; $a++)
+        for($u = 1; $u <= 10; $u++)
         {
-            $artwork = new Artwork();
-            $media = ['Oil on canvas','Acrylic','Watercolor', 'Sketch', 'Gouache', 'Encaustic', 'Tempera', 'Pastel', 'Spray', 'Ink', 'Other'];
+            $user = new User();
+            $hash = $this->passwordHasher->hashPassword($user, 'password');
 
-            $artwork->setTitle($faker->sentence())
-                ->setArtistName($faker->lastName())
-                ->setArtistSurname($faker->firstName())
-                ->setYear($faker->year())
-                ->setCanvaWidth($faker->randomFloat(2, 50, 1000))
-                ->setCanvaHeight($faker->randomFloat(2, 50, 1000))
-                ->setContent('<p>'.join('</p><p>', $faker->paragraphs(1)).'</p>')
-                ->setMedium($media[array_rand($media)])
-                ->setPriceInit($faker->randomFloat(2, 1000, 100000))
-                ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
-                ->setEndDate($faker->dateTimeBetween('-1 year', '-1 month'))
-                ->setCoverImage('https://picsum.photos/seed/picsum/1000/350')
-                ->setAuthor($users[rand(0, count($users)-1)])
-                ->setArchived(FALSE);
+            $user->setFirstName($faker->firstName())
+                ->setLastName($faker->lastName())
+                ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month'))
+                ->setEmail($faker->email())
+                ->setPassword($hash)
+                ->setDescription('<p>'.join('<p></p>',$faker->paragraphs(1)).'</p>')
+                ->setPicture('');
 
-            $movementsAssociated = $faker->randomElements($movements, $faker->numberBetween(1, 3));
+                $manager->persist($user);
 
-            foreach ($movementsAssociated as $movement) {
-                $artwork->addMovement($movement);
-            }
+                $users[] = $user; //ajouter un user au tableau pour les annonces
+        }
 
-            //init tableau pour flush dans la table review
-            $reviews = [];
 
-            $review = new Review();
-            $review->setAuthor($users[rand(0, count($users)-1)])
-                    ->setArtwork($artwork)
-                    ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month')) 
-                    ->setContent($faker->paragraph())
-                    ->setRating(rand(1,5));
-            $manager->persist($review);
-            $reviews[] = $review;
+
+        //conversation & messages
+        // for ($dm = 1; $dm <= 20; $dm++) {
+        //     $conversation = new Conversation();
+        
+        //     $user = $users[rand(0, count($users) - 1)];
+        //     $expert = $experts[rand(0, count($experts) - 1)];
+        
+        //     $conversation->setUser($user)
+        //                  ->setExpert($expert);
+        
+        //     $manager->persist($conversation);
+        
+        
+        //     for ($m = 1; $m <= 10; $m++) {
+        //         //alterne entre l'user et l'expert 
+        //         $sendBy = rand(0, 1) ? $user : $expert;
+
+        //         $message = new Message();
+        //         $message->setContent($faker->paragraph())
+        //                 ->setSendBy($sendBy)
+        //                 ->setTimestamp($faker->dateTimeBetween('-1 year', '-1 month'))
+        //                 ->setConversation($conversation);
+        
+        //         $manager->persist($message);
+        //     }
+        // }
+        
+
+
+
+        // $artworks = []; //init d'un tab pour recup des artworks pour les enchères
+        // //artworks
+        // for($a=1; $a<=30; $a++)
+        // {
+        //     $artwork = new Artwork();
+        //     $media = ['Oil on canvas','Acrylic','Watercolor', 'Sketch', 'Gouache', 'Encaustic', 'Tempera', 'Pastel', 'Spray', 'Ink', 'Other'];
+
+        //     $artwork->setTitle($faker->sentence())
+        //         ->setArtistName($faker->lastName())
+        //         ->setArtistSurname($faker->firstName())
+        //         ->setYear($faker->year())
+        //         ->setCanvaWidth($faker->randomFloat(2, 50, 1000))
+        //         ->setCanvaHeight($faker->randomFloat(2, 50, 1000))
+        //         ->setContent('<p>'.join('</p><p>', $faker->paragraphs(1)).'</p>')
+        //         ->setMedium($media[array_rand($media)])
+        //         ->setPriceInit($faker->randomFloat(2, 1000, 100000))
+        //         ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
+        //         ->setEndDate($faker->dateTimeBetween('-1 year', '-1 month'))
+        //         ->setCoverImage('https://picsum.photos/seed/picsum/1000/350')
+        //         ->setAuthor($users[rand(0, count($users)-1)])
+        //         ->setArchived(FALSE);
+
+        //     $movementsAssociated = $faker->randomElements($movements, $faker->numberBetween(1, 3));
+
+        //     foreach ($movementsAssociated as $movement) {
+        //         $artwork->addMovement($movement);
+        //     }
+
+        //     //init tableau pour flush dans la table review
+        //     $reviews = [];
+
+        //     $review = new Review();
+        //     $review->setAuthor($users[rand(0, count($users)-1)])
+        //             ->setArtwork($artwork)
+        //             ->setCreatedAt($faker->dateTimeBetween('-1 year', '-1 month')) 
+        //             ->setContent($faker->paragraph())
+        //             ->setRating(rand(1,5));
+        //     $manager->persist($review);
+        //     $reviews[] = $review;
             
-            $artworks[] = $artwork;
+        //     $artworks[] = $artwork;
 
-            $manager->persist($artwork);
-        }
+        //     $manager->persist($artwork);
+        // }
 
-        $manager->flush();
+        // $manager->flush();
 
-        // stocke dans table reviews
-        foreach ($reviews as $review) {
-            $manager->persist($review);
-        }
-        $manager->flush();
+        // // stocke dans table reviews
+        // foreach ($reviews as $review) {
+        //     $manager->persist($review);
+        // }
+        // $manager->flush();
 
 
         //auctions
-        for ($b =1; $b <= 100; $b++){
+        // for ($b =1; $b <= 100; $b++){
 
-            $auction = new Auction();
+        //     $auction = new Auction();
 
-            $auction->setUser($users[rand(0, count($users)-1)])
-                    ->setArtwork($artworks[rand(0, count($artworks)-1)])
-                    ->setAmount($faker->randomFloat(2, 10000, 100000))
-                    ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
-                    ->setSold('no');
-            $manager->persist($auction);
-        }
+        //     $auction->setUser($users[rand(0, count($users)-1)])
+        //             ->setArtwork($artworks[rand(0, count($artworks)-1)])
+        //             ->setAmount($faker->randomFloat(2, 10000, 100000))
+        //             ->setSubmissionDate($faker->dateTimeBetween('-1 year', '-1 month'))
+        //             ->setSold('no');
+        //     $manager->persist($auction);
+        // }
 
         //contact
         for ($c=1; $c <=10 ; $c++){

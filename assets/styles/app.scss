@@ -150,11 +150,11 @@ i{
     width:100%;
     padding-top: 20px;
     position: absolute;
-    z-index: 20000000;
+    z-index: 2000;
     left:50%;
     transform: translateX(-50%);
     .alert{
-        width: 80%;
+        width: 50%;
     }
 }
 .alert{
