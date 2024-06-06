@@ -50,7 +50,7 @@ class HomeController extends AbstractController
                 'success',
                 'Thank you for your request ! We will get back to you as soon as possible !'    
             );
-            // return new RedirectResponse($this->generateUrl('homepage').'#slide-contact');
+            return new RedirectResponse($this->generateUrl('homepage').'#slide-contact');
             $this->redirect($this->generateUrl('homepage') . '#slide-contact');
         }
         return $this->render('home.html.twig', [

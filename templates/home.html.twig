@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}HomePage
+{% block title %}Homepage
 {% endblock %}
 
 {% form_theme myForm _self %}
@@ -101,7 +101,7 @@
 						<div class="second-col">
 							<div class="form-paper">
 								<h3>Keep in touch...</h3>
-								{{form_start(myForm)}}
+								{{form_start(myForm,{"action":path('homepage',{"_fragment":"slide-contact"}),"method":"POST"})}}
 								{{form_widget(myForm)}}
 								<button type="submit" class="btn2">Submit</button>
 								{{form_end(myForm)}}
