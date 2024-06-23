@@ -77,8 +77,6 @@ class AccountController extends AbstractController
         $user = new User();
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
-
-
         if($form->isSubmitted() && $form->isValid())
         {
             //img handle
